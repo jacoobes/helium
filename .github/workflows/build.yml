@@ -1,0 +1,18 @@
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    name: Packages
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Execute Gradle build
+        run: ./gradlew build
+
+      - name: Make gradle class
+        run: ./gradlew :package
