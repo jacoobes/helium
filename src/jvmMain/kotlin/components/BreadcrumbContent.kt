@@ -1,6 +1,7 @@
 package components
 
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.*
@@ -47,7 +48,7 @@ fun AuroraWindowScope.BreadcrumbContent(cPanelState: MutableState<CommandPanelCo
 
                 // Now filter out hidden ones and non-directories, map the rest to
                 // what the content provider needs to return, and sort them by display name
-                return candidates.filterNot { !it.isDirectory || fileSystemView.isHiddenFile(it) }
+                return candidates.filter { it.isDirectory || !it.isFile }
                     .map { it }
                     .sortedBy { getDisplayText(it).lowercase() }
             }
@@ -58,7 +59,7 @@ fun AuroraWindowScope.BreadcrumbContent(cPanelState: MutableState<CommandPanelCo
                 // return, and sort them by display name
                 val candidates = item.listFiles() ?: return emptyList()
                 return candidates
-                    .filterNot { it.isDirectory || fileSystemView.isHiddenFile(it) }
+                    .filterNot { fileSystemView.isHiddenFile(it) }
                     .map { it }
                     .sortedBy { getDisplayText(it).lowercase() }
             }
@@ -97,23 +98,6 @@ fun AuroraWindowScope.BreadcrumbContent(cPanelState: MutableState<CommandPanelCo
             )
         }
     }
-//        if (commandPanelContentModel.value == null) {
-//
-//        } else {
-//            CommandButtonPanelProjection(
-//                contentModel = commandPanelContentModel.value!!,
-//                presentationModel = CommandPanelPresentationModel(
-//                    layoutSpec = PanelLayoutSpec.RowFill(PanelRowFillSpec.Adaptive(140.dp)),
-//                    showGroupLabels = false,
-//                    backgroundAppearanceStrategy = BackgroundAppearanceStrategy.Flat,
-//                    commandPresentationState = CommandButtonPresentationState.Medium,
-//                    commandHorizontalAlignment = HorizontalAlignment.Leading,
-//                    commandTextOverflow = TextOverflow.Ellipsis,
-//                    iconActiveFilterStrategy = IconFilterStrategy.Original,
-//                    iconEnabledFilterStrategy = IconFilterStrategy.Original
-//                )
-//            ).project()
-//        }
 }
 
 suspend fun getCommandPanelContent(
@@ -127,20 +111,19 @@ suspend fun getCommandPanelContent(
                 title = null,
                 leaves.map { leaf ->
 //                    val extension = leaf.extension.lowercase()
-//                    val className =
-//                        "org.pushingpixels.aurora.demo.svg.filetypes.ext_${extension}"
-                      var icon: Painter? = null
+//                    val className = "org.pushingpixels.aurora.demo.svg.filetypes.ext_${extension}"
+//                      var icon: Painter? = null
 //                    try {
 //                        val transcodedClass = Class.forName(className)
 //                        val ctr = transcodedClass.getConstructor()
 //                        icon = ctr.newInstance() as Painter
 //                    } catch (_: Throwable) {
 //                    }
-
                     Command(
                         text = contentProvider.getDisplayText(leaf),
-                        icon = icon,
-                        action = {})
+                        icon = null,
+                        action = {}
+                    )
                 }
             )
         )

@@ -18,7 +18,7 @@ import org.pushingpixels.aurora.window.AuroraDecorationArea
 
 @Composable
 fun LeftSidePanel(commandPanelContentModel: MutableState<CommandPanelContentModel?>) {
-    AuroraDecorationArea(DecorationAreaType.Footer) {
+    AuroraDecorationArea(DecorationAreaType.Header) {
         Column(
             modifier = Modifier
                 //for now, 15% of the max width

@@ -3,9 +3,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.key
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
@@ -28,6 +32,7 @@ val json = Json {
     prettyPrint = true
     encodeDefaults = true
 }
+@OptIn(ExperimentalComposeUiApi::class)
 fun main() = auroraApplication {
     //run blocking for now, idk how to asynchronously do it
     val coroutineScope = rememberCoroutineScope()
@@ -66,9 +71,15 @@ fun main() = auroraApplication {
                     commands = listOf(
                         Command("File",
                             action =  { viewFileMenu.value = true }),
-                        Command("Settings", action = {}),
+                        Command("Settings", action = { viewSettings.value = true }),
                     )
                 ),
+                onPreviewKeyEvent = {
+                    if(it.isCtrlPressed && it.key == Key.W) {
+                        exitApplication()
+                        true
+                    } else false
+                },
                 resizable = true
             ) {
                 Box(Modifier.fillMaxSize()) {

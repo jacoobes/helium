@@ -3,6 +3,10 @@ package components
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.key
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -22,6 +26,7 @@ import org.pushingpixels.aurora.window.AuroraWindowTitlePaneConfigurations
 import structs.Settings
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AuroraApplicationScope.SettingsEditor(
     settings: Settings,
@@ -45,6 +50,12 @@ fun AuroraApplicationScope.SettingsEditor(
             title = "Settings",
             resizable = true,
             windowTitlePaneConfiguration = AuroraWindowTitlePaneConfigurations.AuroraPlain(),
+            onPreviewKeyEvent = {
+                 if(it.isCtrlPressed && it.key == Key.W) {
+                     setVis(false)
+                 }
+                false
+            },
             onCloseRequest = { setVis(false) }
         ) {
         Row {
