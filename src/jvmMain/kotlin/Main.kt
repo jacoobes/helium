@@ -13,6 +13,7 @@ import com.wakaztahir.codeeditor.prettify.PrettifyParser
 import com.wakaztahir.codeeditor.theme.CodeThemeType
 import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
 import components.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -36,16 +37,17 @@ fun main() = auroraApplication {
     //run blocking for now, idk how to asynchronously do it
     val coroutineScope = rememberCoroutineScope()
     val (settings, setSettings) = remember { mutableStateOf<Settings?>(null) }
+    val (isSettingsLoaded, setSettingsLoaded) = remember { mutableStateOf(false) }
     coroutineScope.launch {
-        println("load this shit")
         val content = SettingsScope.loadSettingsAsync().await().flip()
         setSettings(json.decodeFromString(StandardCharsets.UTF_8.decode(content).toString()))
     }
     when(settings) {
         null -> {
-            //Loading screen
+            LoadingHome(isSettingsLoaded)
         }
         else -> {
+            setSettingsLoaded(true)
             val state = rememberWindowState(
                 placement = WindowPlacement.Floating,
                 position = WindowPosition.Aligned(Alignment.Center),
