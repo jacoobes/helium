@@ -15,12 +15,12 @@ import java.io.File
 
 @Composable
 fun LeftSidePanel(
-    settings: MutableState<Settings>,
+    settings: Settings,
 ) {
     Column (
         modifier = Modifier
             //for now, 15% of the settings' width
-            .width((settings.value.dimensions.width * .15).dp)
+            .width((settings.dimensions.width * .15).dp)
             .auroraBackground()
             .fillMaxHeight()
     ) {

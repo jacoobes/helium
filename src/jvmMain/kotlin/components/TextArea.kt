@@ -19,7 +19,7 @@ import structs.Settings
 
 @Composable
 fun TextArea(
-    settings: MutableState<Settings>,
+    settings: Settings,
     initialText: TextFieldValue?,
     style : TextStyle = TextStyle(fontFamily = jetbrains())
 ) {

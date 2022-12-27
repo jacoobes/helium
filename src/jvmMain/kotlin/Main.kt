@@ -13,6 +13,8 @@ import com.wakaztahir.codeeditor.prettify.PrettifyParser
 import com.wakaztahir.codeeditor.theme.CodeThemeType
 import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
 import components.*
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -32,69 +34,78 @@ val json = Json {
 }
 fun main() = auroraApplication {
     //run blocking for now, idk how to asynchronously do it
-    val settings = remember {
-        mutableStateOf(runBlocking<Settings> {
-            val content = SettingsScope.loadSettingsAsync().await().flip()
-            json.decodeFromString(StandardCharsets.UTF_8.decode(content).toString())
-        })
+    val coroutineScope = rememberCoroutineScope()
+    val (settings, setSettings) = remember { mutableStateOf<Settings?>(null) }
+    coroutineScope.launch {
+        println("load this shit")
+        val content = SettingsScope.loadSettingsAsync().await().flip()
+        setSettings(json.decodeFromString(StandardCharsets.UTF_8.decode(content).toString()))
     }
-    val state = rememberWindowState(
-          placement = WindowPlacement.Floating,
-          position = WindowPosition.Aligned(Alignment.Center),
-          size = DpSize(settings.value.dimensions.width.dp, settings.value.dimensions.height.dp)
-    )
-    val skin = remember { mutableStateOf(twilightSkin()) }
-    val viewFileMenu = remember { mutableStateOf(false) }
-    val isFileChooserOpen = remember { mutableStateOf(false) }
-    val viewSettings = remember { mutableStateOf(false) }
-    AuroraWindow(
-        title = "Helium",
-        state = state,
-        skin = skin.value,
-        onCloseRequest = ::exitApplication,
-        windowTitlePaneConfiguration = AuroraWindowTitlePaneConfigurations.AuroraPlain(),
-       // icon = helium(),
-        menuCommands = CommandGroup(
-            commands = listOf(
-                Command("File", action =  { viewFileMenu.value = true }),
-                Command("Settings", action = { viewSettings.value = true }),
+    when(settings) {
+        null -> {
+            //Loading screen
+        }
+        else -> {
+            val state = rememberWindowState(
+                placement = WindowPlacement.Floating,
+                position = WindowPosition.Aligned(Alignment.Center),
+                size = DpSize(settings.dimensions.width.dp, settings.dimensions.height.dp)
             )
-        ),
-        resizable = true
-    ) {
-        HeliumApp(settings)
-        if(isFileChooserOpen.value) {
-            FileDialog(
-                ComposeWindow(),
-                "Choose A File",
-                listOf(""),
-                onCloseRequest = {
-                    println(it)
-                    isFileChooserOpen.value = false
+            val skin = remember { mutableStateOf(twilightSkin()) }
+            val viewFileMenu = remember { mutableStateOf(false) }
+            val isFileChooserOpen = remember { mutableStateOf(false) }
+            val viewSettings = remember { mutableStateOf(false) }
+            AuroraWindow(
+                title = "Helium",
+                state = state,
+                skin = skin.value,
+                onCloseRequest = ::exitApplication,
+                windowTitlePaneConfiguration = AuroraWindowTitlePaneConfigurations.AuroraPlain(),
+                // icon = helium(),
+                menuCommands = CommandGroup(
+                    commands = listOf(
+                        Command("File", action =  { viewFileMenu.value = true }),
+                        Command("Settings", action = { viewSettings.value = true }),
+                    )
+                ),
+                resizable = true
+            ) {
+                HeliumApp(settings)
+                if(isFileChooserOpen.value) {
+                    FileDialog(
+                        ComposeWindow(),
+                        "Choose A File",
+                        listOf(""),
+                        onCloseRequest = {
+                            println(it)
+                            isFileChooserOpen.value = false
+                        }
+                    )
                 }
-            )
+                if(viewFileMenu.value) {
+                    CommandMenu(
+                        settings,
+                        viewFileMenu,
+                        skin.value,
+                        listOf(
+                            "Save" to { println("saved") },
+                            "Open File" to { isFileChooserOpen.value = true },
+                            "Open Directory" to { println("open") },
+                            "Exit Helium" to ::exitApplication
+                        )
+                    )
+                }
+                NewFile(settings, viewFileMenu, skin)
+                SettingsEditor(settings, skin.value, viewSettings)
+            }
         }
-        if(viewFileMenu.value) {
-            CommandMenu(
-                settings.value,
-                viewFileMenu,
-                skin.value,
-                listOf(
-                    "Save" to { println("saved") },
-                    "Open File" to { isFileChooserOpen.value = true },
-                    "Open Directory" to { println("open") },
-                    "Exit Helium" to ::exitApplication
-                )
-            )
-        }
-        NewFile(settings, viewFileMenu, skin)
-        SettingsEditor(settings, skin.value, viewSettings)
     }
+
 }
 
 
 @Composable
-fun AuroraWindowScope.HeliumApp(settings: MutableState<Settings>) {
+fun AuroraWindowScope.HeliumApp(settings: Settings) {
     BreadcrumbContent()
     AuroraDecorationArea(DecorationAreaType.ControlPane) {
         Row {

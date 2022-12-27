@@ -29,19 +29,19 @@ import structs.Settings
 
 @Composable
 fun AuroraApplicationScope.SettingsEditor(
-    settings: MutableState<Settings>,
+    settings: Settings,
     skin: AuroraSkinDefinition,
     show: MutableState<Boolean>
 ) {
     val state = rememberWindowState(
         placement = WindowPlacement.Floating,
         position = WindowPosition.Aligned(Alignment.CenterEnd),
-        size = DpSize((settings.value.dimensions.width * .50).dp, (settings.value.dimensions.height * .50).dp)
+        size = DpSize((settings.dimensions.width * .50).dp, (settings.dimensions.height * .50).dp)
     )
     val parser = remember { PrettifyParser() }
     val themeState by remember { mutableStateOf(CodeThemeType.Monokai) }
     val theme = remember(themeState) { themeState.theme }
-    val code = json.encodeToString(settings.value)
+    val code = json.encodeToString(settings)
     val (vis, setVis) = show
     if(vis) {
         AuroraWindow(

@@ -8,7 +8,7 @@ import structs.Settings
 
 @Composable
 fun AuroraWindowScope.NewFile(
-    settings: MutableState<Settings>,
+    settings: Settings,
     show: MutableState<Boolean>,
     skin: MutableState<AuroraSkinDefinition>
 ) {
