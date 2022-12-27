@@ -1,33 +1,23 @@
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.awt.ComposeWindow
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import com.wakaztahir.codeeditor.model.CodeLang
-import com.wakaztahir.codeeditor.prettify.PrettifyParser
-import com.wakaztahir.codeeditor.theme.CodeThemeType
-import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
 import components.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.pushingpixels.aurora.component.model.Command
 import org.pushingpixels.aurora.component.model.CommandGroup
-import org.pushingpixels.aurora.theming.DecorationAreaType
 import org.pushingpixels.aurora.theming.twilightSkin
 import org.pushingpixels.aurora.window.*
 import structs.Settings
 import structs.SettingsScope
 import java.io.File
 import java.nio.charset.StandardCharsets
+import javax.swing.filechooser.FileSystemView
 
 val json = Json {
     prettyPrint = true
@@ -53,14 +43,14 @@ fun main() = auroraApplication {
                 position = WindowPosition.Aligned(Alignment.Center),
                 size = DpSize(settings.dimensions.width.dp, settings.dimensions.height.dp)
             )
-            val skin = remember { mutableStateOf(twilightSkin()) }
+            val (skin , setSkin) = remember { mutableStateOf(twilightSkin()) }
             val viewFileMenu = remember { mutableStateOf(false) }
             val isFileChooserOpen = remember { mutableStateOf(false) }
             val viewSettings = remember { mutableStateOf(false) }
             AuroraWindow(
                 title = "Helium",
                 state = state,
-                skin = skin.value,
+                skin = skin,
                 onCloseRequest = ::exitApplication,
                 windowTitlePaneConfiguration = AuroraWindowTitlePaneConfigurations.AuroraPlain(),
                 // icon = helium(),
@@ -88,7 +78,7 @@ fun main() = auroraApplication {
                     CommandMenu(
                         settings,
                         viewFileMenu,
-                        skin.value,
+                        skin,
                         listOf(
                             "Save" to { println("saved") },
                             "Open File" to { isFileChooserOpen.value = true },
@@ -98,43 +88,9 @@ fun main() = auroraApplication {
                     )
                 }
                 NewFile(settings, viewFileMenu, skin)
-                SettingsEditor(settings, skin.value, viewSettings)
+                SettingsEditor(settings, skin, viewSettings)
             }
         }
-    }
-
-}
-
-
-@Composable
-fun AuroraWindowScope.HeliumApp(settings: Settings) {
-    BreadcrumbContent()
-    AuroraDecorationArea(DecorationAreaType.ControlPane) {
-        Row {
-            LeftSidePanel(settings)
-            val parser = remember { PrettifyParser() }
-            val lang = CodeLang.Kotlin
-            val themeState by remember { mutableStateOf(CodeThemeType.Monokai) }
-            val theme = remember(themeState) { themeState.theme }
-            val code = """
-                fun main() {
-                    println("string args")  
-                }
-            """.trimIndent()
-            TextArea(
-                settings,
-                TextFieldValue(
-                    annotatedString = parseCodeAsAnnotatedString(
-                        parser = parser,
-                        theme = theme,
-                        lang = lang,
-                        code = code
-                    )
-                ),
-                style = TextStyle(
-                    fontFamily = jetbrains()
-                ))
-            }
     }
 }
 

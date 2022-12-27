@@ -24,13 +24,13 @@ fun AuroraApplicationScope.LoadingHome(settingsLoaded: Boolean) {
             WindowPlacement.Floating,
             false,
             WindowPosition.Aligned(Alignment.Center),
-            DpSize(500.dp, 500.dp)
+            DpSize(500.dp, 250.dp)
         ),
         windowTitlePaneConfiguration = AuroraWindowTitlePaneConfigurations.None,
         onCloseRequest = ::exitApplication
     ) {
-        println(settingsLoaded)
         if(settingsLoaded) {
+            //idk if this works
             LaunchedEffect(Unit) {
                 window.dispose()
             }

@@ -1,13 +1,8 @@
 package components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -52,18 +47,17 @@ fun AuroraApplicationScope.SettingsEditor(
             windowTitlePaneConfiguration = AuroraWindowTitlePaneConfigurations.AuroraPlain(),
             onCloseRequest = { setVis(false) }
         ) {
-            Row {
-                TextArea(
-                    settings,
-                    TextFieldValue(
-                        annotatedString = parseCodeAsAnnotatedString(
-                            parser = parser,
-                            theme = theme,
-                            lang = CodeLang.JSON,
-                            code = code,
-                        )
-                    ),
-                )
+        Row {
+            CodeTextArea(
+                settings,
+                TextFieldValue(
+                    annotatedString = parseCodeAsAnnotatedString(
+                        parser = parser,
+                        theme = theme,
+                        lang = CodeLang.JSON,
+                        code = code,
+                    )
+                ))
             }
         }
     }

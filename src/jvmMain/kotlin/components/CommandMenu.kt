@@ -40,7 +40,7 @@ fun AuroraApplicationScope.CommandMenu(
         ),
         windowTitlePaneConfiguration = AuroraWindowTitlePaneConfigurations.None,
         focusable = true,
-        onCloseRequest = { visibility.value = !visibility.value }
+        onCloseRequest = { visibility.value = false }
     ) {
         CommandButtonPanelProjection(
               contentModel = CommandPanelContentModel(
@@ -59,7 +59,7 @@ fun AuroraApplicationScope.CommandMenu(
                   commandTextStyle = TextStyle(
                       textAlign = TextAlign.Left,
                       fontWeight = FontWeight.Bold
-                   ),
+                  ),
                   commandPresentationState = CommandButtonPresentationState.TileFitToIcon,
                   iconActiveFilterStrategy = IconFilterStrategy.Original,
                   iconEnabledFilterStrategy = IconFilterStrategy.Original,

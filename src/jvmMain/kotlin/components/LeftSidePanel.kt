@@ -1,11 +1,10 @@
 package components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.pushingpixels.aurora.component.model.BreadcrumbBarContentProvider
 import org.pushingpixels.aurora.component.model.LabelContentModel
 import org.pushingpixels.aurora.component.projection.LabelProjection
 import org.pushingpixels.aurora.theming.auroraBackground
@@ -21,8 +20,8 @@ fun LeftSidePanel(
         modifier = Modifier
             //for now, 15% of the settings' width
             .width((settings.dimensions.width * .15).dp)
-            .auroraBackground()
             .fillMaxHeight()
+            .auroraBackground()
     ) {
         LabelProjection(contentModel = LabelContentModel("Poo")).project()
     }

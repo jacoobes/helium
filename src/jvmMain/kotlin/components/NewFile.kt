@@ -10,7 +10,7 @@ import structs.Settings
 fun AuroraWindowScope.NewFile(
     settings: Settings,
     show: MutableState<Boolean>,
-    skin: MutableState<AuroraSkinDefinition>
+    skin: AuroraSkinDefinition
 ) {
 
 }

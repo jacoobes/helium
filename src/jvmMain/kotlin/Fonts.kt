@@ -11,8 +11,6 @@ fun createFont(resource: String, weight : FontWeight = FontWeight.W400, style: F
         )
     )
 }
-
-
 fun jetbrains(weight : FontWeight = FontWeight.W400, style: FontStyle = FontStyle.Normal) : FontFamily {
     return createFont("JetBrainsMono.ttf", weight, style)
 }
