@@ -18,14 +18,13 @@ import structs.Settings
 
 @Composable
 fun CodeTextArea(
-    settings: Settings,
     initialText: TextFieldValue?,
     style : TextStyle = TextStyle(fontFamily = jetbrains()),
 ) {
     AuroraDecorationArea(DecorationAreaType.ControlPane) {
         var lineTops by remember { mutableStateOf(emptyArray<Float>()) }
         val density = LocalDensity.current
-            Column(modifier = Modifier.fillMaxHeight()) {
+            Column {
                 if (lineTops.isNotEmpty()) {
                     Box(modifier = Modifier.padding(horizontal = 4.dp)) {
                         lineTops.forEachIndexed { index, top ->
@@ -41,7 +40,7 @@ fun CodeTextArea(
                     }
                 }
             }
-            Column(Modifier.fillMaxHeight()) {
+            Column {
                 //for now
                 val textFieldValue = remember { mutableStateOf(initialText ?: TextFieldValue("")) }
 

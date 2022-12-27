@@ -20,7 +20,7 @@ import java.io.File
 import javax.swing.filechooser.FileSystemView
 
 @Composable
-fun AuroraWindowScope.BreadcrumbContent() {
+fun AuroraWindowScope.BreadcrumbContent(cPanelState: MutableState<CommandPanelContentModel?>) {
     val scope = rememberCoroutineScope()
 
     val fileSystemView = FileSystemView.getFileSystemView()
@@ -63,12 +63,10 @@ fun AuroraWindowScope.BreadcrumbContent() {
                     .sortedBy { getDisplayText(it).lowercase() }
             }
         }
-
-    val commandPanelContentModel = remember { mutableStateOf<CommandPanelContentModel?>(null) }
     val breadcrumbBarHorizontalScrollState = rememberScrollState(0)
     val onBreadcrumbItemSelected: (File) -> Unit = {
         scope.launch(Dispatchers.Default) {
-            commandPanelContentModel.value =
+            cPanelState.value =
                 getCommandPanelContent(breadcrumbBarContentProvider, it)
             delay(150)
             breadcrumbBarHorizontalScrollState.animateScrollTo(
@@ -92,32 +90,33 @@ fun AuroraWindowScope.BreadcrumbContent() {
                     iconDisabledFilterStrategy = IconFilterStrategy.ThemedFollowText
                 ),
                 horizontalScrollState = breadcrumbBarHorizontalScrollState,
-                modifier = Modifier.fillMaxWidth().auroraBackground()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .auroraBackground()
                     .padding(horizontal = 2.dp, vertical = 4.dp)
             )
         }
-
-        if (commandPanelContentModel.value == null) {
-
-        } else {
-            CommandButtonPanelProjection(
-                contentModel = commandPanelContentModel.value!!,
-                presentationModel = CommandPanelPresentationModel(
-                    layoutSpec = PanelLayoutSpec.RowFill(PanelRowFillSpec.Adaptive(140.dp)),
-                    showGroupLabels = false,
-                    backgroundAppearanceStrategy = BackgroundAppearanceStrategy.Flat,
-                    commandPresentationState = CommandButtonPresentationState.Medium,
-                    commandHorizontalAlignment = HorizontalAlignment.Leading,
-                    commandTextOverflow = TextOverflow.Ellipsis,
-                    iconActiveFilterStrategy = IconFilterStrategy.Original,
-                    iconEnabledFilterStrategy = IconFilterStrategy.Original
-                )
-            ).project()
-        }
     }
+//        if (commandPanelContentModel.value == null) {
+//
+//        } else {
+//            CommandButtonPanelProjection(
+//                contentModel = commandPanelContentModel.value!!,
+//                presentationModel = CommandPanelPresentationModel(
+//                    layoutSpec = PanelLayoutSpec.RowFill(PanelRowFillSpec.Adaptive(140.dp)),
+//                    showGroupLabels = false,
+//                    backgroundAppearanceStrategy = BackgroundAppearanceStrategy.Flat,
+//                    commandPresentationState = CommandButtonPresentationState.Medium,
+//                    commandHorizontalAlignment = HorizontalAlignment.Leading,
+//                    commandTextOverflow = TextOverflow.Ellipsis,
+//                    iconActiveFilterStrategy = IconFilterStrategy.Original,
+//                    iconEnabledFilterStrategy = IconFilterStrategy.Original
+//                )
+//            ).project()
+//        }
 }
 
-private suspend fun getCommandPanelContent(
+suspend fun getCommandPanelContent(
     contentProvider: BreadcrumbBarContentProvider<File>,
     selected: File
 ): CommandPanelContentModel {
@@ -127,17 +126,16 @@ private suspend fun getCommandPanelContent(
             CommandGroup(
                 title = null,
                 leaves.map { leaf ->
-                    val extension = leaf.extension.lowercase()
-
-                    val className =
-                        "org.pushingpixels.aurora.demo.svg.filetypes.ext_${extension}"
-                    var icon: Painter? = null
-                    try {
-                        val transcodedClass = Class.forName(className)
-                        val ctr = transcodedClass.getConstructor()
-                        icon = ctr.newInstance() as Painter
-                    } catch (_: Throwable) {
-                    }
+//                    val extension = leaf.extension.lowercase()
+//                    val className =
+//                        "org.pushingpixels.aurora.demo.svg.filetypes.ext_${extension}"
+                      var icon: Painter? = null
+//                    try {
+//                        val transcodedClass = Class.forName(className)
+//                        val ctr = transcodedClass.getConstructor()
+//                        icon = ctr.newInstance() as Painter
+//                    } catch (_: Throwable) {
+//                    }
 
                     Command(
                         text = contentProvider.getDisplayText(leaf),

@@ -49,7 +49,6 @@ fun AuroraApplicationScope.SettingsEditor(
         ) {
         Row {
             CodeTextArea(
-                settings,
                 TextFieldValue(
                     annotatedString = parseCodeAsAnnotatedString(
                         parser = parser,
