@@ -36,8 +36,8 @@ fun AuroraWindowScope.CodeInterface(
                 Code("""
                         // a comment
                         fun main() {
-                            val t : Int = ""
-                            println("string args")  
+                            val t : Int = "";
+                            println("string args");  
                         }
                     """.trimIndent(), "kt"
                 )
