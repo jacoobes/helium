@@ -24,14 +24,19 @@ import structs.Code
 import structs.Settings
 
 @Composable
-fun AuroraWindowScope.CodeInterface(settings: Settings, skin: MutableState<AuroraSkinDefinition>) {
+fun AuroraWindowScope.CodeInterface(
+    settings: Settings,
+    skin: MutableState<AuroraSkinDefinition>
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         val commandPanelContentModel = remember { mutableStateOf<CommandPanelContentModel?>(null) }
         BreadcrumbContent(commandPanelContentModel)
         val currentCode by remember {
             mutableStateOf(
                 Code("""
+                        // a comment
                         fun main() {
+                            val t : Int = ""
                             println("string args")  
                         }
                     """.trimIndent(), "kt"
@@ -48,7 +53,7 @@ fun AuroraWindowScope.CodeInterface(settings: Settings, skin: MutableState<Auror
                 LeftPanelCommands()
                 LeftSidePanel(commandPanelContentModel)
             }
-            MainCodingPanel(currentCode)
+            MainCodingPanel(skin, currentCode)
         }
         Row {
             AuroraDecorationArea(DecorationAreaType.Footer) {
