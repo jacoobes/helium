@@ -19,34 +19,33 @@ import org.pushingpixels.aurora.window.AuroraDecorationArea
 @Composable
 fun LeftSidePanel(commandPanelContentModel: MutableState<CommandPanelContentModel?>) {
     AuroraDecorationArea(DecorationAreaType.Header) {
-        Column(
-            modifier = Modifier
-                //for now, 15% of the max width
-                .fillMaxWidth(.15f)
-                .auroraBackground()
-                .fillMaxHeight()
-        ) {
-            if(commandPanelContentModel.value == null) {
-                LabelProjection(
-                    contentModel = LabelContentModel(
+        if(commandPanelContentModel.value == null) {
+            LabelProjection(
+                contentModel = LabelContentModel(
                     "Open a directory with the breadcrumb bar"
                     )
-                ).project()
-            } else {
-                CommandButtonPanelProjection(
-                        contentModel = commandPanelContentModel.value!!,
-                        presentationModel = CommandPanelPresentationModel(
-                            layoutSpec = PanelLayoutSpec.RowFill(PanelRowFillSpec.Fixed(1)),
-                            showGroupLabels = false,
-                            backgroundAppearanceStrategy = BackgroundAppearanceStrategy.Flat,
-                            commandPresentationState = CommandButtonPresentationState.Medium,
-                            commandHorizontalAlignment = HorizontalAlignment.Leading,
-                            commandTextOverflow = TextOverflow.Ellipsis,
-                            iconActiveFilterStrategy = IconFilterStrategy.Original,
-                            iconEnabledFilterStrategy = IconFilterStrategy.Original
-                        )
-                ).project()
-            }
+            ).project(
+                Modifier
+                    .auroraBackground()
+            )
+        } else {
+            CommandButtonPanelProjection(
+                contentModel = commandPanelContentModel.value!!,
+                presentationModel = CommandPanelPresentationModel(
+                    layoutSpec = PanelLayoutSpec.RowFill(PanelRowFillSpec.Fixed(1)),
+                    showGroupLabels = false,
+                    backgroundAppearanceStrategy = BackgroundAppearanceStrategy.Flat,
+                    commandPresentationState = CommandButtonPresentationState.Medium,
+                    commandHorizontalAlignment = HorizontalAlignment.Leading,
+                    commandTextOverflow = TextOverflow.Ellipsis,
+                    iconActiveFilterStrategy = IconFilterStrategy.Original,
+                    iconEnabledFilterStrategy = IconFilterStrategy.Original
+                )
+            ).project(
+                Modifier
+                    .fillMaxHeight()
+                    .auroraBackground()
+            )
         }
     }
 }

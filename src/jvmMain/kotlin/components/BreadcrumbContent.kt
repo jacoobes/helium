@@ -21,7 +21,9 @@ import java.io.File
 import javax.swing.filechooser.FileSystemView
 
 @Composable
-fun AuroraWindowScope.BreadcrumbContent(cPanelState: MutableState<CommandPanelContentModel?>) {
+fun AuroraWindowScope.BreadcrumbContent(
+    cPanelState: MutableState<CommandPanelContentModel?>
+) {
     val scope = rememberCoroutineScope()
 
     val fileSystemView = FileSystemView.getFileSystemView()
@@ -75,14 +77,13 @@ fun AuroraWindowScope.BreadcrumbContent(cPanelState: MutableState<CommandPanelCo
             )
         }
     }
-
     val breadcrumbBarContentModel = BreadcrumbBarContentModel(
         contentProvider = breadcrumbBarContentProvider,
         onItemSelected = onBreadcrumbItemSelected
     )
 
     Column {
-        AuroraDecorationArea(decorationAreaType = DecorationAreaType.Header) {
+        AuroraDecorationArea(decorationAreaType = DecorationAreaType.Toolbar) {
             AuroraBreadcrumbBar(
                 contentModel = breadcrumbBarContentModel,
                 presentationModel = BreadcrumbBarPresentationModel(

@@ -1,4 +1,3 @@
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
@@ -6,7 +5,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.ComposeWindow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.isCtrlPressed
 import androidx.compose.ui.input.key.key
@@ -21,11 +19,11 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.pushingpixels.aurora.component.model.Command
 import org.pushingpixels.aurora.component.model.CommandGroup
-import org.pushingpixels.aurora.component.model.CommandMenuContentModel
+import org.pushingpixels.aurora.theming.AuroraSkinDefinition
 import org.pushingpixels.aurora.theming.nightShadeSkin
 import org.pushingpixels.aurora.window.*
 import structs.Settings
-import structs.SettingsScope
+import structs.loadSettingsAsync
 import java.nio.charset.StandardCharsets
 
 val json = Json {
@@ -39,15 +37,11 @@ fun main() = auroraApplication {
     val (settings, setSettings) = remember { mutableStateOf<Settings?>(null) }
     val (isSettingsLoaded, setSettingsLoaded) = remember { mutableStateOf(false) }
     coroutineScope.launch {
-        withContext(Dispatchers.IO) {
-            val content = SettingsScope.loadSettingsAsync().await().flip()
-            setSettings(json.decodeFromString(StandardCharsets.UTF_8.decode(content).toString()))
-        }
+        val content = loadSettingsAsync().await().flip()
+        setSettings(json.decodeFromString(StandardCharsets.UTF_8.decode(content).toString()))
     }
     when(settings) {
-        null -> {
-            LoadingHome(isSettingsLoaded)
-        }
+        null -> LoadingHome(isSettingsLoaded)
         else -> {
             setSettingsLoaded(true)
             val state = rememberWindowState(
@@ -83,7 +77,7 @@ fun main() = auroraApplication {
                 resizable = true
             ) {
                 Box(Modifier.fillMaxSize()) {
-                    HeliumApp(settings, skin)
+                    CodeInterface(settings, skin)
                     if(isFileChooserOpen.value) {
                         FileDialog(
                             ComposeWindow(),
@@ -107,7 +101,7 @@ fun main() = auroraApplication {
 //                        )
 //                    }
                     //NewFile(settings, viewFileMenu, skin.value)
-                    SettingsEditor(settings, skin.value, viewSettings)
+                    SettingsEditor(settings, skin, viewSettings)
                 }
             }
         }
