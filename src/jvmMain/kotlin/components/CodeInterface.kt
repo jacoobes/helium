@@ -1,27 +1,16 @@
 package components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.unit.dp
-import com.wakaztahir.codeeditor.model.CodeLang
-import com.wakaztahir.codeeditor.prettify.PrettifyParser
-import com.wakaztahir.codeeditor.theme.CodeThemeType
-import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
-import jetbrains
-import org.pushingpixels.aurora.component.model.CommandPanelContentModel
-import org.pushingpixels.aurora.theming.AuroraSkin
 import org.pushingpixels.aurora.theming.AuroraSkinDefinition
 import org.pushingpixels.aurora.theming.DecorationAreaType
-import org.pushingpixels.aurora.theming.auroraBackground
 import org.pushingpixels.aurora.window.AuroraDecorationArea
 import org.pushingpixels.aurora.window.AuroraWindowScope
 import structs.Code
 import structs.Settings
+import java.io.File
+import javax.swing.filechooser.FileSystemView
 
 @Composable
 fun AuroraWindowScope.CodeInterface(
@@ -29,17 +18,28 @@ fun AuroraWindowScope.CodeInterface(
     skin: MutableState<AuroraSkinDefinition>
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        val commandPanelContentModel = remember { mutableStateOf<CommandPanelContentModel?>(null) }
-        BreadcrumbContent(commandPanelContentModel)
+
+        val filesState = remember { mutableStateOf<List<File>>(emptyList()) }
+        val fileSystemView = FileSystemView.getFileSystemView()
+        BreadcrumbContent(fileSystemView, filesState)
         val currentCode by remember {
             mutableStateOf(
                 Code("""
-                        // a comment
-                        fun main() {
-                            val t : Int = "";
-                            println("string args");  
+                        #[derive(Copy, Clone)]
+                        struct o<T>();
+                        
+                        /// doc comment
+                        impl<T> o<T> {
+                          // normal comment
+                          pub fn a() { unreachable!(); }
+                          pub fn as_ref(self) -> &Self { &self }
                         }
-                    """.trimIndent(), "kt"
+                        
+                        fn main() -> () {
+                          let mut t: &o<i8> = &o();
+                          println!(t.as_ref());
+                        }
+                    """.trimIndent(), "rust"
                 )
             )
         }
@@ -48,15 +48,16 @@ fun AuroraWindowScope.CodeInterface(
                 modifier = Modifier
                     //for now, 15% of the max width
                     .fillMaxWidth(.15f)
-                    .fillMaxHeight()
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.Top
             ) {
                 LeftPanelCommands()
-                LeftSidePanel(commandPanelContentModel)
+                LeftSidePanel(fileSystemView, filesState)
             }
             MainCodingPanel(skin, currentCode)
         }
         Row {
-            AuroraDecorationArea(DecorationAreaType.Footer) {
+            AuroraDecorationArea(DecorationAreaType.Toolbar) {
                 Footer(skin, currentCode)
             }
         }

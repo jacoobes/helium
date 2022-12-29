@@ -3,6 +3,7 @@ package components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -37,7 +38,7 @@ fun AuroraWindowScope.Footer(skin: MutableState<AuroraSkinDefinition>, code: Cod
         )
         Spacer(Modifier.weight(1f))
         LabelProjection(
-            contentModel = LabelContentModel(code.lang!!.name)
+            contentModel = LabelContentModel(code.lang?.name ?: "Unknown")
         ).project()
     }
 }

@@ -12,11 +12,11 @@ object HeliumThemes {
     **/
     class NightShadeMonoChrome : CodeTheme(
         SyntaxColors(
-            type = Color.White,
+            type = Color(238,238,242), //Lavender very unsaturated
             keyword = Color( 188, 188, 242), //Lavender
             literal = Color(223,223,238), // Light Lavender
             comment = Color(223,223,238, 255/2), // Light Lavender, Alpha / 2
-            string = Color( 188, 188, 242),
+            string = Color(223,223,238),
             punctuation = Color(223,223,238),
             plain = Color.White,
             tag = Color.White,

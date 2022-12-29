@@ -22,11 +22,11 @@ import javax.swing.filechooser.FileSystemView
 
 @Composable
 fun AuroraWindowScope.BreadcrumbContent(
-    cPanelState: MutableState<CommandPanelContentModel?>
+    fileSystemView : FileSystemView,
+    cPanelState: MutableState<List<File>>
 ) {
     val scope = rememberCoroutineScope()
 
-    val fileSystemView = FileSystemView.getFileSystemView()
     val breadcrumbBarContentProvider =
         object : BreadcrumbBarContentProvider<File>() {
             override fun getDisplayText(item: File?): String {
@@ -104,29 +104,6 @@ fun AuroraWindowScope.BreadcrumbContent(
 suspend fun getCommandPanelContent(
     contentProvider: BreadcrumbBarContentProvider<File>,
     selected: File
-): CommandPanelContentModel {
-    val leaves = contentProvider.getLeaves(selected)
-    return CommandPanelContentModel(
-        commandGroups = listOf(
-            CommandGroup(
-                title = null,
-                leaves.map { leaf ->
-//                    val extension = leaf.extension.lowercase()
-//                    val className = "org.pushingpixels.aurora.demo.svg.filetypes.ext_${extension}"
-//                      var icon: Painter? = null
-//                    try {
-//                        val transcodedClass = Class.forName(className)
-//                        val ctr = transcodedClass.getConstructor()
-//                        icon = ctr.newInstance() as Painter
-//                    } catch (_: Throwable) {
-//                    }
-                    Command(
-                        text = contentProvider.getDisplayText(leaf),
-                        icon = null,
-                        action = {}
-                    )
-                }
-            )
-        )
-    )
+): List<File> {
+    return contentProvider.getLeaves(selected)
 }
