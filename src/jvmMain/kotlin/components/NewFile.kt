@@ -2,15 +2,13 @@ package components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import org.pushingpixels.aurora.theming.AuroraSkinDefinition
-import org.pushingpixels.aurora.window.AuroraWindowScope
+import androidx.compose.ui.window.FrameWindowScope
 import structs.Settings
 
 @Composable
-fun AuroraWindowScope.NewFile(
+fun FrameWindowScope.NewFile(
     settings: Settings,
     show: MutableState<Boolean>,
-    skin: AuroraSkinDefinition
 ) {
 
 }

@@ -1,24 +1,25 @@
 package components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import org.pushingpixels.aurora.theming.AuroraSkinDefinition
-import org.pushingpixels.aurora.theming.DecorationAreaType
-import org.pushingpixels.aurora.window.AuroraDecorationArea
-import org.pushingpixels.aurora.window.AuroraWindowScope
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.ApplicationScope
+import androidx.compose.ui.window.FrameWindowScope
 import structs.Code
 import structs.Settings
 import java.io.File
 import javax.swing.filechooser.FileSystemView
 
 @Composable
-fun AuroraWindowScope.CodeInterface(
+fun FrameWindowScope.CodeInterface(
     settings: Settings,
-    skin: MutableState<AuroraSkinDefinition>
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
 
+    Column(modifier = Modifier.fillMaxWidth()) {
         val filesState = remember { mutableStateOf<List<File>>(emptyList()) }
         val fileSystemView = FileSystemView.getFileSystemView()
         BreadcrumbContent(fileSystemView, filesState)
@@ -48,19 +49,15 @@ fun AuroraWindowScope.CodeInterface(
                 modifier = Modifier
                     //for now, 15% of the max width
                     .fillMaxWidth(.15f)
-                    .fillMaxHeight(),
-                verticalArrangement = Arrangement.Top
+                    .fillMaxHeight().border(1.dp, Color.Red),
             ) {
                 LeftPanelCommands()
                 LeftSidePanel(fileSystemView, filesState)
             }
-            MainCodingPanel(skin, currentCode)
+            MainCodingPanel(currentCode)
         }
-        Row {
-            AuroraDecorationArea(DecorationAreaType.Toolbar) {
-                Footer(skin, currentCode)
-            }
+        Row(modifier = Modifier.border(1.dp, Color.Green)) {
+            Footer(currentCode)
         }
-
     }
 }

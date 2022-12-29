@@ -1,5 +1,7 @@
 package structs
 
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.Color
 import com.wakaztahir.codeeditor.theme.CodeTheme
 import com.wakaztahir.codeeditor.theme.SyntaxColors

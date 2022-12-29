@@ -45,11 +45,10 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation("com.wakaztahir:codeeditor:3.0.5")
-                implementation("org.pushing-pixels:aurora-window:1.3.0")
-                implementation("org.pushing-pixels:aurora-component:1.3.0")
-                implementation("org.pushing-pixels:aurora-theming:1.3.0")
+                implementation("org.jetbrains.compose.material3:material3:1.2.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
                 sourceSets["jvmMain"].apply {
                     kotlin.srcDir("$rootDir/src/jvmMain/kotlin")
                     kotlin.srcDir("$rootDir/src/gen/kotlin")

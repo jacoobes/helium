@@ -1,5 +1,9 @@
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -15,20 +19,16 @@ import components.*
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import org.pushingpixels.aurora.component.model.Command
-import org.pushingpixels.aurora.component.model.CommandGroup
-import org.pushingpixels.aurora.theming.nightShadeSkin
-import org.pushingpixels.aurora.window.*
+import structs.HeliumTheme
 import structs.Settings
 import structs.loadSettingsAsync
 import java.nio.charset.StandardCharsets
-
 val json = Json {
     prettyPrint = true
     encodeDefaults = true
 }
-@OptIn(ExperimentalComposeUiApi::class)
-fun main() = auroraApplication {
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+fun main() = application {
     //run blocking for now, idk how to asynchronously do it
     val coroutineScope = rememberCoroutineScope()
     val (settings, setSettings) = remember { mutableStateOf<Settings?>(null) }
@@ -46,25 +46,15 @@ fun main() = auroraApplication {
                 position = WindowPosition.Aligned(Alignment.Center),
                 size = DpSize(settings.dimensions.width.dp, settings.dimensions.height.dp)
             )
-            val skin = remember { mutableStateOf(nightShadeSkin()) }
             val viewFileMenu = remember { mutableStateOf(false) }
             val isFileChooserOpen = remember { mutableStateOf(false) }
             val viewSettings = remember { mutableStateOf(false) }
-            AuroraWindow(
+            Window(
                 title = "Helium",
                 state = state,
-                skin = skin.value,
                 onCloseRequest = ::exitApplication,
-                windowTitlePaneConfiguration = AuroraWindowTitlePaneConfigurations.AuroraPlain(),
                 // icon = helium(),
                 //probably will switch to aurora integrated one day
-                menuCommands = CommandGroup(
-                    commands = listOf(
-                        Command("File",
-                            action =  { viewFileMenu.value = true }),
-                        Command("Settings", action = { viewSettings.value = true }),
-                    )
-                ),
                 onPreviewKeyEvent = {
                     if(it.isCtrlPressed && it.key == Key.W) {
                         exitApplication()
@@ -73,32 +63,24 @@ fun main() = auroraApplication {
                 },
                 resizable = true
             ) {
-                Box(Modifier.fillMaxSize()) {
-                    CodeInterface(settings, skin)
-                    if(isFileChooserOpen.value) {
-                        FileDialog(
-                            ComposeWindow(),
-                            "Choose A File",
-                            listOf(""),
-                            onCloseRequest = {
-                                println(it)
-                                isFileChooserOpen.value = false
+                    HeliumTheme {
+                        Box(Modifier.fillMaxSize()) {
+                            CodeInterface(settings)
+                            if(isFileChooserOpen.value) {
+                                FileDialog(
+                                    ComposeWindow(),
+                                    "Choose A File",
+                                    listOf(""),
+                                    onCloseRequest = {
+                                        println(it)
+                                        isFileChooserOpen.value = false
+                                    }
+                                )
                             }
-                        )
+                            //NewFile(settings, viewFileMenu, skin.value)
+                            SettingsEditor(settings, viewSettings)
+
                     }
-//                    if(viewFileMenu.value) {
-//                        this@Box.CommandMenu(
-//                            viewFileMenu,
-//                            listOf(
-//                                "Save" to { println("saved") },
-//                                "Open File" to { isFileChooserOpen.value = true },
-//                                "Open Directory" to { println("open") },
-//                                "Exit Helium" to ::exitApplication
-//                            )
-//                        )
-//                    }
-                    //NewFile(settings, viewFileMenu, skin.value)
-                    SettingsEditor(settings, skin, viewSettings)
                 }
             }
         }
