@@ -3,6 +3,7 @@ package structs
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -140,7 +141,7 @@ fun DefaultHeliumTheme(
 
     MaterialTheme(
         colorScheme = colors,
-        content = content
+        content = content,
     )
 }
 
@@ -151,7 +152,7 @@ fun ColorScheme.deriveMonochrome() : SyntaxColors {
         type = tertiary,
         keyword = tertiary,
         literal = onSurface,
-        comment = Color(baseColor.red, baseColor.green, baseColor.green,.5f),
+        comment = baseColor.copy(alpha = .5f),
         string = onSurface,
         punctuation = onSurface,
         plain = onSurface,

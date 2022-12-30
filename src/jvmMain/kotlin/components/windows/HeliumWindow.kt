@@ -1,11 +1,13 @@
 package components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.KeyEvent
@@ -23,6 +25,7 @@ fun ApplicationScope.HeliumWindow(
     state: WindowState,
     onCloseRequest: () -> Unit = ::exitApplication,
     visible: Boolean = true,
+    titlePaneButtons: @Composable FrameWindowScope.() -> Unit = {},
     actions: @Composable (FrameWindowScope.() -> Unit) = {},
     onPreviewKeyEvent: (KeyEvent) -> Boolean = { false },
     onKeyEvent: (KeyEvent) -> Boolean = { false },
@@ -45,7 +48,10 @@ fun ApplicationScope.HeliumWindow(
                 Modifier.fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)
             ) {
-                HeliumAppBar(actions)
+                HeliumAppBar(
+                    actions = actions,
+                    titlePaneButtons = titlePaneButtons
+                )
                 content()
                 BottomAppBar()
             }
@@ -55,6 +61,7 @@ fun ApplicationScope.HeliumWindow(
 
 @Composable
 fun FrameWindowScope.HeliumAppBar(
+    titlePaneButtons: @Composable FrameWindowScope.() -> Unit,
     actions: @Composable FrameWindowScope.() -> Unit
 ) {
     WindowDraggableArea {
@@ -63,13 +70,19 @@ fun FrameWindowScope.HeliumAppBar(
                 .background(color = MaterialTheme.colorScheme.secondaryContainer)
                 .fillMaxWidth()
                 .height(25.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start,
+            ) {
+                titlePaneButtons()
+            }
+            Row(
                 horizontalArrangement = Arrangement.End,
             ) {
                 actions()
             }
+
         }
     }
 }
@@ -79,8 +92,7 @@ fun FrameWindowScope.BottomAppBar() {
     WindowDraggableArea {
         Row(
             Modifier
-                .fillMaxWidth()
-                .height(10.dp)
+                .fillMaxHeight()
                 .background(Color.Red)
         ) {
 

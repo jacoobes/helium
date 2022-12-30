@@ -16,10 +16,7 @@ import javax.swing.filechooser.FileSystemView
 
 
 @Composable
-fun ColumnScope.LeftSidePanel(
-    fileView: FileSystemView,
-    filesState: MutableState<List<File>>
-) {
+fun ColumnScope.LeftSidePanel() {
     val lazyListState = rememberLazyListState()
     val stateSelection = remember { mutableStateOf<File?>(null) }
     val fillerData = remember { mutableStateOf(emptyList<Int>()) }

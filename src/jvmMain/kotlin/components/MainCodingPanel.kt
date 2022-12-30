@@ -10,6 +10,7 @@ import com.wakaztahir.codeeditor.model.CodeLang
 import com.wakaztahir.codeeditor.prettify.PrettifyParser
 import com.wakaztahir.codeeditor.theme.CodeTheme
 import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
+import components.textarea.TextArea
 import jetbrains
 import structs.Code
 import structs.HeliumThemes
@@ -29,7 +30,7 @@ fun MainCodingPanel(code: Code) {
             )
         )
     }
-    CodeTextArea(
+    TextArea(
         textFieldValue,
         style = TextStyle(
             fontFamily = jetbrains(),

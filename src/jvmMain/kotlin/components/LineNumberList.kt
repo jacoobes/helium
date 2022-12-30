@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import jetbrains
+import structs.Code
 
 @Composable
 fun LineNumberList(
@@ -22,20 +23,14 @@ fun LineNumberList(
             .background(MaterialTheme.colorScheme.secondaryContainer)
             .fillMaxHeight()
     ) {
-        if (lineTops.isNotEmpty()) {
-            Box(
-                modifier = Modifier
-                    .padding(horizontal = (2.5).dp)
-            ) {
-                lineTops.forEachIndexed { index, top ->
-                    Text(
-                        (index + 1).toString(),
-                        style = style,
-                        modifier = Modifier
-                            .offset(y = with(density) { top.toDp() })
-                    )
-
-                }
+        Box {
+            lineTops.forEachIndexed { index, top ->
+                Text(
+                    (index + 1).toString(),
+                    style = style,
+                    modifier = Modifier
+                        .offset(y = with(density) { top.toDp() })
+                )
             }
         }
     }

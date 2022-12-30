@@ -1,9 +1,11 @@
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.isCtrlPressed
 import androidx.compose.ui.input.key.key
@@ -11,9 +13,10 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import components.*
-import components.iconbuttons.ExitButton
-import components.iconbuttons.Iconify
-import components.iconbuttons.Maximize
+import components.buttons.icon.ExitButton
+import components.buttons.File
+import components.buttons.icon.Iconify
+import components.buttons.icon.Maximize
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -25,7 +28,7 @@ val json = Json {
     prettyPrint = true
     encodeDefaults = true
 }
-
+val testBorder = BorderStroke(1.dp, Color.Red)
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() = application {
     //run blocking for now, idk how to asynchronously do it
@@ -45,18 +48,20 @@ fun main() = application {
             )
             val isFileChooserOpen = remember { mutableStateOf(false) }
             val viewSettings = remember { mutableStateOf(false) }
+            val titlePanePaddingValues = PaddingValues(start=5.dp, end=5.dp)
             HeliumWindow(
                 title = "Helium",
                 state = state,
                 onCloseRequest = ::exitApplication,
+                titlePaneButtons = {
+                    File(titlePanePaddingValues)
+                },
                 actions = {
-                    val buttonPadding = PaddingValues(start = 5.dp, end = 5.dp)
-                    Iconify(buttonPadding)
-                    Maximize(buttonPadding)
-                    ExitButton(buttonPadding)
+                    Iconify(titlePanePaddingValues)
+                    Maximize(titlePanePaddingValues)
+                    ExitButton(titlePanePaddingValues)
                 },
                 // icon = helium(),
-                //probably will switch to aurora integrated one day
                 onPreviewKeyEvent = {
                     if (it.isCtrlPressed && it.key == Key.W) {
                         exitApplication()

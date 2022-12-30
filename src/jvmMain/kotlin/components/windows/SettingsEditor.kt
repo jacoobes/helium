@@ -11,6 +11,9 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import components.buttons.icon.ExitButton
+import components.buttons.icon.Iconify
+import components.buttons.icon.Maximize
 import structs.Settings
 
 
@@ -36,6 +39,12 @@ fun ApplicationScope.SettingsEditor(
                     setVis(false)
                 }
                 false
+            },
+            actions = {
+                val buttonPadding = PaddingValues(start = 5.dp, end = 5.dp)
+                Iconify(buttonPadding)
+                Maximize(buttonPadding)
+                ExitButton(buttonPadding)
             },
             onCloseRequest = { setVis(false) }
         ) {

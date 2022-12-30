@@ -1,4 +1,4 @@
-package components.iconbuttons
+package components.buttons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,12 +14,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun HoverableFlatIconButton(
+fun HoverableFlatButton(
     onClick: () -> Unit,
     paddingValues: PaddingValues? = null,
     colorPairOnHover: Pair<Color, Color> = MaterialTheme.colorScheme.tertiaryContainer to MaterialTheme.colorScheme.onTertiaryContainer,
@@ -38,14 +38,10 @@ fun HoverableFlatIconButton(
                 onClick = onClick,
                 role = Role.Button
             )
-            .onPointerEvent(PointerEventType.Enter) {
-                setHovered(true)
-            }
-            .onPointerEvent(PointerEventType.Exit) {
-                setHovered(false)
-            }
+            .onPointerEvent(PointerEventType.Enter) { setHovered(true) }
+            .onPointerEvent(PointerEventType.Exit) { setHovered(false) }
             .background(currentColorScheme.first)
-            .padding(paddingValues ?: PaddingValues(Dp.Unspecified))
+            .padding(paddingValues ?: PaddingValues(5.dp))
             .fillMaxHeight(),
         contentAlignment = Alignment.Center
     ) {

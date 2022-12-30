@@ -1,4 +1,4 @@
-package components.iconbuttons
+package components.buttons.icon
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.FrameWindowScope
+import components.buttons.HoverableFlatButton
 import javax.swing.JFrame
 
 
@@ -21,7 +22,7 @@ fun FrameWindowScope.Maximize(
         painterResource("scalable/fullscreen_exit_black_24dp.svg")
     }
 
-    HoverableFlatIconButton(
+    HoverableFlatButton(
         onClick = {
             setMaximized(!isMaximized)
             if (window.isFocused) {

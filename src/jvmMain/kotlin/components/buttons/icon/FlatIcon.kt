@@ -1,4 +1,4 @@
-package components.iconbuttons
+package components.buttons.icon
 
 import androidx.compose.foundation.background
 import androidx.compose.material3.Icon

@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.helium.scalable.svg.code_plus
 import com.helium.scalable.svg.folders
 import com.helium.scalable.svg.folders_off
-import components.iconbuttons.HoverableFlatIconButton
 
 @Composable
 fun LeftPanelCommands() {
