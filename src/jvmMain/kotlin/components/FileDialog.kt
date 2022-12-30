@@ -8,7 +8,6 @@ import java.io.File
 
 @Composable
 fun FileDialog(
-    window: ComposeWindow,
     title: String,
     allowedExtensions: List<String>,
     allowMultiSelection: Boolean = true,
@@ -16,7 +15,7 @@ fun FileDialog(
 ) {
     AwtWindow(
         create = {
-            object : FileDialog(window, title, LOAD) {
+            object : FileDialog(ComposeWindow(), title, LOAD) {
                 init {
                     isMultipleMode = allowMultiSelection
                     // windows

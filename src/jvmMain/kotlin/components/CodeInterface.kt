@@ -1,13 +1,14 @@
 package components
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.ApplicationScope
 import androidx.compose.ui.window.FrameWindowScope
 import structs.Code
 import structs.Settings
@@ -18,14 +19,12 @@ import javax.swing.filechooser.FileSystemView
 fun FrameWindowScope.CodeInterface(
     settings: Settings,
 ) {
-
-    Column(modifier = Modifier.fillMaxWidth()) {
-        val filesState = remember { mutableStateOf<List<File>>(emptyList()) }
-        val fileSystemView = FileSystemView.getFileSystemView()
-        BreadcrumbContent(fileSystemView, filesState)
-        val currentCode by remember {
-            mutableStateOf(
-                Code("""
+    val filesState = remember { mutableStateOf<List<File>>(emptyList()) }
+    val fileSystemView = FileSystemView.getFileSystemView()
+    val currentCode by remember {
+        mutableStateOf(
+            Code(
+                """
                         #[derive(Copy, Clone)]
                         struct o<T>();
                         
@@ -41,23 +40,18 @@ fun FrameWindowScope.CodeInterface(
                           println!(t.as_ref());
                         }
                     """.trimIndent(), "rust"
-                )
             )
+        )
+    }
+    Row(Modifier.fillMaxSize(.95f)) {
+        Column(
+            modifier = Modifier
+                //for now, 15% of the max width
+                .fillMaxWidth(.15f)
+        ) {
+            LeftPanelCommands()
+            LeftSidePanel(fileSystemView, filesState)
         }
-        Row(modifier = Modifier.fillMaxHeight(0.95f)) {
-            Column(
-                modifier = Modifier
-                    //for now, 15% of the max width
-                    .fillMaxWidth(.15f)
-                    .fillMaxHeight().border(1.dp, Color.Red),
-            ) {
-                LeftPanelCommands()
-                LeftSidePanel(fileSystemView, filesState)
-            }
-            MainCodingPanel(currentCode)
-        }
-        Row(modifier = Modifier.border(1.dp, Color.Green)) {
-            Footer(currentCode)
-        }
+        MainCodingPanel(currentCode)
     }
 }

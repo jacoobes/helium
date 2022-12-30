@@ -1,9 +1,11 @@
 package components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -15,14 +17,14 @@ import javax.swing.filechooser.FileSystemView
 
 @Composable
 fun ColumnScope.LeftSidePanel(
-    fileView : FileSystemView,
+    fileView: FileSystemView,
     filesState: MutableState<List<File>>
 ) {
     val lazyListState = rememberLazyListState()
     val stateSelection = remember { mutableStateOf<File?>(null) }
     val fillerData = remember { mutableStateOf(emptyList<Int>()) }
     LazyColumn(
-        modifier= Modifier.fillMaxSize(),
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         state = lazyListState
     ) {
         items(fillerData.value) { item ->
@@ -47,8 +49,8 @@ fun ColumnScope.LeftSidePanel(
 //                                ),
 //                            ).project()
 //                    }
-            }
-            if(stateSelection.value != null) {
-            }
         }
+        if (stateSelection.value != null) {
+        }
+    }
 }

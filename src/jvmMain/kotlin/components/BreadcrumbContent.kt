@@ -2,14 +2,16 @@ package components
 
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
 import java.io.File
@@ -17,14 +19,16 @@ import javax.swing.filechooser.FileSystemView
 
 @Composable
 fun FrameWindowScope.BreadcrumbContent(
-    fileSystemView : FileSystemView,
+    fileSystemView: FileSystemView,
     cPanelState: MutableState<List<File>>
 ) {
     val scope = rememberCoroutineScope()
-    Column( modifier = Modifier
+    Column(
+        modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 2.dp, vertical = 4.dp)
-            .border(1.dp, Color.Yellow)
+            .border(1.dp, MaterialTheme.colorScheme.onBackground)
+
     ) {
         Text("Breadcrumbs")
     }
@@ -83,7 +87,7 @@ fun FrameWindowScope.BreadcrumbContent(
 //        onItemSelected = onBreadcrumbItemSelected
 //    )
 
- //   Column {
+    //   Column {
 //            AuroraBreadcrumbBar(
 //                contentModel = breadcrumbBarContentModel,
 //                presentationModel = BreadcrumbBarPresentationModel(

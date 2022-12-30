@@ -1,7 +1,6 @@
 package structs
 
 import androidx.compose.material3.ColorScheme
-import androidx.compose.ui.graphics.Color
 import com.wakaztahir.codeeditor.theme.CodeTheme
 
 class HeliumCodeThemer {
@@ -17,9 +16,9 @@ class HeliumCodeThemer {
 
 class HeliumTheme(
     val light: ColorScheme,
-    val dark : ColorScheme,
+    val dark: ColorScheme,
 ) {
-    fun deriveCodeTheme(dark: Boolean) : CodeTheme {
+    fun deriveCodeTheme(dark: Boolean): CodeTheme {
 
         TODO()
     }

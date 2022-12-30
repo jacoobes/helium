@@ -1,14 +1,13 @@
 package components
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+
 @Composable
 fun ApplicationScope.LoadingHome(settingsLoaded: Boolean) {
     Window(
@@ -20,7 +19,7 @@ fun ApplicationScope.LoadingHome(settingsLoaded: Boolean) {
         ),
         onCloseRequest = ::exitApplication
     ) {
-        if(settingsLoaded) {
+        if (settingsLoaded) {
             //idk if this works
             LaunchedEffect(Unit) {
                 window.dispose()

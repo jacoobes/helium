@@ -1,6 +1,8 @@
 package components
 
-import androidx.compose.runtime.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wakaztahir.codeeditor.model.CodeLang
@@ -27,6 +29,7 @@ fun MainCodingPanel(code: Code) {
         textFieldValue,
         style = TextStyle(
             fontFamily = jetbrains(),
+            color = MaterialTheme.colorScheme.onSurface
         )
     )
 }

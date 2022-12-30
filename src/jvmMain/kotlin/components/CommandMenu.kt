@@ -1,10 +1,12 @@
 package components
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
+
 @Composable
 fun BoxScope.CommandMenu(
     visibility: MutableState<Boolean>,
@@ -15,7 +17,7 @@ fun BoxScope.CommandMenu(
         horizontalAlignment = Alignment.End,
         verticalArrangement = Arrangement.Center
     ) {
-        if(visibility.value) {
+        if (visibility.value) {
 //                CommandButtonPanelProjection(
 //                    contentModel = CommandPanelContentModel(
 //                        commandGroups = listOf(
