@@ -14,14 +14,3 @@ class HeliumCodeThemer {
     }
 }
 
-class HeliumTheme(
-    val light: ColorScheme,
-    val dark: ColorScheme,
-) {
-    fun deriveCodeTheme(dark: Boolean): CodeTheme {
-
-        TODO()
-    }
-}
-
-

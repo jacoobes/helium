@@ -40,5 +40,4 @@ fun FrameWindowScope.Maximize(
             scheme = scheme
         )
     }
-
 }

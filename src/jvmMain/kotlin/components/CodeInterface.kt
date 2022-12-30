@@ -1,9 +1,11 @@
 package components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,7 +45,11 @@ fun FrameWindowScope.CodeInterface(
             )
         )
     }
-    Row(Modifier.fillMaxSize(.95f)) {
+    Row(
+        Modifier
+            .fillMaxSize(.95f)
+            .background(MaterialTheme.colorScheme.surface)
+    ) {
         Column(
             modifier = Modifier
                 //for now, 15% of the max width

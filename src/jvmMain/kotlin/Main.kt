@@ -31,15 +31,13 @@ fun main() = application {
     //run blocking for now, idk how to asynchronously do it
     val coroutineScope = rememberCoroutineScope()
     val (settings, setSettings) = remember { mutableStateOf<Settings?>(null) }
-    val (isSettingsLoaded, setSettingsLoaded) = remember { mutableStateOf(false) }
     coroutineScope.launch {
         val content = loadSettingsAsync().await().flip()
         setSettings(json.decodeFromString(StandardCharsets.UTF_8.decode(content).toString()))
     }
     when (settings) {
-        null -> LoadingHome(isSettingsLoaded)
+        null -> LoadingHome()
         else -> {
-            setSettingsLoaded(true)
             val state = rememberWindowState(
                 placement = WindowPlacement.Floating,
                 position = WindowPosition.Aligned(Alignment.Center),
@@ -52,7 +50,6 @@ fun main() = application {
                 state = state,
                 onCloseRequest = ::exitApplication,
                 actions = {
-                    //no method error if it doesnt have explicit this
                     val buttonPadding = PaddingValues(start = 5.dp, end = 5.dp)
                     Iconify(buttonPadding)
                     Maximize(buttonPadding)
@@ -71,8 +68,8 @@ fun main() = application {
                 CodeInterface(settings)
                 if (isFileChooserOpen.value) {
                     FileDialog(
-                        "Choose A File",
-                        listOf(""),
+                        title = "Choose A File",
+                        allowedExtensions = listOf(""),
                         onCloseRequest = {
                             println(it)
                             isFileChooserOpen.value = false

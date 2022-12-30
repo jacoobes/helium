@@ -45,47 +45,8 @@ fun ApplicationScope.SettingsEditor(
                         horizontalAlignment = Alignment.Start,
                         modifier = Modifier.fillMaxWidth(.5f)
                     ) {
-//                        LabelProjection(
-//                            contentModel = LabelContentModel("editorFont"),
-//                        ).project()
-//                        LabelProjection(
-//                            contentModel = LabelContentModel("codeFont")
-//                        ).project()
-//                        LabelProjection(
-//                            contentModel = LabelContentModel("dimensions")
-//                        ).project()
-//                        AuroraSkinSwitcher(
-//                                onSkinChange = { skin.value = it },
-//                                popupPlacementStrategy = PopupPlacementStrategy.Upward.HAlignStart
-//                        )
+
                     }
-//                    Column(
-//                        modifier = Modifier.fillMaxWidth(.5f)
-//                    ) {
-//                        CommandButtonPanelProjection(
-//                            contentModel = CommandPanelContentModel(
-//                                commandGroups = listOf(
-//                                    CommandGroup(
-//                                        commands = listOf(
-//                                            Command("", icon=alpha(), action = {}),
-//                                            Command("", icon=beta(),action = {}),
-//                                            Command("", icon = dimensions(), action = {}),
-//                                        )
-//                                    )
-//                                )
-//                            ),
-//                            presentationModel = CommandPanelPresentationModel(
-//                                layoutSpec = PanelLayoutSpec.RowFill(PanelRowFillSpec.Fixed(1)),
-//                                commandHorizontalAlignment = HorizontalAlignment.Center,
-//                                backgroundAppearanceStrategy = BackgroundAppearanceStrategy.Flat,
-//                                commandPresentationState = CommandButtonPresentationState.TileFitToIcon,
-//                                isMenu = true
-//                            )
-//                        ).project(
-//                            Modifier
-//                                .align(Alignment.CenterHorizontally)
-//                        )
-//                    }
                 }
             }
 

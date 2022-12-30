@@ -1,5 +1,6 @@
 package components
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -9,8 +10,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 
 @Composable
-fun ApplicationScope.LoadingHome(settingsLoaded: Boolean) {
+fun ApplicationScope.LoadingHome() {
     Window(
+        title = "poo",
         state = WindowState(
             WindowPlacement.Floating,
             false,
@@ -19,14 +21,6 @@ fun ApplicationScope.LoadingHome(settingsLoaded: Boolean) {
         ),
         onCloseRequest = ::exitApplication
     ) {
-        if (settingsLoaded) {
-            //idk if this works
-            LaunchedEffect(Unit) {
-                window.dispose()
-            }
-        } else {
-            //TODO
-            Text("LOADING")
-        }
+        Text("LOADING")
     }
 }

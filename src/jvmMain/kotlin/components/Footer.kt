@@ -16,7 +16,7 @@ fun RowScope.Footer(code: Code) {
 }
 
 @Composable
-fun AuroraSkinSwitcher(
+fun ThemeSwitcher(
 ) {
 //    val currentSkinDisplayName = AuroraSkin.displayName
 //    val auroraSkins = getAuroraSkins()

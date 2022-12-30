@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.helium.scalable.svg.code_plus
 import com.helium.scalable.svg.folders
 import com.helium.scalable.svg.folders_off
+import components.iconbuttons.HoverableFlatIconButton
 
 @Composable
 fun LeftPanelCommands() {
@@ -24,6 +25,7 @@ fun LeftPanelCommands() {
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         val (iconSize, setIconSize) = remember { mutableStateOf(20.dp) }
+
         Box(
             Modifier
                 .clickable(onClick = { println("hello") }, role = Role.Button)

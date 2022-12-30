@@ -1,11 +1,14 @@
 package structs
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.wakaztahir.codeeditor.theme.CodeTheme
+import com.wakaztahir.codeeditor.theme.SyntaxColors
 
 val md_theme_light_primary = Color(0xFF4459A9)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
@@ -125,7 +128,7 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun HeliumTheme(
+fun DefaultHeliumTheme(
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
@@ -138,5 +141,25 @@ fun HeliumTheme(
     MaterialTheme(
         colorScheme = colors,
         content = content
+    )
+}
+
+@Composable
+fun ColorScheme.deriveMonochrome() : SyntaxColors {
+    val baseColor = onSurface
+    return SyntaxColors(
+        type = tertiary,
+        keyword = tertiary,
+        literal = onSurface,
+        comment = Color(baseColor.red, baseColor.green, baseColor.green,.5f),
+        string = onSurface,
+        punctuation = onSurface,
+        plain = onSurface,
+        tag = Color.White,
+        declaration = Color.White,
+        source = Color.White,
+        attrValue = Color.White,
+        attrName = Color.White,
+        nocode = Color.White
     )
 }
