@@ -22,21 +22,17 @@ fun TextArea(
     style: TextStyle
 ) {
     Box(
-        Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.TopCenter
+        contentAlignment = Alignment.CenterEnd
     ) {
+
         Box(
-            Modifier
-                .fillMaxSize(.93f)
+            Modifier.fillMaxSize(.90f)
         ) {
             BasicTextField(
                 value = value,
                 textStyle = style,
                 onValueChange = {},
-                modifier = Modifier
-                    .matchParentSize()
-                    .background(MaterialTheme.colorScheme.surface)
+                modifier = Modifier.matchParentSize()
             )
         }
 

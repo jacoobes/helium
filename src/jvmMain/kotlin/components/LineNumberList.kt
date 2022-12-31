@@ -14,14 +14,14 @@ import structs.Code
 
 @Composable
 fun LineNumberList(
-    lineTops: Array<Float>,
+    lineTops: FloatArray,
     style: TextStyle = TextStyle(fontFamily = jetbrains()),
 ) {
     val density = LocalDensity.current
     Column(
         Modifier
-            .background(MaterialTheme.colorScheme.secondaryContainer)
             .fillMaxHeight()
+            .background(MaterialTheme.colorScheme.secondaryContainer)
     ) {
         Box {
             lineTops.forEachIndexed { index, top ->

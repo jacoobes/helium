@@ -5,27 +5,27 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.window.WindowDraggableArea
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.ApplicationScope
-import androidx.compose.ui.window.FrameWindowScope
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.WindowState
+import androidx.compose.ui.window.*
 import structs.DefaultHeliumTheme
+import testBorder
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ApplicationScope.HeliumWindow(
     title: String,
+    appBarHeight : Dp = 25.dp,
     state: WindowState,
     onCloseRequest: () -> Unit = ::exitApplication,
     visible: Boolean = true,
-    titlePaneButtons: @Composable FrameWindowScope.() -> Unit = {},
+    dropDowns: @Composable FrameWindowScope.() -> Unit = {},
     actions: @Composable (FrameWindowScope.() -> Unit) = {},
     onPreviewKeyEvent: (KeyEvent) -> Boolean = { false },
     onKeyEvent: (KeyEvent) -> Boolean = { false },
@@ -44,16 +44,27 @@ fun ApplicationScope.HeliumWindow(
         undecorated = true
     ) {
         DefaultHeliumTheme(darkMode) {
-            Column(
-                Modifier.fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
+            Scaffold(
+                topBar = {
+                    HeliumAppBar(
+                        height = appBarHeight,
+                        actions = actions,
+                        titlePaneButtons = dropDowns
+                    )
+                },
+                bottomBar = {
+                    BottomAppBar()
+                },
+                containerColor = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.onBackground
             ) {
-                HeliumAppBar(
-                    actions = actions,
-                    titlePaneButtons = titlePaneButtons
-                )
-                content()
-                BottomAppBar()
+                Box(
+                    Modifier.padding(
+                        top=it.calculateTopPadding()
+                    )
+                ) {
+                    content()
+                }
             }
         }
     }
@@ -61,6 +72,7 @@ fun ApplicationScope.HeliumWindow(
 
 @Composable
 fun FrameWindowScope.HeliumAppBar(
+    height: Dp = 25.dp,
     titlePaneButtons: @Composable FrameWindowScope.() -> Unit,
     actions: @Composable FrameWindowScope.() -> Unit
 ) {
@@ -69,7 +81,7 @@ fun FrameWindowScope.HeliumAppBar(
             Modifier
                 .background(color = MaterialTheme.colorScheme.secondaryContainer)
                 .fillMaxWidth()
-                .height(25.dp),
+                .height(height),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
@@ -80,22 +92,24 @@ fun FrameWindowScope.HeliumAppBar(
             Row(
                 horizontalArrangement = Arrangement.End,
             ) {
-                actions()
-            }
-
-        }
+               actions()
+           }
+       }
     }
 }
 
 @Composable
 fun FrameWindowScope.BottomAppBar() {
     WindowDraggableArea {
-        Row(
-            Modifier
-                .fillMaxHeight()
-                .background(Color.Red)
+        Surface(
+            tonalElevation = 1.dp,
+            modifier = Modifier.fillMaxWidth()
         ) {
-
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+               Text("BottomBar!")
+            }
         }
     }
 }

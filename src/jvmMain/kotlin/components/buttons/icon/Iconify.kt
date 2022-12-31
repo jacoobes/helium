@@ -10,7 +10,6 @@ import javax.swing.JFrame
 
 @Composable
 fun FrameWindowScope.Iconify(paddingValues: PaddingValues) {
-
     HoverableFlatButton(
         onClick = {
             if (window.isFocused) {

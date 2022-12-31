@@ -3,10 +3,13 @@ package com.helium.scalable.svg
 import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.graphics.painter.Painter
+import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.math.min
 
@@ -15,94 +18,85 @@ import kotlin.math.min
  * <a href="https://github.com/kirill-grouchnikov/aurora">Aurora SVG transcoder</a>.
  */
 class folder : Painter() {
-    @Suppress("UNUSED_VARIABLE")
-    private var shape: Outline? = null
-    @Suppress("UNUSED_VARIABLE")
-    private var generalPath: Path? = null
-    @Suppress("UNUSED_VARIABLE")
-    private var brush: Brush? = null
-    @Suppress("UNUSED_VARIABLE")
-    private var stroke: Stroke? = null
-    @Suppress("UNUSED_VARIABLE")
-    private var clip: Shape? = null
+    @Suppress("UNUSED_VARIABLE") private var shape: Outline? = null
+    @Suppress("UNUSED_VARIABLE") private var generalPath: Path? = null
+    @Suppress("UNUSED_VARIABLE") private var brush: Brush? = null
+    @Suppress("UNUSED_VARIABLE") private var stroke: Stroke? = null
+    @Suppress("UNUSED_VARIABLE") private var clip: Shape? = null
     private var alpha = 1.0f
     private var blendMode = DrawScope.DefaultBlendMode
     private var alphaStack = mutableListOf(1.0f)
     private var blendModeStack = mutableListOf(DrawScope.DefaultBlendMode)
 
-    @Suppress(
-        "UNUSED_VARIABLE",
-        "UNUSED_VALUE",
-        "VARIABLE_WITH_REDUNDANT_INITIALIZER",
-        "UNNECESSARY_NOT_NULL_ASSERTION"
-    )
-    private fun _paint0(drawScope: DrawScope) {
-        var shapeText: Outline?
-        var generalPathText: Path? = null
-        var alphaText = 0.0f
-        var blendModeText = DrawScope.DefaultBlendMode
-        with(drawScope) {
+	@Suppress("UNUSED_VARIABLE", "UNUSED_VALUE", "VARIABLE_WITH_REDUNDANT_INITIALIZER", "UNNECESSARY_NOT_NULL_ASSERTION")
+private fun _paint0(drawScope : DrawScope) {
+var shapeText: Outline?
+var generalPathText: Path? = null
+var alphaText = 0.0f
+var blendModeText = DrawScope.DefaultBlendMode
+with(drawScope) {
 // 
-            alphaStack.add(0, alpha)
-            alpha *= 1.0f
-            blendModeStack.add(0, BlendMode.SrcOver)
-            blendMode = BlendMode.SrcOver
+alphaStack.add(0, alpha)
+alpha *= 1.0f
+blendModeStack.add(0, BlendMode.SrcOver)
+blendMode = BlendMode.SrcOver
 // _0
-            alphaStack.add(0, alpha)
-            alpha *= 1.0f
-            blendModeStack.add(0, BlendMode.SrcOver)
-            blendMode = BlendMode.SrcOver
+alphaStack.add(0, alpha)
+alpha *= 1.0f
+blendModeStack.add(0, BlendMode.SrcOver)
+blendMode = BlendMode.SrcOver
 // _0_0
-            alpha = alphaStack.removeAt(0)
-            blendMode = blendModeStack.removeAt(0)
-            alphaStack.add(0, alpha)
-            alpha *= 1.0f
-            blendModeStack.add(0, BlendMode.SrcOver)
-            blendMode = BlendMode.SrcOver
+alpha = alphaStack.removeAt(0)
+blendMode = blendModeStack.removeAt(0)
+alphaStack.add(0, alpha)
+alpha *= 1.0f
+blendModeStack.add(0, BlendMode.SrcOver)
+blendMode = BlendMode.SrcOver
 // _0_1
-            brush = SolidColor(Color(0, 0, 0, 255))
-            stroke = Stroke(width = 2.0f, cap = StrokeCap.Round, join = StrokeJoin.Round, miter = 4.0f)
-            if (generalPath == null) {
-                generalPath = Path()
-            } else {
-                generalPath!!.reset()
-            }
-            generalPath?.run {
-                moveTo(5.0f, 4.0f)
-                lineTo(9.0f, 4.0f)
-                lineTo(12.0f, 7.0f)
-                lineTo(19.0f, 7.0f)
-                cubicTo(20.10457f, 7.0f, 21.0f, 7.8954306f, 21.0f, 9.0f)
-                lineTo(21.0f, 17.0f)
-                cubicTo(21.0f, 18.10457f, 20.10457f, 19.0f, 19.0f, 19.0f)
-                lineTo(5.0f, 19.0f)
-                cubicTo(3.8954306f, 19.0f, 3.0f, 18.10457f, 3.0f, 17.0f)
-                lineTo(3.0f, 6.0f)
-                cubicTo(3.0f, 4.8954306f, 3.8954306f, 4.0f, 5.0f, 4.0f)
-            }
-            shape = Outline.Generic(generalPath!!)
-            drawOutline(outline = shape!!, style = stroke!!, brush = brush!!, alpha = alpha, blendMode = blendMode)
-            alpha = alphaStack.removeAt(0)
-            blendMode = blendModeStack.removeAt(0)
-            alpha = alphaStack.removeAt(0)
-            blendMode = blendModeStack.removeAt(0)
+brush = SolidColor(Color(0, 0, 0, 255))
+stroke = Stroke(width=2.0f, cap=StrokeCap.Round, join=StrokeJoin.Round, miter=4.0f)
+if (generalPath == null) {
+   generalPath = Path()
+} else {
+   generalPath!!.reset()
+}
+generalPath?.run {
+    moveTo(5.0f, 4.0f)
+    lineTo(9.0f, 4.0f)
+    lineTo(12.0f, 7.0f)
+    lineTo(19.0f, 7.0f)
+    cubicTo(20.10457f, 7.0f, 21.0f, 7.8954306f, 21.0f, 9.0f)
+    lineTo(21.0f, 17.0f)
+    cubicTo(21.0f, 18.10457f, 20.10457f, 19.0f, 19.0f, 19.0f)
+    lineTo(5.0f, 19.0f)
+    cubicTo(3.8954306f, 19.0f, 3.0f, 18.10457f, 3.0f, 17.0f)
+    lineTo(3.0f, 6.0f)
+    cubicTo(3.0f, 4.8954306f, 3.8954306f, 4.0f, 5.0f, 4.0f)
+}
+shape = Outline.Generic(generalPath!!)
+drawOutline(outline = shape!!, style = stroke!!, brush=brush!!, alpha = alpha, blendMode = blendMode)
+alpha = alphaStack.removeAt(0)
+blendMode = blendModeStack.removeAt(0)
+alpha = alphaStack.removeAt(0)
+blendMode = blendModeStack.removeAt(0)
 
-        }
-    }
+}
+}
+
 
 
     private fun innerPaint(drawScope: DrawScope) {
-        _paint0(drawScope)
+	    _paint0(drawScope)
 
 
-        shape = null
-        generalPath = null
-        brush = null
-        stroke = null
-        clip = null
-        alpha = 1.0f
-    }
-
+	    shape = null
+	    generalPath = null
+	    brush = null
+	    stroke = null
+	    clip = null
+	    alpha = 1.0f
+	}
+	
     companion object {
         /**
          * Returns the X of the bounding box of the original SVG image.
@@ -140,7 +134,7 @@ class folder : Painter() {
             return 17.0
         }
 
-
+        
     }
 
     override val intrinsicSize: Size
@@ -176,13 +170,7 @@ class folder : Painter() {
             withTransform({
                 scale(scaleX = coef, scaleY = coef, pivot = Offset.Zero)
                 translate(translateXDp, translateYDp)
-                clipRect(
-                    left = 0.0f,
-                    top = 0.0f,
-                    right = fullOrigWidth.toFloat(),
-                    bottom = fullOrigHeight.toFloat(),
-                    clipOp = ClipOp.Intersect
-                )
+                clipRect(left = 0.0f, top = 0.0f, right = fullOrigWidth.toFloat(), bottom = fullOrigHeight.toFloat(), clipOp = ClipOp.Intersect)
             }) {
                 innerPaint(this)
             }

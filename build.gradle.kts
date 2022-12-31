@@ -41,13 +41,16 @@ kotlin {
         withJava()
     }
     sourceSets {
+        val commonMain by getting {
+
+        }
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation("com.wakaztahir:codeeditor:3.0.5")
-                implementation("org.jetbrains.compose.material3:material3:1.2.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("org.jetbrains.compose.material3:material3-desktop:1.2.2")
 
                 sourceSets["jvmMain"].apply {
                     kotlin.srcDir("$rootDir/src/jvmMain/kotlin")

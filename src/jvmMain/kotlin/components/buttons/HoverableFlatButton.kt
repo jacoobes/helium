@@ -20,11 +20,11 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HoverableFlatButton(
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
     paddingValues: PaddingValues? = null,
     colorPairOnHover: Pair<Color, Color> = MaterialTheme.colorScheme.tertiaryContainer to MaterialTheme.colorScheme.onTertiaryContainer,
     colorPairNotHover: Pair<Color, Color> = MaterialTheme.colorScheme.secondaryContainer to MaterialTheme.colorScheme.onSecondaryContainer,
-    content: @Composable BoxScope.(Pair<Color, Color>) -> Unit
+    content: @Composable BoxScope.(Pair<Color, Color>) -> Unit,
 ) {
     val (isHovered, setHovered) = remember { mutableStateOf(false) }
     val currentColorScheme = if (isHovered) {
