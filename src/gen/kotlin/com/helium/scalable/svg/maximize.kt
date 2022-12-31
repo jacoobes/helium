@@ -17,7 +17,7 @@ import kotlin.math.min
  * This class has been automatically generated using
  * <a href="https://github.com/kirill-grouchnikov/aurora">Aurora SVG transcoder</a>.
  */
-class folder : Painter() {
+class maximize : Painter() {
     @Suppress("UNUSED_VARIABLE") private var shape: Outline? = null
     @Suppress("UNUSED_VARIABLE") private var generalPath: Path? = null
     @Suppress("UNUSED_VARIABLE") private var brush: Brush? = null
@@ -61,17 +61,76 @@ if (generalPath == null) {
    generalPath!!.reset()
 }
 generalPath?.run {
-    moveTo(5.0f, 4.0f)
-    lineTo(9.0f, 4.0f)
-    lineTo(12.0f, 7.0f)
-    lineTo(19.0f, 7.0f)
-    cubicTo(20.10457f, 7.0f, 21.0f, 7.8954306f, 21.0f, 9.0f)
-    lineTo(21.0f, 17.0f)
-    cubicTo(21.0f, 18.10457f, 20.10457f, 19.0f, 19.0f, 19.0f)
-    lineTo(5.0f, 19.0f)
-    cubicTo(3.8954306f, 19.0f, 3.0f, 18.10457f, 3.0f, 17.0f)
-    lineTo(3.0f, 6.0f)
-    cubicTo(3.0f, 4.8954306f, 3.8954306f, 4.0f, 5.0f, 4.0f)
+    moveTo(4.0f, 8.0f)
+    lineTo(4.0f, 6.0f)
+    cubicTo(4.0f, 4.8954306f, 4.8954306f, 4.0f, 6.0f, 4.0f)
+    lineTo(8.0f, 4.0f)
+}
+shape = Outline.Generic(generalPath!!)
+drawOutline(outline = shape!!, style = stroke!!, brush=brush!!, alpha = alpha, blendMode = blendMode)
+alpha = alphaStack.removeAt(0)
+blendMode = blendModeStack.removeAt(0)
+alphaStack.add(0, alpha)
+alpha *= 1.0f
+blendModeStack.add(0, BlendMode.SrcOver)
+blendMode = BlendMode.SrcOver
+// _0_2
+brush = SolidColor(Color(0, 0, 0, 255))
+stroke = Stroke(width=2.0f, cap=StrokeCap.Round, join=StrokeJoin.Round, miter=4.0f)
+if (generalPath == null) {
+   generalPath = Path()
+} else {
+   generalPath!!.reset()
+}
+generalPath?.run {
+    moveTo(4.0f, 16.0f)
+    lineTo(4.0f, 18.0f)
+    cubicTo(4.0f, 19.10457f, 4.8954306f, 20.0f, 6.0f, 20.0f)
+    lineTo(8.0f, 20.0f)
+}
+shape = Outline.Generic(generalPath!!)
+drawOutline(outline = shape!!, style = stroke!!, brush=brush!!, alpha = alpha, blendMode = blendMode)
+alpha = alphaStack.removeAt(0)
+blendMode = blendModeStack.removeAt(0)
+alphaStack.add(0, alpha)
+alpha *= 1.0f
+blendModeStack.add(0, BlendMode.SrcOver)
+blendMode = BlendMode.SrcOver
+// _0_3
+brush = SolidColor(Color(0, 0, 0, 255))
+stroke = Stroke(width=2.0f, cap=StrokeCap.Round, join=StrokeJoin.Round, miter=4.0f)
+if (generalPath == null) {
+   generalPath = Path()
+} else {
+   generalPath!!.reset()
+}
+generalPath?.run {
+    moveTo(16.0f, 4.0f)
+    lineTo(18.0f, 4.0f)
+    cubicTo(19.10457f, 4.0f, 20.0f, 4.8954306f, 20.0f, 6.0f)
+    lineTo(20.0f, 8.0f)
+}
+shape = Outline.Generic(generalPath!!)
+drawOutline(outline = shape!!, style = stroke!!, brush=brush!!, alpha = alpha, blendMode = blendMode)
+alpha = alphaStack.removeAt(0)
+blendMode = blendModeStack.removeAt(0)
+alphaStack.add(0, alpha)
+alpha *= 1.0f
+blendModeStack.add(0, BlendMode.SrcOver)
+blendMode = BlendMode.SrcOver
+// _0_4
+brush = SolidColor(Color(0, 0, 0, 255))
+stroke = Stroke(width=2.0f, cap=StrokeCap.Round, join=StrokeJoin.Round, miter=4.0f)
+if (generalPath == null) {
+   generalPath = Path()
+} else {
+   generalPath!!.reset()
+}
+generalPath?.run {
+    moveTo(16.0f, 20.0f)
+    lineTo(18.0f, 20.0f)
+    cubicTo(19.10457f, 20.0f, 20.0f, 19.10457f, 20.0f, 18.0f)
+    lineTo(20.0f, 16.0f)
 }
 shape = Outline.Generic(generalPath!!)
 drawOutline(outline = shape!!, style = stroke!!, brush=brush!!, alpha = alpha, blendMode = blendMode)
@@ -104,7 +163,7 @@ blendMode = blendModeStack.removeAt(0)
          * @return The X of the bounding box of the original SVG image.
          */
         fun getOrigX(): Double {
-            return 2.0
+            return 3.0
         }
 
         /**
@@ -122,7 +181,7 @@ blendMode = blendModeStack.removeAt(0)
          * @return The width of the bounding box of the original SVG image.
          */
         fun getOrigWidth(): Double {
-            return 20.0
+            return 18.0
         }
 
         /**
@@ -131,7 +190,7 @@ blendMode = blendModeStack.removeAt(0)
          * @return The height of the bounding box of the original SVG image.
          */
         fun getOrigHeight(): Double {
-            return 17.0
+            return 18.0
         }
 
         

@@ -9,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
@@ -23,9 +24,10 @@ fun FileNode(
     ElevatedCard(
         modifier = Modifier
             .padding(Dp.Hairline)
+            .rotate(90f)
             .clickable(
                 onClick = onClick,
-                enabled = false
+                enabled = enabled
             ),
         shape = RectangleShape,
     ) {
