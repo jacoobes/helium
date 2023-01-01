@@ -6,7 +6,6 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     kotlin("plugin.serialization") version "1.7.10"
-    id("org.pushing-pixels.aurora.tools.svgtranscoder.gradle") version "1.3.0"
 }
 
 group = "com.helium"
@@ -26,11 +25,6 @@ repositories {
                 password = (githubProperties["gpr.key"] ?: System.getenv("GPR_API_KEY")).toString()
             }
         }
-}
-buildscript {
-    dependencies {
-        classpath("org.pushing-pixels:aurora-tools-svg-transcoder-gradle-plugin:1.3.0")
-    }
 }
 
 kotlin {
@@ -61,12 +55,6 @@ kotlin {
         val jvmTest by getting
     }
 
-}
-tasks.register<org.pushingpixels.aurora.tools.svgtranscoder.gradle.TranscodeDeepTask>("transcodeFolder") {
-    inputRootDirectory = file("src/jvmMain/resources/scalable")
-    outputRootDirectory = file("src/gen/kotlin/com/helium/scalable/svg")
-    outputRootPackageName = "com.helium.scalable.svg"
-    transcode()
 }
 
 compose.desktop {
