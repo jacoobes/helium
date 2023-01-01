@@ -11,9 +11,7 @@ import javax.swing.JFrame
 
 
 @Composable
-fun FrameWindowScope.Maximize(
-    paddingValues: PaddingValues
-) {
+fun FrameWindowScope.Maximize() {
 
     val (isMaximized, setMaximized) = remember { mutableStateOf(window.extendedState == JFrame.MAXIMIZED_BOTH) }
     val currentIcon = if (isMaximized) {
@@ -33,12 +31,11 @@ fun FrameWindowScope.Maximize(
                 }
             }
         },
-        paddingValues = paddingValues,
+        enabled = true,
     ) { scheme ->
         FlatIcon(
             icon = currentIcon,
             contentDescription = "Maximize",
-            scheme = scheme
         )
     }
 }

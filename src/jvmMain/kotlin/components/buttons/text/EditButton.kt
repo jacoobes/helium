@@ -8,13 +8,12 @@ import components.buttons.FlatText
 import components.buttons.HoverableFlatButton
 
 @Composable
-fun FrameWindowScope.File() {
+fun FrameWindowScope.Edit() {
     val (isOpen, setOpen) = remember { mutableStateOf(false) }
     HoverableFlatButton(
         onClick = {
-            setOpen(!isOpen)
-        },
+            setOpen(!isOpen) },
     ) { scheme ->
-        FlatText("File", scheme)
+        FlatText("Edit", scheme)
     }
 }

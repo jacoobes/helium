@@ -11,14 +11,11 @@ import androidx.compose.ui.graphics.vector.ImageVector
 @Composable
 fun FlatIcon(
     icon: ImageVector,
-    scheme: Pair<Color, Color>,
     contentDescription: String? = null
 ) {
     Icon(
         icon,
         contentDescription = contentDescription,
-        modifier = Modifier.background(scheme.first),
-        tint = scheme.second
     )
 }
 
@@ -26,13 +23,10 @@ fun FlatIcon(
 @Composable
 fun FlatIcon(
     icon: Painter,
-    scheme: Pair<Color, Color>,
     contentDescription: String? = null
 ) {
     Icon(
         icon,
         contentDescription = contentDescription,
-        modifier = Modifier.background(scheme.first),
-        tint = scheme.second
     )
 }

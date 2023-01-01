@@ -1,11 +1,11 @@
 package components.drawers
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import components.FileNode
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ fun FileNavDrawer() {
         drawerTonalElevation = 100.dp,
         drawerShape = RoundedCornerShape(3.dp),
         drawerContent = {
-            NavigationDrawerItem({ Text("element") }, onClick = {}, selected = true)
+            NavigationDrawerItem({ Text("element") }, onClick = {}, selected = false)
         }
     ) {
         FileNode(true) {

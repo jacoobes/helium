@@ -41,10 +41,10 @@ fun ApplicationScope.SettingsEditor(
                 false
             },
             actions = {
-                val buttonPadding = PaddingValues(start = 5.dp, end = 5.dp)
-                Iconify(buttonPadding)
-                Maximize(buttonPadding)
-                ExitButton(buttonPadding)
+//                val buttonPadding = PaddingValues(start = 5.dp, end = 5.dp)
+//                Iconify(buttonPadding)
+//                Maximize(buttonPadding)
+//                ExitButton(buttonPadding)
             },
             onCloseRequest = { setVis(false) }
         ) {

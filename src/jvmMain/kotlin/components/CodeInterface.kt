@@ -4,14 +4,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
 import components.drawers.FileNavDrawer
 import components.textarea.TextModifiers
 import structs.Code
 import structs.Settings
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FrameWindowScope.MainCodeLayout(
     settings: Settings,
@@ -40,7 +38,7 @@ fun FrameWindowScope.MainCodeLayout(
     }
     BoxWithConstraints {
         //temporary padding until i get more values
-        Column(Modifier.padding(start = 24.dp)) {
+        Column(Modifier.padding(start = maxWidth / 15)) {
             TextModifiers()
             MainCodingPanel(currentCode)
         }

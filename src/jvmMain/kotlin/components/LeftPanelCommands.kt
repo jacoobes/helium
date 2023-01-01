@@ -17,7 +17,6 @@ import com.helium.scalable.svg.code_plus
 import com.helium.scalable.svg.folders
 import com.helium.scalable.svg.folders_off
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LeftPanelCommands() {
     Row(

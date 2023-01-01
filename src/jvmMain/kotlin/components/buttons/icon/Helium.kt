@@ -17,8 +17,8 @@ import testBorder
 
 @Composable
 fun Helium() {
-    Box(
-        contentAlignment = Alignment.Center,
+    HoverableFlatButton(
+        enabled = false
     ) {
         Icon(
             painter = painterResource("scalable/helium.svg"),
@@ -26,5 +26,4 @@ fun Helium() {
             tint = Color.Unspecified,
         )
     }
-
 }

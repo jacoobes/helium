@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.window.WindowDraggableArea
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -55,8 +56,6 @@ fun ApplicationScope.HeliumWindow(
                 bottomBar = {
                     BottomAppBar()
                 },
-                containerColor = MaterialTheme.colorScheme.background,
-                contentColor = MaterialTheme.colorScheme.onBackground
             ) {
                 Box(
                     Modifier.padding(
@@ -79,18 +78,21 @@ fun FrameWindowScope.HeliumAppBar(
     WindowDraggableArea {
         Row(
             Modifier
-                .background(color = MaterialTheme.colorScheme.secondaryContainer)
-                .fillMaxWidth()
-                .height(height),
-            horizontalArrangement = Arrangement.SpaceBetween
+                .height(height)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
-                horizontalArrangement = Arrangement.Start,
+                Modifier
+                    .fillMaxHeight(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 titlePaneButtons()
             }
             Row(
-                horizontalArrangement = Arrangement.End,
+                Modifier
+                    .fillMaxHeight(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                actions()
            }
