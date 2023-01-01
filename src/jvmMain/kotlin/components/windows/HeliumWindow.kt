@@ -76,27 +76,30 @@ fun FrameWindowScope.HeliumAppBar(
     actions: @Composable FrameWindowScope.() -> Unit
 ) {
     WindowDraggableArea {
-        Row(
-            Modifier
-                .height(height)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
+        Column {
             Row(
                 Modifier
-                    .fillMaxHeight(),
-                verticalAlignment = Alignment.CenterVertically
+                    .height(height)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                titlePaneButtons()
+                Row(
+                    Modifier
+                        .fillMaxHeight(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    titlePaneButtons()
+                }
+                Row(
+                    Modifier
+                        .fillMaxHeight(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    actions()
+                }
             }
-            Row(
-                Modifier
-                    .fillMaxHeight(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-               actions()
-           }
-       }
+            DividerLessAlpha(alpha = .5f)
+        }
     }
 }
 

@@ -1,9 +1,9 @@
 package components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.FrameWindowScope
 import components.drawers.FileNavDrawer
 import components.textarea.TextModifiers
@@ -13,6 +13,7 @@ import structs.Settings
 @Composable
 fun FrameWindowScope.MainCodeLayout(
     settings: Settings,
+    appBarHeight: Dp
 ) {
     val currentCode by remember {
         mutableStateOf(
@@ -37,8 +38,10 @@ fun FrameWindowScope.MainCodeLayout(
         )
     }
     BoxWithConstraints {
+        val buttonSizes = (appBarHeight * 5) / 8
+        val pad = (appBarHeight - buttonSizes)
         //temporary padding until i get more values
-        Column(Modifier.padding(start = maxWidth / 15)) {
+        Column(Modifier.padding(start = pad+buttonSizes)) {
             TextModifiers()
             MainCodingPanel(currentCode)
         }

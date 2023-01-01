@@ -1,4 +1,5 @@
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material3.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,9 +55,10 @@ fun main() = application {
             )
             val isFileChooserOpen = remember { mutableStateOf(false) }
             val viewSettings = remember { mutableStateOf(false) }
+            val appBarHeight = 48.dp
             HeliumWindow(
                 title = "Helium",
-                appBarHeight = 48.dp,
+                appBarHeight = appBarHeight,
                 state = state,
                 onCloseRequest = ::exitApplication,
                 dropDowns = {
@@ -77,7 +79,8 @@ fun main() = application {
                 },
                 resizable = true
             ) {
-                MainCodeLayout(settings)
+
+                MainCodeLayout(settings, appBarHeight)
                 if (isFileChooserOpen.value) {
                     FileDialog(
                         title = "Choose A File",

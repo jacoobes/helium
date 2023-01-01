@@ -1,6 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import java.util.Properties
-import java.io.FileInputStream
 
 plugins {
     kotlin("multiplatform")
@@ -15,16 +13,7 @@ repositories {
         google()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Qawaz/compose-code-editor")
-            credentials {
-                val githubProperties = Properties()
-                githubProperties.load(FileInputStream("github.properties"))
-                username = (githubProperties["gpr.usr"] ?: System.getenv("GPR_USER")).toString()
-                password = (githubProperties["gpr.key"] ?: System.getenv("GPR_API_KEY")).toString()
-            }
-        }
+        maven("https://jitpack.io")
 }
 
 kotlin {
@@ -41,7 +30,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation("com.wakaztahir:codeeditor:3.0.5")
+                implementation("com.github.Qawaz.compose-code-editor:codeeditor-desktop:3.0.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("org.jetbrains.compose.material3:material3-desktop:1.2.2")
