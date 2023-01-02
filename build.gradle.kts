@@ -24,17 +24,24 @@ kotlin {
         withJava()
     }
     sourceSets {
-        val commonMain by getting {
-
-        }
         val jvmMain by getting {
             dependencies {
+                val lwjglVersion = "3.3.1"
                 implementation(compose.desktop.currentOs)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.material3)
                 implementation("com.github.Qawaz.compose-code-editor:codeeditor-desktop:3.0.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("org.jetbrains.compose.material3:material3-desktop:1.2.2")
-
+                listOf("lwjgl", "lwjgl-nfd").forEach { lwjglDep ->
+                    implementation("org.lwjgl:${lwjglDep}:${lwjglVersion}")
+                    listOf(
+                        "natives-windows", "natives-windows-x86", "natives-windows-arm64",
+                        "natives-macos", "natives-macos-arm64",
+                        "natives-linux", "natives-linux-arm64", "natives-linux-arm32"
+                    ).forEach { native ->
+                        runtimeOnly("org.lwjgl:${lwjglDep}:${lwjglVersion}:${native}")
+                    }
+                }
                 sourceSets["jvmMain"].apply {
                     kotlin.srcDir("$rootDir/src/jvmMain/kotlin")
                     kotlin.srcDir("$rootDir/src/gen/kotlin")

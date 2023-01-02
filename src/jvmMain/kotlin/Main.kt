@@ -1,5 +1,4 @@
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.material3.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +25,7 @@ import components.buttons.text.File
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import structs.FileChooser
 import structs.Settings
 import structs.loadSettingsAsync
 import java.nio.charset.StandardCharsets
@@ -36,7 +36,7 @@ val json = Json {
 }
 val testBorder = BorderStroke(1.dp, Color.Red)
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalComposeUiApi::class)
 fun main() = application {
     //run blocking for now, idk how to asynchronously do it
     val coroutineScope = rememberCoroutineScope()
