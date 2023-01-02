@@ -1,19 +1,21 @@
 package components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.window.FrameWindowScope
 import components.drawers.FileNavDrawer
-import components.textarea.TextModifiers
+import components.textarea.TextActions
 import structs.Code
 import structs.Settings
 
 @Composable
 fun FrameWindowScope.MainCodeLayout(
     settings: Settings,
-    appBarHeight: Dp
+    appBarHeight: Dp,
+    snackbarHostState: SnackbarHostState
 ) {
     val currentCode by remember {
         mutableStateOf(
@@ -42,8 +44,12 @@ fun FrameWindowScope.MainCodeLayout(
         val pad = (appBarHeight - buttonSizes)
         //temporary padding until i get more values
         Column(Modifier.padding(start = pad+buttonSizes)) {
-            TextModifiers()
-            MainCodingPanel(currentCode)
+            BoxWithConstraints {
+                TextActions(snackbarHostState)
+            }
+            BoxWithConstraints {
+                MainCodingPanel(currentCode)
+            }
         }
         FileNavDrawer()
     }

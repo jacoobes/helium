@@ -25,7 +25,6 @@ import components.buttons.text.File
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import structs.FileChooser
 import structs.Settings
 import structs.loadSettingsAsync
 import java.nio.charset.StandardCharsets
@@ -79,18 +78,7 @@ fun main() = application {
                 },
                 resizable = true
             ) {
-
-                MainCodeLayout(settings, appBarHeight)
-                if (isFileChooserOpen.value) {
-                    FileDialog(
-                        title = "Choose A File",
-                        allowedExtensions = listOf(""),
-                        onCloseRequest = {
-                            println(it)
-                            isFileChooserOpen.value = false
-                        }
-                    )
-                }
+                MainCodeLayout(settings, appBarHeight, it)
                 //NewFile(settings, viewFileMenu, skin.value)
                 SettingsEditor(settings, viewSettings)
             }

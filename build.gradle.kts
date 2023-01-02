@@ -28,8 +28,9 @@ kotlin {
             dependencies {
                 val lwjglVersion = "3.3.1"
                 implementation(compose.desktop.currentOs)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.material3)
+                // https://mvnrepository.com/artifact/org.jetbrains.compose.material3/material3
+                implementation("org.jetbrains.compose.material3:material3:1.2.2")
+
                 implementation("com.github.Qawaz.compose-code-editor:codeeditor-desktop:3.0.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
                 listOf("lwjgl", "lwjgl-nfd").forEach { lwjglDep ->

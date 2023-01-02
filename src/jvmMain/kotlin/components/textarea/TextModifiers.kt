@@ -1,25 +1,48 @@
 package components.textarea
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Chip
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Text
-
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
-import components.DividerLessAlpha
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextModifiers() {
-    Row {
-        Text("Sup")
-        Text("Sup")
+fun TextActions(snackbarHostState: SnackbarHostState) {
+
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+        AutosaveAction(false, snackbarHostState)
+        //maybe custom input chip
+        InputChip(
+            label = { Text("Font") },
+            onClick = {},
+        )
+        AssistChip(
+            onClick = {},
+            label = { Text("Shit") },
+        )
+        AssistChip(
+            onClick = {},
+            label = { Text("Commit") }
+        )
     }
-    DividerLessAlpha(alpha = .50f)
+}
+
+//TODO: update switch color
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AutosaveAction(isOn: Boolean, snackbarHostState: SnackbarHostState) {
+    val scope = rememberCoroutineScope()
+    val isOnState = remember { mutableStateOf(isOn) }
+    Switch(
+        checked = isOnState.value,
+        onCheckedChange = {
+            isOnState.value = it
+            scope.launch {
+                snackbarHostState.showSnackbar(message = "Autosave on")
+            }
+        },
+    )
 }

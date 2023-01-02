@@ -5,8 +5,11 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.window.WindowDraggableArea
+import androidx.compose.material.rememberScaffoldState
+
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -17,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import structs.DefaultHeliumTheme
 import testBorder
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ApplicationScope.HeliumWindow(
@@ -32,7 +34,8 @@ fun ApplicationScope.HeliumWindow(
     onKeyEvent: (KeyEvent) -> Boolean = { false },
     resizable: Boolean = true,
     darkMode: Boolean = isSystemInDarkTheme(),
-    content: @Composable (FrameWindowScope.() -> Unit)
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    content: @Composable (FrameWindowScope.(hostState: SnackbarHostState) -> Unit)
 ) {
     Window(
         title = title,
@@ -53,6 +56,9 @@ fun ApplicationScope.HeliumWindow(
                         titlePaneButtons = dropDowns
                     )
                 },
+                snackbarHost = {
+                      SnackbarHost(snackbarHostState)
+                },
                 bottomBar = {
                     BottomAppBar()
                 },
@@ -62,7 +68,7 @@ fun ApplicationScope.HeliumWindow(
                         top=it.calculateTopPadding()
                     )
                 ) {
-                    content()
+                    content(snackbarHostState)
                 }
             }
         }
