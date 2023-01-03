@@ -11,9 +11,7 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import components.buttons.icon.ExitButton
-import components.buttons.icon.Iconify
-import components.buttons.icon.Maximize
+import components.windows.HeliumWindow
 import structs.Settings
 
 

@@ -1,25 +1,23 @@
-package components
+package components.windows
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.window.WindowDraggableArea
-import androidx.compose.material.rememberScaffoldState
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import components.DividerLessAlpha
+import components.drawers.FileNavDrawer
 import structs.DefaultHeliumTheme
-import testBorder
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ApplicationScope.HeliumWindow(
@@ -81,32 +79,36 @@ fun FrameWindowScope.HeliumAppBar(
     titlePaneButtons: @Composable FrameWindowScope.() -> Unit,
     actions: @Composable FrameWindowScope.() -> Unit
 ) {
-    WindowDraggableArea {
+    val buttonSizes = (height * 5) / 8
+    val pad = (height - buttonSizes)/2
         Column {
-            Row(
-                Modifier
-                    .height(height)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
+            WindowDraggableArea {
                 Row(
                     Modifier
-                        .fillMaxHeight(),
-                    verticalAlignment = Alignment.CenterVertically
+                        .height(buttonSizes)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    titlePaneButtons()
-                }
-                Row(
-                    Modifier
-                        .fillMaxHeight(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    actions()
+                    Row(
+                        Modifier
+                            .fillMaxHeight(),
+                        horizontalArrangement = Arrangement.spacedBy(pad,Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        titlePaneButtons()
+                    }
+                    Row(
+                        Modifier
+                            .fillMaxHeight(),
+                        horizontalArrangement = Arrangement.spacedBy(pad, Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        actions()
+                    }
                 }
             }
             DividerLessAlpha(alpha = .5f)
         }
-    }
 }
 
 @Composable

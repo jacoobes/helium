@@ -1,18 +1,19 @@
 package components.textarea
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import testBorder
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextActions(snackbarHostState: SnackbarHostState) {
 
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+    Row(horizontalArrangement = Arrangement.spacedBy(7.dp)) {
         AutosaveAction(false, snackbarHostState)
         //maybe custom input chip
         InputChip(
@@ -30,8 +31,6 @@ fun TextActions(snackbarHostState: SnackbarHostState) {
     }
 }
 
-//TODO: update switch color
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AutosaveAction(isOn: Boolean, snackbarHostState: SnackbarHostState) {
     val scope = rememberCoroutineScope()
@@ -41,7 +40,11 @@ fun AutosaveAction(isOn: Boolean, snackbarHostState: SnackbarHostState) {
         onCheckedChange = {
             isOnState.value = it
             scope.launch {
-                snackbarHostState.showSnackbar(message = "Autosave on")
+                snackbarHostState.showSnackbar(
+                    message = "Autosave ${if (isOnState.value) "on" else "off"}",
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Short
+                )
             }
         },
     )

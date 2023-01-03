@@ -22,6 +22,8 @@ import components.buttons.icon.Iconify
 import components.buttons.icon.Maximize
 import components.buttons.text.Edit
 import components.buttons.text.File
+import components.drawers.FileNavDrawer
+import components.windows.HeliumWindow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -34,7 +36,9 @@ val json = Json {
     encodeDefaults = true
 }
 val testBorder = BorderStroke(1.dp, Color.Red)
-
+val appBarHeight = 48.dp
+val buttonSizes = (appBarHeight * 5) / 8
+val pad = (appBarHeight - buttonSizes)
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() = application {
     //run blocking for now, idk how to asynchronously do it
@@ -54,7 +58,6 @@ fun main() = application {
             )
             val isFileChooserOpen = remember { mutableStateOf(false) }
             val viewSettings = remember { mutableStateOf(false) }
-            val appBarHeight = 48.dp
             HeliumWindow(
                 title = "Helium",
                 appBarHeight = appBarHeight,
@@ -78,9 +81,9 @@ fun main() = application {
                 },
                 resizable = true
             ) {
-                MainCodeLayout(settings, appBarHeight, it)
-                //NewFile(settings, viewFileMenu, skin.value)
-                SettingsEditor(settings, viewSettings)
+                val directoryChosen = remember { mutableStateOf<String?>(null) }
+                MainCodeLayout(settings, it, directoryChosen)
+                FileNavDrawer(it, directoryChosen)
             }
         }
     }

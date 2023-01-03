@@ -31,7 +31,6 @@ object FileChooser {
                 NativeFileDialog.NFD_OKAY -> {
                     val path = pathPointer.stringUTF8
                     NativeFileDialog.nNFD_Free(pathPointer[0])
-
                     path
                 }
                 NativeFileDialog.NFD_CANCEL -> null
