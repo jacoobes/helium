@@ -13,19 +13,19 @@ import androidx.compose.ui.text.input.TextFieldValue
 @Composable
 fun TextArea(
     value: TextFieldValue,
-    style: TextStyle
+    style: TextStyle,
+    onValueChange : (TextFieldValue) -> Unit
 ) {
     Box(
         contentAlignment = Alignment.CenterEnd
     ) {
-
         Box(
             Modifier.fillMaxSize(.90f)
         ) {
             BasicTextField(
                 value = value,
                 textStyle = style,
-                onValueChange = {},
+                onValueChange = onValueChange,
                 modifier = Modifier.matchParentSize()
             )
         }

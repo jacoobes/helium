@@ -12,8 +12,9 @@ import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import org.jetbrains.compose.splitpane.SplitPaneState
 import pad
-import structs.Code
 import structs.Settings
+import java.io.BufferedReader
+import java.nio.file.Path
 
 @OptIn(ExperimentalSplitPaneApi::class)
 @Composable
@@ -22,37 +23,15 @@ fun FrameWindowScope.MainCodeLayout(
     snackbarHostState: SnackbarHostState,
     directoryChosen : MutableState<String?>
 ) {
-    val currentCode by remember {
-        mutableStateOf(
-            Code(
-                """
-                        #[derive(Copy, Clone)]
-                        struct o<T>();
-                        
-                        /// doc comment
-                        impl<T> o<T> {
-                          // normal comment
-                          pub fn a() { unreachable!(); }
-                          pub fn as_ref(self) -> &Self { &self }
-                        }
-                        
-                        fn main() -> () {
-                          let mut t: &o<i8> = &o();
-                          println!(t.as_ref());
-                        }
-                    """.trimIndent(), "rust"
-            )
-        )
-    }
+    val currentPath = remember { mutableStateOf<Path?>(null) }
     HorizontalSplitPane(
         Modifier.padding(start = pad+buttonSizes),
         splitPaneState = SplitPaneState(.8f, true)
     ) {
-
         first {
             Column {
                 TextActions(snackbarHostState)
-                MainCodingPanel(currentCode)
+                MainCodingPanel(currentPath)
             }
         }
         second {
@@ -60,7 +39,10 @@ fun FrameWindowScope.MainCodeLayout(
                 if(directoryChosen.value == null) {
                     Text("Open something up bruh")
                 } else {
-                    SidePanel(directoryChosen.value!!)
+                    SidePanel(
+                        directoryChosen = directoryChosen.value!!,
+                        currentFile = currentPath
+                    )
                 }
             }
         }

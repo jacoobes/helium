@@ -56,12 +56,11 @@ fun main() = application {
                 position = WindowPosition.Aligned(Alignment.Center),
                 size = DpSize(settings.dimensions.width.dp, settings.dimensions.height.dp)
             )
-            val isFileChooserOpen = remember { mutableStateOf(false) }
-            val viewSettings = remember { mutableStateOf(false) }
             HeliumWindow(
                 title = "Helium",
                 appBarHeight = appBarHeight,
                 state = state,
+                darkMode = true,
                 onCloseRequest = ::exitApplication,
                 dropDowns = {
                     Helium()
