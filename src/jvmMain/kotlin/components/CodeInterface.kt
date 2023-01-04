@@ -12,8 +12,9 @@ import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import org.jetbrains.compose.splitpane.SplitPaneState
 import pad
+import structs.Code
 import structs.Settings
-import java.io.BufferedReader
+import java.nio.file.Files
 import java.nio.file.Path
 
 @OptIn(ExperimentalSplitPaneApi::class)
@@ -24,6 +25,7 @@ fun FrameWindowScope.MainCodeLayout(
     directoryChosen : MutableState<String?>
 ) {
     val currentPath = remember { mutableStateOf<Path?>(null) }
+
     HorizontalSplitPane(
         Modifier.padding(start = pad+buttonSizes),
         splitPaneState = SplitPaneState(.8f, true)
@@ -31,7 +33,10 @@ fun FrameWindowScope.MainCodeLayout(
         first {
             Column {
                 TextActions(snackbarHostState)
-                MainCodingPanel(currentPath)
+                if(currentPath.value != null) {
+                    println(currentPath.value)
+                    MiddlePanel(currentPath.value!!)
+                }
             }
         }
         second {
