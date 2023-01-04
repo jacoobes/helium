@@ -18,7 +18,7 @@ fun DirectoryChooser(
     IconButton(
         onClick = {
             scope.launch {
-                selectedDirectory.value = FileChooser.chooseDirectory()
+                selectedDirectory.value = FileChooser.chooseDirectory() ?: selectedDirectory.value
             }
         },
         enabled = enabled
