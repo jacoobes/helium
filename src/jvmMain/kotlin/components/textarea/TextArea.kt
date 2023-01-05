@@ -26,14 +26,13 @@ fun TextArea(
     style: TextStyle,
 ) {
     val theme = MaterialTheme.colorScheme.deriveMonochrome()
-    println("rerendered")
 
     val value = TextFieldValue(
             annotatedString = parseCodeAsAnnotatedString(
                 parser = PrettifyParser(),
                 theme = object : CodeTheme(theme) {},
                 lang = code.lang ?: CodeLang.Default,
-                code = code.content
+                code = "adsfasdfasdfasdjlf"
             )
         )
 

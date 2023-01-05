@@ -29,14 +29,8 @@ fun SidePanel(
         mutableStateOf<List<TreeNode>>(emptyList())
     }
     if (rootDir.isEmpty()) {
+        LoadingPanel()
         val scope = rememberCoroutineScope()
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            CircularProgressIndicator()
-        }
         scope.launch(Dispatchers.IO) {
             rootDir = dirStream(rootPath).use {
                 it.map { path ->
@@ -53,4 +47,14 @@ fun SidePanel(
     }
 }
 
+@Composable
+fun LoadingPanel() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CircularProgressIndicator()
+    }
+}
 

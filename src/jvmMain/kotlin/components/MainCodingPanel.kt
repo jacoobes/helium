@@ -25,7 +25,7 @@ fun getExtension(path: Path): String {
 fun MiddlePanel(path: Optional<Path>) {
     if(path.isPresent) {
         val p = path.get()
-        val code = Code(Files.readString(p), getExtension(p))
+        val code = Code(p, getExtension(p))
         TextArea(
             code,
             style = TextStyle(
