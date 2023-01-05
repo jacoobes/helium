@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
+import buttonSizes
 
 //TODO: Fix text overflow
 @Composable
@@ -38,8 +39,7 @@ fun HoverableFlatButton(
         modifier = mod,
     ) {
         //material spec (ish) https://m3.material.io/components/top-app-bar/specs
-        val buttonSizes = (maxHeight * 5) / 8
-        val pad = (maxHeight - buttonSizes) / 2
+        val pad = 12.dp
         val startEnd = PaddingValues(start = pad, end = pad)
         Box(
             contentAlignment = Alignment.Center,
