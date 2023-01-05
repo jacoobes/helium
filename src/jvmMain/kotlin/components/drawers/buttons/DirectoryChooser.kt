@@ -23,7 +23,11 @@ fun DirectoryChooser(
     IconButton(
         onClick = {
             scope.launch {
-                selectedDirectory.value = Optional.ofNullable(FileChooser.chooseDirectory())
+                val chosenDir = FileChooser.chooseDirectory()
+                val shouldUpdate = chosenDir != null
+                if(shouldUpdate) {
+                    selectedDirectory.value = Optional.ofNullable(chosenDir)
+                }
             }
         },
         enabled = enabled
