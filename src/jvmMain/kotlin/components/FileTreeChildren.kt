@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.sharp.ArrowForward
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -32,19 +33,17 @@ fun FileChild(
     )
 }
 @Composable
-fun DirectoryChild(path: Path) {
+fun DirectoryChild(
+    path: Path,
+    leadingIcon: @Composable () -> Unit,
+    onClick: () -> Unit,
+) {
     Node(
         path,
-        leadingIcon = {
-            Icon(
-                painterResource("scalable/folder.svg"),
-                null,
-                modifier = Modifier.size(20.dp)
-            )
-        }
-    ) {
-        println(path.fileName.name)
-    }
+        leadingIcon = leadingIcon,
+        onClick = onClick
+    )
+
 }
 @Composable
 private fun Node(

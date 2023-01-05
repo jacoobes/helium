@@ -1,8 +1,6 @@
 package components
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
@@ -16,6 +14,7 @@ import structs.Code
 import structs.deriveMonochrome
 import java.nio.file.Files
 import java.nio.file.Path
+import kotlin.io.path.isDirectory
 import kotlin.io.path.name
 
 fun getExtension(path: Path): String {
@@ -30,24 +29,14 @@ fun getExtension(path: Path): String {
 
 @Composable
 fun MiddlePanel(path: Path) {
-    val theme = MaterialTheme.colorScheme.deriveMonochrome()
-    val code =  Code(Files.readString(path), getExtension(path))
-    val textFieldValue =
-        mutableStateOf(
-            TextFieldValue(
-                annotatedString = parseCodeAsAnnotatedString(
-                    parser = PrettifyParser(),
-                    theme = object : CodeTheme(theme) {},
-                    lang = code.lang ?: CodeLang.Default,
-                    code = code.content
-                )
-            )
+    if(!path.isDirectory()) {
+        val code = Code(Files.readString(path), getExtension(path))
+        TextArea(
+            code,
+            style = TextStyle(
+                fontFamily = jetbrains(),
+                color = MaterialTheme.colorScheme.onSurface
+            ),
         )
-    TextArea(
-        textFieldValue,
-        style = TextStyle(
-            fontFamily = jetbrains(),
-            color = MaterialTheme.colorScheme.onSurface
-        ),
-    )
+    }
 }

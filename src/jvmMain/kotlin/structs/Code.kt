@@ -10,7 +10,6 @@ import kotlin.io.path.name
 
 class Code(val content: String, val suffix: String) {
     val lang = CodeLang.values().find { it.value.toHashSet().contains(suffix) }
-
     companion object {
         val Empty = Code("", "default-code")
     }

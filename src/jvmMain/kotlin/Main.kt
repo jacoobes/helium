@@ -30,6 +30,7 @@ import kotlinx.serialization.json.Json
 import structs.Settings
 import structs.loadSettingsAsync
 import java.nio.charset.StandardCharsets
+import java.util.Optional
 
 val json = Json {
     prettyPrint = true
@@ -80,8 +81,8 @@ fun main() = application {
                 },
                 resizable = true
             ) {
-                val directoryChosen = remember { mutableStateOf<String?>(null) }
-                MainCodeLayout(settings, it, directoryChosen)
+                val directoryChosen = remember { mutableStateOf<Optional<String>>(Optional.empty()) }
+                MainCodeLayout(settings, it, directoryChosen.value)
                 FileNavDrawer(it, directoryChosen)
             }
         }

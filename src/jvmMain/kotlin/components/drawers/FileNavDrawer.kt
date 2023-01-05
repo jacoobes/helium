@@ -14,12 +14,13 @@ import components.FileNode
 import components.drawers.buttons.DirectoryChooser
 import kotlinx.coroutines.launch
 import pad
+import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FileNavDrawer(
     snackbarHostState: SnackbarHostState,
-    directoryChosen : MutableState<String?>
+    directoryChosen : MutableState<Optional<String>>
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(DrawerValue.Closed) { true }
