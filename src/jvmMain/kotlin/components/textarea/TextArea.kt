@@ -1,5 +1,6 @@
 package components.textarea
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.BasicTextField
@@ -37,10 +38,10 @@ fun TextArea(
         )
 
     Box(
-        contentAlignment = Alignment.CenterEnd
+        contentAlignment = Alignment.CenterEnd,
     ) {
         Box(
-            Modifier.fillMaxSize(.90f)
+            Modifier.fillMaxSize(.90f),
         ) {
             BasicTextField(
                 value = value,

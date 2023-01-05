@@ -31,7 +31,6 @@ import structs.Settings
 import structs.loadSettingsAsync
 import java.nio.charset.StandardCharsets
 import java.util.Optional
-
 val json = Json {
     prettyPrint = true
     encodeDefaults = true

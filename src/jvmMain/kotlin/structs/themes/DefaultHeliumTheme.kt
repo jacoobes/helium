@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.wakaztahir.codeeditor.theme.CodeTheme
 import com.wakaztahir.codeeditor.theme.SyntaxColors
-
+//Color(0xFFE9EAF5) possible light theme background white ?
 val md_theme_light_primary = Color(0xFF4459A9)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFDCE1FF)

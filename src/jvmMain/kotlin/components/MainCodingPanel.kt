@@ -3,18 +3,12 @@ package components
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
-import com.wakaztahir.codeeditor.model.CodeLang
-import com.wakaztahir.codeeditor.prettify.PrettifyParser
-import com.wakaztahir.codeeditor.theme.CodeTheme
-import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
 import components.textarea.TextArea
 import jetbrains
 import structs.Code
-import structs.deriveMonochrome
 import java.nio.file.Files
 import java.nio.file.Path
-import kotlin.io.path.isDirectory
+import java.util.*
 import kotlin.io.path.name
 
 fun getExtension(path: Path): String {
@@ -28,9 +22,10 @@ fun getExtension(path: Path): String {
 }
 
 @Composable
-fun MiddlePanel(path: Path) {
-    if(!path.isDirectory()) {
-        val code = Code(Files.readString(path), getExtension(path))
+fun MiddlePanel(path: Optional<Path>) {
+    if(path.isPresent) {
+        val p = path.get()
+        val code = Code(Files.readString(p), getExtension(p))
         TextArea(
             code,
             style = TextStyle(
@@ -39,4 +34,5 @@ fun MiddlePanel(path: Path) {
             ),
         )
     }
+
 }

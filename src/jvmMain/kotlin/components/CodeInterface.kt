@@ -1,5 +1,6 @@
 package components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -8,25 +9,19 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
 import buttonSizes
 import components.textarea.TextActions
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
 import org.jetbrains.compose.splitpane.HorizontalSplitPane
 import org.jetbrains.compose.splitpane.SplitPaneState
 import pad
-import structs.DirectoryNode
-import structs.FileNode
 import structs.Settings
-import structs.TreeNode
-import java.nio.file.FileVisitResult
-import java.nio.file.Files
 import java.nio.file.Path
 import java.util.*
 import kotlin.io.path.ExperimentalPathApi
-import kotlin.io.path.fileVisitor
 
 @OptIn(ExperimentalSplitPaneApi::class, ExperimentalPathApi::class)
 @Composable
@@ -35,6 +30,10 @@ fun FrameWindowScope.MainCodeLayout(
     snackbarHostState: SnackbarHostState,
     directoryChosen: Optional<String>
 ) {
+    /**
+     * If path is present, run the iff composable
+     * else, run the els composable
+     */
     val optionalPath: @Composable (
         iff: @Composable (Path) -> Unit,
         els: @Composable (() -> Unit)?
@@ -45,15 +44,16 @@ fun FrameWindowScope.MainCodeLayout(
             els?.invoke()
         }
     }
+    val selectedPath = remember { mutableStateOf<Optional<Path>>(Optional.empty()) }
     HorizontalSplitPane(
         Modifier.padding(start = pad + buttonSizes),
-        splitPaneState = SplitPaneState(.8f, true)
+        splitPaneState = SplitPaneState(.8f, true),
     ) {
         first {
             Column {
                 TextActions(snackbarHostState)
                 optionalPath(
-                    { iff -> MiddlePanel(iff) },
+                    { MiddlePanel(selectedPath.value) },
                     null
                 )
             }
@@ -65,7 +65,7 @@ fun FrameWindowScope.MainCodeLayout(
                     .padding(PaddingValues(15.dp))
             ) {
                 optionalPath(
-                    { SidePanel(rootPath = it) },
+                    { SidePanel(rootPath = it, selectedPath=selectedPath) },
                     { Text("Open A Dir") }
                 )
             }

@@ -28,7 +28,6 @@ kotlin {
             dependencies {
                 val lwjglVersion = "3.3.1"
                 implementation(compose.desktop.currentOs)
-                // https://mvnrepository.com/artifact/org.jetbrains.compose.material3/material3
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.material3)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
@@ -47,7 +46,6 @@ kotlin {
                 }
                 sourceSets["jvmMain"].apply {
                     kotlin.srcDir("$rootDir/src/jvmMain/kotlin")
-                    kotlin.srcDir("$rootDir/src/gen/kotlin")
                 }
             }
         }
