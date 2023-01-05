@@ -59,12 +59,8 @@ fun ApplicationScope.HeliumWindow(
                         titlePaneButtons = dropDowns
                     )
                 },
-                snackbarHost = {
-                      SnackbarHost(snackbarHostState)
-                },
-                bottomBar = {
-                    BottomAppBar()
-                },
+                snackbarHost = { SnackbarHost(snackbarHostState) },
+                bottomBar = { BottomAppBar() },
             ) {
                 Box(
                     Modifier.padding(

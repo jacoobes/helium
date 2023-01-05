@@ -1,33 +1,28 @@
 package components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
 import buttonSizes
 import components.textarea.TextActions
-import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
-import org.jetbrains.compose.splitpane.HorizontalSplitPane
-import org.jetbrains.compose.splitpane.SplitPaneScope
-import org.jetbrains.compose.splitpane.SplitPaneState
+import org.jetbrains.compose.splitpane.*
 import pad
 import structs.Settings
-import testBorder
+import java.awt.Cursor
 import java.nio.file.Path
 import java.util.*
-import kotlin.io.path.ExperimentalPathApi
 
-@OptIn(ExperimentalSplitPaneApi::class, ExperimentalPathApi::class)
+@OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 fun FrameWindowScope.MainCodeLayout(
     settings: Settings,
@@ -48,12 +43,14 @@ fun FrameWindowScope.MainCodeLayout(
             els?.invoke()
         }
     }
+    val hSplitPanelState = rememberSplitPaneState(.8f, true)
     val selectedPath = remember { mutableStateOf<Optional<Path>>(Optional.empty()) }
     HorizontalSplitPane(
         Modifier.padding(start = pad + buttonSizes),
-        splitPaneState = SplitPaneState(.8f, true),
+        splitPaneState = hSplitPanelState,
     ) {
         first {
+
             Column {
                 TextActions(snackbarHostState)
                 optionalPath(
@@ -83,21 +80,22 @@ fun FrameWindowScope.MainCodeLayout(
 fun SplitPaneScope.panelSplitter() {
     splitter {
         visiblePart {
-            DividerLessAlpha(
-                Modifier
-                    .width(4.dp)
-                    .fillMaxHeight(),
-                alpha = .5f
+            VerticalDividerLessAlpha(
+                modifier = Modifier.clip(CircleShape),
+                thickness = 4.dp
             )
         }
         handle {
-            DividerLessAlpha(
+            VerticalDividerLessAlpha(
                 Modifier
-                    .width(10.dp)
                     .markAsHandle()
-                    .fillMaxHeight(),
-                alpha = 0.0f
+                    .cursorForHorizontalResize(),
+                alpha = 0.0f,
+                thickness = 10.dp
             )
         }
     }
 }
+
+private fun Modifier.cursorForHorizontalResize(): Modifier =
+    pointerHoverIcon(PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR)))

@@ -56,20 +56,6 @@ fun ApplicationScope.SettingsEditor(
                     }
                 }
             }
-
-
-            //
-//            {
-//                "editorFont" : "JetBrainsMono.ttf",
-//                "codeFont" : "JetBrainsMono.ttf",
-//                "dimensions" : {
-//                "width" : 1000,
-//                "height" : 900
-//            },
-//                "theme" : "poo"
-//            }
-
-
         }
     }
 }

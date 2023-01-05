@@ -1,4 +1,4 @@
-package components.drawers
+package components.drawers.buttons
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth

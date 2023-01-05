@@ -9,9 +9,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.rememberComponentRectPositionProvider
 import buttonSizes
 import components.FileNode
 import components.drawers.buttons.DirectoryChooser
+import components.drawers.buttons.FileDrawerTitle
 import kotlinx.coroutines.launch
 import pad
 import java.util.*
