@@ -1,11 +1,7 @@
 package components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.sharp.ArrowForward
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,10 +14,12 @@ import kotlin.io.path.name
 @Composable
 fun FileChild(
     path: Path,
+    depth: Int,
     onClick: () -> Unit
 ) {
     Node(
         path,
+        depth,
         leadingIcon = {
             Icon(
                 painterResource("scalable/folder.svg"),
@@ -35,11 +33,13 @@ fun FileChild(
 @Composable
 fun DirectoryChild(
     path: Path,
+    depth: Int,
     leadingIcon: @Composable () -> Unit,
     onClick: () -> Unit,
 ) {
     Node(
         path,
+        depth,
         leadingIcon = leadingIcon,
         onClick = onClick
     )
@@ -48,6 +48,7 @@ fun DirectoryChild(
 @Composable
 private fun Node(
     path: Path,
+    depth: Int,
     leadingIcon: @Composable () -> Unit,
     onClick: () -> Unit
 ) {
@@ -56,7 +57,7 @@ private fun Node(
         contentColor = colors.onSurface,
     ) {
         Row(
-            Modifier.clickable(onClick = onClick).fillMaxWidth(),
+            Modifier.clickable(onClick = onClick).fillMaxWidth().padding(start=depth.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             leadingIcon()

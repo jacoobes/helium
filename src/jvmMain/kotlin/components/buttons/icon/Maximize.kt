@@ -1,9 +1,7 @@
 package components.buttons.icon
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.FrameWindowScope
 import components.buttons.HoverableFlatButton
@@ -32,7 +30,7 @@ fun FrameWindowScope.Maximize() {
             }
         },
         enabled = true,
-    ) { scheme ->
+    ) {
         FlatIcon(
             icon = currentIcon,
             contentDescription = "Maximize",

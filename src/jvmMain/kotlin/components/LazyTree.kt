@@ -27,37 +27,45 @@ fun LazyFileTree(
     selectedPath: MutableState<Optional<Path>>
 ) {
     val expandedItems = remember { mutableStateListOf<Path>() }
+    val initDepth = 1
     LazyColumn(
         modifier = Modifier.background(MaterialTheme.colorScheme.surface),
         contentPadding = PaddingValues(top = 3.dp, bottom = 3.dp),
         verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         tree(
-            list= source,
-            selectedPath,
-            isExpanded = { expandedItems.contains(it) },
-            toggleExpand = {
-                if (expandedItems.contains(it)) {
-                    expandedItems.remove(it)
-                } else {
-                    expandedItems.add(it)
-                }
+            list = source,
+            depth = initDepth,
+            selectedPath =selectedPath,
+            isExpanded = { expandedItems.contains(it) }
+        ) {
+            if (expandedItems.contains(it)) {
+                expandedItems.remove(it)
+            } else {
+                expandedItems.add(it)
             }
-        )
+        }
     }
 }
 
 
 fun LazyListScope.tree(
     list: List<TreeNode>,
+    depth: Int,
     selectedPath: MutableState<Optional<Path>>,
     isExpanded: (Path) -> Boolean,
     toggleExpand: (Path) -> Unit,
 ) {
     list.forEach {
         when(it) {
-            is DirectoryNode -> directoryNode(it, selectedPath, isExpanded, toggleExpand)
-            is FileNode -> fileNode(it, selectedPath = selectedPath)
+            is DirectoryNode -> directoryNode(
+                node =it,
+                depth =depth,
+                selectedPath =selectedPath,
+                isExpanded =isExpanded,
+                toggleExpand =toggleExpand
+            )
+            is FileNode -> fileNode(it, selectedPath = selectedPath, depth = depth)
         }
     }
 }
@@ -65,25 +73,28 @@ fun LazyListScope.tree(
 
 fun LazyListScope.fileNode(
     node: FileNode,
+    depth: Int,
     selectedPath: MutableState<Optional<Path>>
 ) {
     item {
-        FileChild(node.path) {
+        FileChild(node.path, depth = depth) {
             selectedPath.value = Optional.of(node.path)
         }
     }
 }
 fun LazyListScope.directoryNode(
     node: DirectoryNode,
+    depth: Int,
     selectedPath: MutableState<Optional<Path>>,
     isExpanded: (Path) -> Boolean = { false },
-    toggleExpanded: (Path) -> Unit = {},
+    toggleExpand: (Path) -> Unit = {},
 ) {
 
     item {
         var icon by remember { mutableStateOf(Icons.Sharp.KeyboardArrowRight) }
         DirectoryChild(
             node.path,
+            depth = depth,
             leadingIcon = {
                 Icon(
                     icon,
@@ -92,7 +103,7 @@ fun LazyListScope.directoryNode(
                 )
             },
             onClick = {
-                toggleExpanded(node.path)
+                toggleExpand(node.path)
                 icon = Icons.Sharp.run {
                     if (isExpanded(node.path))
                         KeyboardArrowDown
@@ -110,6 +121,6 @@ fun LazyListScope.directoryNode(
                 FileNode(path)
             }
         }
-        tree(list, selectedPath, isExpanded, toggleExpanded)
+        tree(list, depth+8, selectedPath, isExpanded, toggleExpand)
     }
 }

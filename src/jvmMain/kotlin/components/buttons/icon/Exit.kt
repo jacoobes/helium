@@ -14,7 +14,7 @@ fun ApplicationScope.ExitButton() {
     HoverableFlatButton(
         onClick = ::exitApplication,
         enabled = true,
-    ) { scheme ->
+    ) {
         FlatIcon(
             icon = Icons.Sharp.Close,
             contentDescription = "Exit",

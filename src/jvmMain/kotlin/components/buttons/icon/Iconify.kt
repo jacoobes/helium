@@ -17,7 +17,7 @@ fun FrameWindowScope.Iconify() {
             }
         },
         enabled = true,
-    ) { scheme ->
+    ) {
         FlatIcon(
             icon = Icons.Sharp.KeyboardArrowDown,
             contentDescription = "Minimize",

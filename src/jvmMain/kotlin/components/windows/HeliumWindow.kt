@@ -18,6 +18,11 @@ import components.DividerLessAlpha
 import components.drawers.FileNavDrawer
 import structs.DefaultHeliumTheme
 
+/**
+ * A basic window that comes with the jetpack compose Scaffold layout
+ * @param dropDowns buttons that can do something that are placed at the left most of the window title
+ * @param actions buttons that interact with the window state (exit, minimize, maximize)
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ApplicationScope.HeliumWindow(

@@ -28,7 +28,8 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import structs.Settings
-import structs.loadSettingsAsync
+import structs.loadSettings
+import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.util.Optional
 val json = Json {
@@ -45,8 +46,9 @@ fun main() = application {
     val coroutineScope = rememberCoroutineScope()
     val (settings, setSettings) = remember { mutableStateOf<Settings?>(null) }
     coroutineScope.launch {
-        val content = loadSettingsAsync().await().flip()
-        setSettings(json.decodeFromString(StandardCharsets.UTF_8.decode(content).toString()))
+        val buf = ByteBuffer.allocate(4096)
+        loadSettings(buf).join()
+        setSettings(json.decodeFromString(StandardCharsets.UTF_8.decode(buf.flip()).toString()))
     }
     when (settings) {
         null -> LoadingHome()
