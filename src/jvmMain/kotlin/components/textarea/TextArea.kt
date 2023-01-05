@@ -1,6 +1,5 @@
 package components.textarea
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.text.BasicTextField
@@ -15,7 +14,6 @@ import com.wakaztahir.codeeditor.model.CodeLang
 import com.wakaztahir.codeeditor.prettify.PrettifyParser
 import com.wakaztahir.codeeditor.theme.CodeTheme
 import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
-import kotlinx.coroutines.Job
 import structs.Code
 import structs.deriveMonochrome
 
@@ -35,7 +33,6 @@ fun TextArea(
                 code = "adsfasdfasdfasdjlf"
             )
         )
-
     Box(
         contentAlignment = Alignment.CenterEnd,
     ) {

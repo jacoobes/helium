@@ -1,30 +1,29 @@
 package structs
 
-import androidx.compose.runtime.rememberCoroutineScope
 import com.wakaztahir.codeeditor.model.CodeLang
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
-import java.net.URI
-import java.nio.file.Files
 import java.nio.file.Path
-import kotlin.coroutines.suspendCoroutine
 import kotlin.io.path.bufferedReader
-import kotlin.io.path.name
+import kotlin.streams.asSequence
 
+class Line(val number: Int, val content: CharArray) {
+    operator fun get(el: Int): Char {
+        return content[el]
+    }
+}
 
-class Code(val content: Path, private val suffix: String) {
+class Code(private val content: Path, private val suffix: String) {
     val lang = CodeLang.values().find { it.value.toHashSet().contains(suffix) }
+    val matrix by lazy {
+        content
+            .bufferedReader()
+            .lines()
+            .asSequence()
+            .mapIndexed { index, s ->
+                Line(index + 1, s.toCharArray())
+            }
+    }
+
     companion object {
         val Empty = Code(Path.of(""), "default-code")
-    }
-    suspend fun toCharMatrix() {
-        val reader = content.bufferedReader()
-        coroutineScope {
-            withContext(Dispatchers.Default) {
-
-            }
-        }
     }
 }
