@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.FrameWindowScope
+import androidx.compose.ui.window.MenuBar
 import components.Tooltip
 import components.buttons.FlatText
 import components.buttons.HoverableFlatButton

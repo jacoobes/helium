@@ -19,6 +19,7 @@
 package utils
 
 import androidx.compose.ui.graphics.Color
+import java.util.*
 
 
 @Retention(AnnotationRetention.BINARY)
@@ -88,16 +89,74 @@ fun blue(color: Int): Int {
  */
 
 @ColorInt
-fun blend(
-    color1: Color, color2: Color,
-    /**FloatRange(from = 0.0, to = 1.0)**/ ratio: Float
-): Color {
+fun Color.blend(color2: Color,/**FloatRange(from = 0.0, to = 1.0)**/ ratio: Float): Color {
     val inverseRatio = 1 - ratio
-    val (roy,gee,biv,alpha) = color1
+    val (roy,gee,biv,alpha) = this
     val (roy2,gee2,biv2,alpha2) = color2
     val a: Float = alpha * inverseRatio + alpha2 * ratio
     val r: Float = roy * inverseRatio + roy2 * ratio
     val g: Float = gee * inverseRatio + gee2 * ratio
     val b: Float = biv * inverseRatio + biv2 * ratio
     return Color(r,g,b,a)
+}
+
+
+/**
+ * Convert RGB components to HSL (hue-saturation-lightness).
+ *
+ *  * outHsl[0] is Hue [0, 360)
+ *  * outHsl[1] is Saturation [0, 1]
+ *  * outHsl[2] is Lightness [0, 1]
+ *
+ *
+ * @param outHsl 3-element array which holds the resulting HSL components
+ */
+private fun Color.rgbToHSL(
+    /*@NonNull*/ outHsl: FloatArray
+) {
+    val rf = red
+    val gf = green
+    val bf = blue
+    val max = Math.max(rf, Math.max(gf, bf))
+    val min = Math.min(rf, Math.min(gf, bf))
+    val deltaMaxMin = max - min
+    var h: Float
+    val s: Float
+    val l = (max + min) / 2f
+    if (max == min) {
+        // Monochromatic
+        s = 0f
+        h = s
+    } else {
+        h = if (max == rf) {
+            (gf - bf) / deltaMaxMin % 6f
+        } else if (max == gf) {
+            (bf - rf) / deltaMaxMin + 2f
+        } else {
+            (rf - gf) / deltaMaxMin + 4f
+        }
+        s = deltaMaxMin / (1f - Math.abs(2f * l - 1f))
+    }
+    h = h * 60f % 360f
+    if (h < 0) {
+        h += 360f
+    }
+    outHsl[0] = h.coerceIn(0f, 360f)
+    outHsl[1] = s.coerceIn(0f, 1f)
+    outHsl[2] = l.coerceIn(0f, 1f)
+}
+
+/**
+ * pick a new saturation color for receiver
+ */
+fun Color.saturation(saturation: Float) : Color {
+    val hsl = FloatArray(3)
+    rgbToHSL(hsl)
+    return Color.hsl(hsl[0], hsl[1], hsl[2])
+}
+
+fun Color.saturation(cb : (Float) -> Float) : Color {
+    val hsl = FloatArray(3)
+    rgbToHSL(hsl)
+    return Color.hsl(hsl[0], cb(hsl[1]), hsl[2])
 }

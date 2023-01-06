@@ -1,5 +1,6 @@
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.BoxWithTooltip
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -60,11 +61,12 @@ fun main() = application {
                 position = WindowPosition.Aligned(Alignment.Center),
                 size = DpSize(settings.dimensions.width.dp, settings.dimensions.height.dp)
             )
+            val isDarkMode = remember { mutableStateOf(true) }
             HeliumWindow(
                 title = "Helium",
                 appBarHeight = appBarHeight,
                 state = state,
-                darkMode = false,
+                darkMode = !isDarkMode.value,
                 onCloseRequest = ::exitApplication,
                 dropDowns = {
                     Helium()

@@ -20,12 +20,13 @@ fun FileDrawerTitle(drawerState: DrawerState) {
         verticalAlignment = Alignment.CenterVertically,
     )
     {
-        IconButton({
-            scope.launch {
-                drawerState.close()
-            }
-        }) {
-            Icon(Icons.Sharp.ArrowBack, contentDescription = null)
-        }
+        FilledTonalIconButton(
+            onClick = {
+                scope.launch {
+                    drawerState.close()
+                }
+            },
+            content = {  Icon(Icons.Sharp.ArrowBack, contentDescription = null) }
+        )
     }
 }

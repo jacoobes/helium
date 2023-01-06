@@ -6,9 +6,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import com.wakaztahir.codeeditor.theme.CodeTheme
 import com.wakaztahir.codeeditor.theme.SyntaxColors
+import utils.blend
+
 //Color(0xFFE9EAF5) possible light theme background white ?
 val md_theme_light_primary = Color(0xFF4459A9)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
@@ -63,8 +67,6 @@ val md_theme_dark_outline = Color(0xFF90909A)
 val md_theme_dark_inverseOnSurface = Color(0xFF1B1B1F)
 val md_theme_dark_inverseSurface = Color(0xFFE4E1E6)
 val md_theme_dark_inversePrimary = Color(0xFF4459A9)
-
-
 val seed = Color(0xFF001D69)
 
 
@@ -165,3 +167,10 @@ class DerivedMonochrome(
         )
     }
 )
+@Composable
+fun getColorScheme(darkMode: Boolean = isSystemInDarkTheme()): ColorScheme {
+    return if(darkMode)
+        DarkColors
+    else
+        LightColors
+}

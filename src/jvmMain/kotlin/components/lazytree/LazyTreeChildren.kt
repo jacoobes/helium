@@ -1,4 +1,4 @@
-package components
+package components.lazytree
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,11 +14,13 @@ import kotlin.io.path.name
 @Composable
 fun FileChild(
     path: Path,
+    modifier: Modifier = Modifier,
     depth: Int,
     onClick: () -> Unit
 ) {
     Node(
         path,
+        modifier,
         depth,
         leadingIcon = {
             Icon(
@@ -33,12 +35,14 @@ fun FileChild(
 @Composable
 fun DirectoryChild(
     path: Path,
+    modifier: Modifier = Modifier,
     depth: Int,
     leadingIcon: @Composable () -> Unit,
     onClick: () -> Unit,
 ) {
     Node(
         path,
+        modifier,
         depth,
         leadingIcon = leadingIcon,
         onClick = onClick
@@ -48,6 +52,7 @@ fun DirectoryChild(
 @Composable
 private fun Node(
     path: Path,
+    modifier: Modifier = Modifier,
     depth: Int,
     leadingIcon: @Composable () -> Unit,
     onClick: () -> Unit
@@ -57,11 +62,11 @@ private fun Node(
         contentColor = colors.onSurface,
     ) {
         Row(
-            Modifier.clickable(onClick = onClick).fillMaxWidth().padding(start=depth.dp),
+            Modifier.clickable(onClick = onClick).fillMaxWidth().then(modifier).padding(start=depth.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             leadingIcon()
-            Text(text = path.fileName.name, maxLines = 1, style = MaterialTheme.typography.labelMedium)
+            Text(text = path.fileName.name, maxLines = 1, style = MaterialTheme.typography.titleSmall)
         }
     }
 }

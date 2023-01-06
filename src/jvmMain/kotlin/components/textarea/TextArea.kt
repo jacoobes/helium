@@ -9,10 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import com.wakaztahir.codeeditor.model.CodeLang
@@ -20,6 +18,7 @@ import com.wakaztahir.codeeditor.prettify.PrettifyParser
 import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
 import structs.Code
 import structs.themes.DerivedMonochrome
+import structs.themes.getColorScheme
 import testBorder
 
 
@@ -30,7 +29,7 @@ fun TextArea(
     //onTextLayout: (TextLayoutResult) -> Unit,
 ) {
     // 'remember' caches across recompositions, saves creating a new parser every time a new code is loaded
-    val theme = DerivedMonochrome(if (isSystemInDarkTheme()) darkColorScheme() else lightColorScheme())
+    val theme = DerivedMonochrome(getColorScheme(false))
     val parser = remember { PrettifyParser() }
     var value by remember(code) {
         mutableStateOf(

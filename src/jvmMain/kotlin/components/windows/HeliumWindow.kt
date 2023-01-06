@@ -106,7 +106,6 @@ fun FrameWindowScope.HeliumAppBar(
                     }
                 }
             }
-            DividerLessAlpha(alpha = .5f)
         }
 }
 

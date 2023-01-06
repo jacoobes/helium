@@ -1,32 +1,50 @@
 package components.textarea
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import appBarHeight
+import buttonSizes
 import kotlinx.coroutines.launch
 import testBorder
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TextActions(snackbarHostState: SnackbarHostState) {
+fun TextActions(
+    snackbarHostState: SnackbarHostState
+) {
 
-    Row(horizontalArrangement = Arrangement.spacedBy(7.dp)) {
+    Row(
+        Modifier.height(ButtonDefaults.MinHeight).fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(7.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         AutosaveAction(false, snackbarHostState)
         //maybe custom input chip
-        InputChip(
-            label = { Text("Font") },
+        val border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+        FilledTonalButton(
             onClick = {},
+            content = { Text("Commit") },
+            border = border,
+            //half the material spec padding
         )
-        AssistChip(
+        TextButton(
             onClick = {},
-            label = { Text("Shit") },
+            content = { Text("Save") },
+            //half the material spec padding
+            border = border,
         )
-        AssistChip(
+        TextButton(
+            content = { Text("Font", style = MaterialTheme.typography.labelSmall) },
+            border = border,
             onClick = {},
-            label = { Text("Commit") }
         )
     }
 }

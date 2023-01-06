@@ -1,21 +1,21 @@
-package components
+package components.lazytree
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.KeyboardArrowDown
 import androidx.compose.material.icons.sharp.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import structs.themes.DerivedMonochrome
+import components.LazySidePanelColumn
 import structs.DirectoryNode
 import structs.FileNode
 import structs.TreeNode
@@ -31,10 +31,10 @@ fun LazyFileTree(
 
     val expandedItems = remember { mutableStateListOf<Path>() }
     val initDepth = 1
-    LazyColumn(
-        modifier = Modifier.background(MaterialTheme.colorScheme.surface),
+    LazySidePanelColumn(
         contentPadding = PaddingValues(top = 3.dp, bottom = 3.dp),
-        verticalArrangement = Arrangement.spacedBy(2.dp)
+        verticalArrangement = Arrangement.spacedBy(2.dp),
+        modifier = Modifier.fillMaxSize()
     ) {
         tree(
             list = source,
@@ -84,7 +84,9 @@ fun LazyListScope.fileNode(
     selectedPath: MutableState<Optional<Path>>
 ) {
     item {
-        FileChild(node.path, depth = depth) {
+        FileChild(
+            node.path,
+            depth = depth) {
             selectedPath.value = Optional.of(node.path)
         }
     }

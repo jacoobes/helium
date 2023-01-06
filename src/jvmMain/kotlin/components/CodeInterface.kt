@@ -2,6 +2,9 @@ package components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,9 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
 import buttonSizes
+import components.lazytree.NoFiles
 import components.textarea.TextActions
 import org.jetbrains.compose.splitpane.*
 import pad
@@ -45,8 +50,9 @@ fun FrameWindowScope.MainCodeLayout(
     }
     val hSplitPanelState = rememberSplitPaneState(.8f, true)
     val selectedPath = remember { mutableStateOf<Optional<Path>>(Optional.empty()) }
+    val padding = PaddingValues(start = pad+buttonSizes + 10.dp)
     HorizontalSplitPane(
-        Modifier.padding(start = pad + buttonSizes),
+        Modifier.padding(padding),
         splitPaneState = hSplitPanelState,
     ) {
         first {
@@ -67,7 +73,7 @@ fun FrameWindowScope.MainCodeLayout(
         ) {
             optionalPath(
                 { SidePanel(rootPath = it, selectedPath = selectedPath) },
-                { SidePanelColumn { Text("Open a dir") } }
+                { NoFiles() }
             )
         }
     }

@@ -1,38 +1,23 @@
 package components.drawers.buttons
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.dp
-import components.Tooltip
 import kotlinx.coroutines.launch
 import structs.FileChooser
 import java.util.*
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DirectoryChooser(
     enabled: Boolean = true,
     selectedDirectory: MutableState<Optional<String>>
 ) {
-    val scope = rememberCoroutineScope()
-    val showTooltip = remember { mutableStateOf(false) }
-    Box {
-        IconButton(
-            modifier = Modifier
-                .onPointerEvent(PointerEventType.Enter) {
-                    showTooltip.value = true
-                }
-                .onPointerEvent(PointerEventType.Exit) {
-                    showTooltip.value = false
-                },
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        val scope = rememberCoroutineScope()
+        FilledTonalIconButton(
             onClick = {
                 scope.launch {
                     val chosenDir = FileChooser.chooseDirectory()
@@ -49,11 +34,8 @@ fun DirectoryChooser(
                 contentDescription = null,
             )
         }
-        Tooltip(
-            showTooltip,
-            text = "Open directory",
-            offset = DpOffset(0.dp, (-15).dp)
-        )
+        Text("Open", style = MaterialTheme.typography.titleSmall)
+
     }
 
 }
