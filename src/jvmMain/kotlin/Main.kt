@@ -64,7 +64,7 @@ fun main() = application {
                 title = "Helium",
                 appBarHeight = appBarHeight,
                 state = state,
-                darkMode = true,
+                darkMode = false,
                 onCloseRequest = ::exitApplication,
                 dropDowns = {
                     Helium()

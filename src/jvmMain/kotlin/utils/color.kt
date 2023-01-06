@@ -1,5 +1,4 @@
 
-//This contains lots of ported functions from android
 /*
  * Copyright 2015 The Android Open Source Project
  *
@@ -18,21 +17,10 @@
 
 
 package utils
-import kotlin.math.abs
-import kotlin.math.pow
-import kotlin.math.roundToInt
 
-/**
- * Denotes that the annotated element represents a packed color
- * int, `AARRGGBB`. If applied to an int array, every element
- * in the array represents a color integer.
- *
- *
- * Example:
- * ```
- * public abstract void setTextColor(@ColorInt int color)
- * ```
- */
+import androidx.compose.ui.graphics.Color
+
+
 @Retention(AnnotationRetention.BINARY)
 @Target(
     AnnotationTarget.VALUE_PARAMETER,
@@ -42,23 +30,24 @@ import kotlin.math.roundToInt
     AnnotationTarget.LOCAL_VARIABLE,
     AnnotationTarget.FIELD
 )
+/**
+ * AARRGGBB
+ */
 annotation class ColorInt
 
 
-
-//private const val XYZ_WHITE_REFERENCE_X = 95.047
-//private const val XYZ_WHITE_REFERENCE_Y = 100.0
-//private const val XYZ_WHITE_REFERENCE_Z = 108.883
-//private const val XYZ_EPSILON = 0.008856
-//private const val XYZ_KAPPA = 903.3
-//
-//private const val MIN_ALPHA_SEARCH_MAX_ITERATIONS = 10
-//private const val MIN_ALPHA_SEARCH_PRECISION = 1
-private val TEMP_ARRAY = ThreadLocal<DoubleArray>()
-//@IntRange(from = 0, to = 255)
-fun alpha(color: Int) : Int {
-    return color ushr 24
+//factor should be a fraction 0.0 -> 1.0f
+fun Color.shade(factor: Float) : Color {
+    return Color(red * factor, blue * factor, green * factor)
 }
+
+/* Returns the value of the alpha component in the range `[0..1]`.
+*
+* @see red
+* @see green
+* @see blue
+*/
+
 
 /**
  * Return the red component of a color int. This is the same as saying
@@ -86,207 +75,29 @@ fun green(color: Int): Int {
 fun blue(color: Int): Int {
     return color and 0xFF
 }
-
-fun argb(
-    /*@IntRange(from = 0, to = 255)*/ alpha: Int,
-    /*@IntRange(from = 0, to = 255)*/  red: Int,
-    /*@IntRange(from = 0, to = 255)*/  green: Int,
-    /*@IntRange(from = 0, to = 255)*/  blue: Int
-): Int {
-    return alpha shl 24 or (red shl 16) or (green shl 8) or blue
-}
-
-private fun compositeAlpha(foregroundAlpha: Int, backgroundAlpha: Int): Int {
-    return 0xFF - (0xFF - backgroundAlpha) * (0xFF - foregroundAlpha) / 0xFF
-}
-private fun compositeComponent(fgC: Int, fgA: Int, bgC: Int, bgA: Int, a: Int): Int {
-    return if (a == 0) 0 else 0xFF * fgC * fgA + bgC * bgA * (0xFF - fgA) / (a * 0xFF)
-}
-
-fun compositeColors(@ColorInt foreground: Int, @ColorInt background: Int): Int {
-    val bgAlpha: Int = alpha(background)
-    val fgAlpha: Int = alpha(foreground)
-    val a = compositeAlpha(fgAlpha, bgAlpha)
-    val r = compositeComponent(
-        red(foreground), fgAlpha,
-        red(background), bgAlpha, a
-    )
-    val g = compositeComponent(
-        green(foreground), fgAlpha,
-        green(background), bgAlpha, a
-    )
-    val b = compositeComponent(
-        blue(foreground), fgAlpha,
-        blue(background), bgAlpha, a
-    )
-    return argb(a, r, g, b)
-}
-
-fun RGBToHSL(
-    //from 0-255
-     r: Int,
-     g: Int,
-     b: Int,
-     outHsl: FloatArray
-) {
-    val rf = r / 255f
-    val gf = g / 255f
-    val bf = b / 255f
-    val max = Math.max(rf, Math.max(gf, bf))
-    val min = Math.min(rf, Math.min(gf, bf))
-    val deltaMaxMin = max - min
-    var h: Float
-    val s: Float
-    val l = (max + min) / 2f
-    if (max == min) {
-        // Monochromatic
-        s = 0f
-        h = s
-    } else {
-        h = if (max == rf) {
-            (gf - bf) / deltaMaxMin % 6f
-        } else if (max == gf) {
-            (bf - rf) / deltaMaxMin + 2f
-        } else {
-            (rf - gf) / deltaMaxMin + 4f
-        }
-        s = deltaMaxMin / (1f - abs(2f * l - 1f))
-    }
-    h = h * 60f % 360f
-    if (h < 0) {
-        h += 360f
-    }
-    outHsl[0] = h.coerceIn(0f, 360f)
-    outHsl[1] = s.coerceIn(0f, 1f)
-    outHsl[2] = l.coerceIn(0f, 1f)
-}
-
 /**
- * Convert HSL (hue-saturation-lightness) components to a RGB color.
+ * Blend between two ARGB colors using the given ratio.
  *
- *  * hsl[0] is Hue [0, 360)
- *  * hsl[1] is Saturation [0, 1]
- *  * hsl[2] is Lightness [0, 1]
  *
- * If hsv values are out of range, they are pinned.
+ * A blend ratio of 0.0 will result in `color1`, 0.5 will give an even blend,
+ * 1.0 will result in `color2`.
  *
- * @param hsl 3-element array which holds the input HSL components
- * @return the resulting RGB color
+ * @param color1 the first ARGB color
+ * @param color2 the second ARGB color
+ * @param ratio the blend ratio of `color1` to `color2`
  */
+
 @ColorInt
-fun HSLToColor(hsl: FloatArray): Int {
-    val h = hsl[0]
-    val s = hsl[1]
-    val l = hsl[2]
-    val c = (1f - abs(2 * l - 1f)) * s
-    val m = l - 0.5f * c
-    val x = c * (1f - abs(h / 60f % 2f - 1f))
-    val hueSegment = h.toInt() / 60
-    var r = 0
-    var g = 0
-    var b = 0
-    when (hueSegment) {
-        0 -> {
-            r = (255 * (c + m)).roundToInt()
-            g = (255 * (x + m)).roundToInt()
-            b = (255 * m).roundToInt()
-        }
-
-        1 -> {
-            r = (255 * (x + m)).roundToInt()
-            g = (255 * (c + m)).roundToInt()
-            b = (255 * m).roundToInt()
-        }
-
-        2 -> {
-            r = (255 * m).roundToInt()
-            g = (255 * (c + m)).roundToInt()
-            b = (255 * (x + m)).roundToInt()
-        }
-
-        3 -> {
-            r = (255 * m).roundToInt()
-            g = (255 * (x + m)).roundToInt()
-            b = (255 * (c + m)).roundToInt()
-        }
-
-        4 -> {
-            r = (255 * (x + m)).roundToInt()
-            g = (255 * m).roundToInt()
-            b = (255 * (c + m)).roundToInt()
-        }
-
-        5, 6 -> {
-            r = (255 * (c + m)).roundToInt()
-            g = (255 * m).roundToInt()
-            b = (255 * (x + m)).roundToInt()
-        }
-    }
-    r = r.coerceIn(0, 255)
-    g = g.coerceIn(0, 255)
-    b = b.coerceIn(0, 255)
-    return rgb(r, g, b)
-}
-
-/**
- * Return a color-int from red, green, blue components.
- * The alpha component is implicitly 255 (fully opaque).
- * These component values should be \([0..255]\), but there is no
- * range check performed, so if they are out of range, the
- * returned color is undefined.
- *
- * @param red  Red component \([0..255]\) of the color
- * @param green Green component \([0..255]\) of the color
- * @param blue  Blue component \([0..255]\) of the color
- */
-@ColorInt
-fun rgb(
-    /*@IntRange(from = 0, to = 255)*/ red: Int,
-    /*@IntRange(from = 0, to = 255)*/ green: Int,
-    /*@IntRange(from = 0, to = 255)*/ blue: Int
-): Int {
-    return -0x1000000 or (red shl 16) or (green shl 8) or blue
-}
-/**
- * Returns the luminance of a color as a float between {@code 0.0} and {@code 1.0}.
- * <p>Defined as the Y component in the XYZ representation of {@code color}.</p>
- */
-
-//FloatRange(from = 0.0, to = 1.0)
-fun calculateLuminance(color: Int): Double {
-    val result = getTempDouble3Array()
-    colorToXYZ(color, result)
-    // Luminance is the Y component
-    return result[1] / 100
-}
-
-fun colorToXYZ(@ColorInt color: Int, outXyz: DoubleArray) {
-    RGBToXYZ(red(color), green(color), blue(color), outXyz)
-}
-
-fun RGBToXYZ(
-    /*@IntRange(from = 0x0, to = 0xFF)*/ r: Int,
-    /*@IntRange(from = 0x0, to = 0xFF)*/ g: Int,  /*@IntRange(from = 0x0, to = 0xFF)*/ b: Int,
-    outXyz: DoubleArray
-) {
-    require(outXyz.size == 3) { "outXyz must have a length of 3." }
-    var sr = r / 255.0
-    sr = if (sr < 0.04045) sr / 12.92 else ((sr + 0.055) / 1.055).pow(2.4)
-    var sg = g / 255.0
-    sg = if (sg < 0.04045) sg / 12.92 else ((sg + 0.055) / 1.055).pow(2.4)
-    var sb = b / 255.0
-    sb = if (sb < 0.04045) sb / 12.92 else ((sb + 0.055) / 1.055).pow(2.4)
-    outXyz[0] = 100 * (sr * 0.4124 + sg * 0.3576 + sb * 0.1805)
-    outXyz[1] = 100 * (sr * 0.2126 + sg * 0.7152 + sb * 0.0722)
-    outXyz[2] = 100 * (sr * 0.0193 + sg * 0.1192 + sb * 0.9505)
-}
-
-
-private fun getTempDouble3Array(): DoubleArray {
-    var result = TEMP_ARRAY.get()
-    if (result == null) {
-        result = DoubleArray(3)
-        TEMP_ARRAY.set(result)
-    }
-    return result
+fun blend(
+    color1: Color, color2: Color,
+    /**FloatRange(from = 0.0, to = 1.0)**/ ratio: Float
+): Color {
+    val inverseRatio = 1 - ratio
+    val (roy,gee,biv,alpha) = color1
+    val (roy2,gee2,biv2,alpha2) = color2
+    val a: Float = alpha * inverseRatio + alpha2 * ratio
+    val r: Float = roy * inverseRatio + roy2 * ratio
+    val g: Float = gee * inverseRatio + gee2 * ratio
+    val b: Float = biv * inverseRatio + biv2 * ratio
+    return Color(r,g,b,a)
 }

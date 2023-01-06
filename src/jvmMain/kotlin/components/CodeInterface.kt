@@ -1,6 +1,5 @@
 package components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.SnackbarHostState
@@ -19,7 +18,6 @@ import components.textarea.TextActions
 import org.jetbrains.compose.splitpane.*
 import pad
 import structs.Settings
-import testBorder
 import java.awt.Cursor
 import java.nio.file.Path
 import java.util.*
@@ -67,16 +65,10 @@ fun FrameWindowScope.MainCodeLayout(
         second(
             minSize = 50.dp
         ) {
-            Column(
-                Modifier
-                    .fillMaxHeight()
-                    .padding(PaddingValues(15.dp))
-            ) {
-                optionalPath(
-                    { SidePanel(rootPath = it, selectedPath = selectedPath) },
-                    { SidePanelColumn { Text("Open a dir") } }
-                )
-            }
+            optionalPath(
+                { SidePanel(rootPath = it, selectedPath = selectedPath) },
+                { SidePanelColumn { Text("Open a dir") } }
+            )
         }
     }
 }
@@ -88,7 +80,7 @@ fun SplitPaneScope.panelSplitter() {
         visiblePart {
             VerticalDividerLessAlpha(
                 modifier = Modifier.clip(CircleShape),
-                thickness = 4.dp
+                thickness = 1.dp
             )
         }
         handle {
