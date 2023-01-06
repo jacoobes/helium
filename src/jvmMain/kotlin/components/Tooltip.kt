@@ -13,6 +13,7 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -63,7 +64,7 @@ fun Tooltip(
     expanded: MutableState<Boolean>,
     modifier: Modifier = Modifier,
     timeoutMillis: Long = TooltipTimeout,
-    backgroundColor: Color = MaterialTheme.colorScheme.onSurface,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     offset: DpOffset = TooltipOffset,
     content: @Composable ColumnScope.() -> Unit,
 ) {
@@ -101,7 +102,7 @@ fun Tooltip(
     text: String,
     modifier: Modifier = Modifier,
     timeoutMillis: Long = TooltipTimeout,
-    backgroundColor: Color = MaterialTheme.colorScheme.onSurface,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     offset: DpOffset = TooltipOffset,
 ) {
     Tooltip(expanded, modifier, timeoutMillis, backgroundColor, offset) {
@@ -135,8 +136,9 @@ private fun TooltipContent(
         }
     ) { if (it) 1f else 0f }
 
-    ElevatedCard(
+    OutlinedCard(
         modifier = Modifier.alpha(alpha),
+        colors = CardDefaults.cardColors(contentColor = MaterialTheme.colorScheme.onBackground),
     ) {
         val p = TooltipPadding
         Column(
@@ -150,7 +152,7 @@ private fun TooltipContent(
 }
 
 private val TooltipElevation = 16.dp
-private val TooltipPadding = 16.dp
+private val TooltipPadding = 12.dp
 
 private val TooltipOffset = DpOffset(0.dp, 0.dp)
 

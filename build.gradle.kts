@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.helium"
-version = "1.0-SNAPSHOT"
+version = "1.0.0-alpha"
 
 repositories {
         google()
@@ -15,7 +15,11 @@ repositories {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://jitpack.io")
 }
-
+configurations {
+    all {
+        exclude(group = "org.jetbrains.compose.material", module = "material")
+    }
+}
 kotlin {
     jvm {
         compilations.all {

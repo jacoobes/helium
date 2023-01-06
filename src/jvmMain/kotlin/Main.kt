@@ -1,4 +1,5 @@
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.BoxWithTooltip
 import androidx.compose.material3.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,7 @@ import structs.loadSettings
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.util.Optional
+import org.jetbrains.skiko.GenericSkikoView
 val json = Json {
     prettyPrint = true
     encodeDefaults = true

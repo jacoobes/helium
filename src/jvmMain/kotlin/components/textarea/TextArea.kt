@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
@@ -29,7 +30,6 @@ fun TextArea(
     style: TextStyle,
     onTextLayout: (TextLayoutResult) -> Unit,
 ) {
-
     // remember caches across recompositions, saves creating a new parser every time a new code is loaded
     val theme = DerivedMonochrome(if(isSystemInDarkTheme()) darkColorScheme() else lightColorScheme())
     val parser = remember { PrettifyParser() }
