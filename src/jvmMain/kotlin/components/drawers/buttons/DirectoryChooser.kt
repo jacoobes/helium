@@ -49,7 +49,7 @@ fun DirectoryChooser(
                 contentDescription = null,
             )
         }
-        Tooltip (
+        Tooltip(
             showTooltip,
             text = "Open directory",
             offset = DpOffset(0.dp, (-15).dp)

@@ -1,4 +1,4 @@
-package components
+package components.drawers.buttons
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton

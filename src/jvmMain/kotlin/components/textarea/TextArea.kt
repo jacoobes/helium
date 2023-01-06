@@ -1,5 +1,6 @@
 package components.textarea
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +20,7 @@ import com.wakaztahir.codeeditor.prettify.PrettifyParser
 import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
 import structs.Code
 import structs.themes.DerivedMonochrome
+import testBorder
 
 
 @Composable
@@ -42,9 +44,8 @@ fun TextArea(
             )
         )
     }
-    Box {
         Box(
-            Modifier.fillMaxSize(),
+            Modifier.fillMaxSize().border(testBorder),
         ) {
             BasicTextField(
                 value = value,
@@ -64,5 +65,4 @@ fun TextArea(
                 //onTextLayout = onTextLayout,
             )
         }
-    }
 }

@@ -6,7 +6,7 @@ import java.nio.file.Path
 
 class Code(private val path: Path, private val suffix: String) {
     val lang = CodeLang.values().find { it.value.toHashSet().contains(suffix) }
-    val content by lazy {
+    val content: String by lazy {
         Files.readString(path)
     }
 
