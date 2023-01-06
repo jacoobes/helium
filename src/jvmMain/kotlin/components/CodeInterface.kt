@@ -50,7 +50,6 @@ fun FrameWindowScope.MainCodeLayout(
         splitPaneState = hSplitPanelState,
     ) {
         first {
-
             Column {
                 TextActions(snackbarHostState)
                 optionalPath(

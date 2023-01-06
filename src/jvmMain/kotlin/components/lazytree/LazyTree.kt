@@ -11,9 +11,11 @@ import androidx.compose.material.icons.sharp.KeyboardArrowDown
 import androidx.compose.material.icons.sharp.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import structs.themes.DerivedMonochrome
 import structs.DirectoryNode
 import structs.FileNode
 import structs.TreeNode
@@ -26,7 +28,11 @@ fun LazyFileTree(
     source: List<TreeNode>,
     selectedPath: MutableState<Optional<Path>>
 ) {
+
     val expandedItems = remember { mutableStateListOf<Path>() }
+    val theme = remember {
+        mutableStateOf(DerivedMonochrome(darkColorScheme()))
+    }
     val initDepth = 1
     LazyColumn(
         modifier = Modifier.background(MaterialTheme.colorScheme.surface),
@@ -65,7 +71,11 @@ fun LazyListScope.tree(
                 isExpanded =isExpanded,
                 toggleExpand =toggleExpand
             )
-            is FileNode -> fileNode(it, selectedPath = selectedPath, depth = depth)
+            is FileNode -> fileNode(
+                node=it,
+                selectedPath = selectedPath,
+                depth = depth
+            )
         }
     }
 }

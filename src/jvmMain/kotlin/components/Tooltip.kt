@@ -63,7 +63,7 @@ fun Tooltip(
     expanded: MutableState<Boolean>,
     modifier: Modifier = Modifier,
     timeoutMillis: Long = TooltipTimeout,
-    backgroundColor: Color = Color.Black,
+    backgroundColor: Color = MaterialTheme.colorScheme.onSurface,
     offset: DpOffset = TooltipOffset,
     content: @Composable ColumnScope.() -> Unit,
 ) {
@@ -101,7 +101,7 @@ fun Tooltip(
     text: String,
     modifier: Modifier = Modifier,
     timeoutMillis: Long = TooltipTimeout,
-    backgroundColor: Color = Color.Black,
+    backgroundColor: Color = MaterialTheme.colorScheme.onSurface,
     offset: DpOffset = TooltipOffset,
 ) {
     Tooltip(expanded, modifier, timeoutMillis, backgroundColor, offset) {

@@ -11,12 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import components.DividerLessAlpha
-import components.drawers.FileNavDrawer
-import structs.DefaultHeliumTheme
+import structs.themes.DefaultHeliumTheme
 
 /**
  * A basic window that comes with the jetpack compose Scaffold layout

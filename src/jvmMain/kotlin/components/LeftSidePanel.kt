@@ -19,7 +19,6 @@ import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.isDirectory
 
 
-@OptIn(ExperimentalPathApi::class)
 @Composable
 fun SidePanel(
     rootPath: Path,

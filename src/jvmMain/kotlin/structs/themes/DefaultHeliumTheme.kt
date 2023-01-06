@@ -1,9 +1,8 @@
-package structs
+package structs.themes
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -144,23 +143,25 @@ fun DefaultHeliumTheme(
         content = content,
     )
 }
-
-@Composable
-fun ColorScheme.deriveMonochrome() : SyntaxColors {
-    val baseColor = onSurface
-    return SyntaxColors(
-        type = tertiary,
-        keyword = tertiary,
-        literal = onSurface,
-        comment = baseColor.copy(alpha = .5f),
-        string = onSurface,
-        punctuation = onSurface,
-        plain = onSurface,
-        tag = Color.White,
-        declaration = Color.White,
-        source = Color.White,
-        attrValue = Color.White,
-        attrName = Color.White,
-        nocode = Color.White
-    )
-}
+class DerivedMonochrome(
+    colorScheme: ColorScheme,
+) : CodeTheme(
+    colorScheme.run {
+        val baseColor = onSurface
+        SyntaxColors(
+            type = tertiary,
+            keyword = tertiary,
+            literal = onSurface,
+            comment = baseColor.copy(alpha = .5f),
+            string = onSurface,
+            punctuation = onSurface,
+            plain = onSurface,
+            tag = Color.White,
+            declaration = Color.White,
+            source = Color.White,
+            attrValue = Color.White,
+            attrName = Color.White,
+            nocode = Color.White
+        )
+    }
+)

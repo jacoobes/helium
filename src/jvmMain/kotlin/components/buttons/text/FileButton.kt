@@ -1,20 +1,27 @@
 package components.buttons.text
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.FrameWindowScope
+import components.Tooltip
 import components.buttons.FlatText
 import components.buttons.HoverableFlatButton
 
 @Composable
 fun FrameWindowScope.File() {
-    val (isOpen, setOpen) = remember { mutableStateOf(false) }
-    HoverableFlatButton(
-        onClick = {
-            setOpen(!isOpen)
-        },
-    ) { scheme ->
-        FlatText("File", scheme)
+    val isOpen = remember { mutableStateOf(false) }
+    Box {
+        HoverableFlatButton(
+            onClick = {
+                isOpen.value = !isOpen.value
+            },
+        ) { scheme ->
+            FlatText("File", scheme)
+        }
     }
+
 }
