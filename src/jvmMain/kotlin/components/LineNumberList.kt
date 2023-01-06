@@ -1,27 +1,24 @@
 package components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import jetbrains
-import structs.Code
 
 @Composable
 fun LineNumberList(
-    lineTops: FloatArray,
+    lineTops: Array<Float>,
     style: TextStyle = TextStyle(fontFamily = jetbrains()),
 ) {
     val density = LocalDensity.current
     Column(
         Modifier
             .fillMaxHeight()
-            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .padding(start = 10.dp, end = 10.dp)
     ) {
         Box {
             lineTops.forEachIndexed { index, top ->

@@ -13,7 +13,6 @@ import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,7 +21,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -64,7 +62,7 @@ fun Tooltip(
     expanded: MutableState<Boolean>,
     modifier: Modifier = Modifier,
     timeoutMillis: Long = TooltipTimeout,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    backgroundColor: Color = MaterialTheme.colorScheme.onSurface,
     offset: DpOffset = TooltipOffset,
     content: @Composable ColumnScope.() -> Unit,
 ) {
@@ -102,7 +100,7 @@ fun Tooltip(
     text: String,
     modifier: Modifier = Modifier,
     timeoutMillis: Long = TooltipTimeout,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    backgroundColor: Color = MaterialTheme.colorScheme.onSurface,
     offset: DpOffset = TooltipOffset,
 ) {
     Tooltip(expanded, modifier, timeoutMillis, backgroundColor, offset) {
@@ -116,7 +114,7 @@ fun Tooltip(
 @Composable
 private fun TooltipContent(
     expandedStates: MutableTransitionState<Boolean>,
-    backgroundColor: Color,
+    backgroundColor: Color = MaterialTheme.colorScheme.onSurface,
     modifier: Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
@@ -136,9 +134,9 @@ private fun TooltipContent(
         }
     ) { if (it) 1f else 0f }
 
-    OutlinedCard(
+    ElevatedCard(
         modifier = Modifier.alpha(alpha),
-        colors = CardDefaults.cardColors(contentColor = MaterialTheme.colorScheme.onBackground),
+        colors = CardDefaults.cardColors(contentColor = MaterialTheme.colorScheme.onSurface),
     ) {
         val p = TooltipPadding
         Column(

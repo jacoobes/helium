@@ -30,9 +30,6 @@ fun LazyFileTree(
 ) {
 
     val expandedItems = remember { mutableStateListOf<Path>() }
-    val theme = remember {
-        mutableStateOf(DerivedMonochrome(darkColorScheme()))
-    }
     val initDepth = 1
     LazyColumn(
         modifier = Modifier.background(MaterialTheme.colorScheme.surface),

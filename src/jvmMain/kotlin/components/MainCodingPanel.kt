@@ -1,7 +1,8 @@
 package components
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.text.TextStyle
 import components.textarea.TextArea
 import jetbrains
@@ -25,14 +26,14 @@ fun MiddlePanel(path: Optional<Path>) {
     if (path.isPresent) {
         val p = path.get()
         val code = Code(p, getExtension(p))
-
-        TextArea(
-            code,
-            style = TextStyle(
-                fontFamily = jetbrains(),
-                color = MaterialTheme.colorScheme.onSurface
-            ),
-            onTextLayout = {}
-        )
+        Row {
+            TextArea(
+                code,
+                style = TextStyle(
+                    fontFamily = jetbrains(),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            )
+        }
     }
 }
