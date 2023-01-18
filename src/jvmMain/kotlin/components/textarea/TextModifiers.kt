@@ -1,26 +1,24 @@
 package components.textarea
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import appBarHeight
-import buttonSizes
 import kotlinx.coroutines.launch
-import testBorder
+import java.nio.file.Path
+import java.util.*
 
 
 @Composable
 fun TextActions(
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    requestSave: MutableState<Boolean>,
+    value: Optional<Path>
 ) {
-
+    val scope = rememberCoroutineScope()
     Row(
         Modifier.height(ButtonDefaults.MinHeight).fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(7.dp),
@@ -33,12 +31,17 @@ fun TextActions(
             onClick = {},
             content = { Text("Commit") },
             border = border,
-            //half the material spec padding
         )
         TextButton(
-            onClick = {},
+            onClick = {
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = "Saved",
+                        duration = SnackbarDuration.Short
+                    )
+                }
+            },
             content = { Text("Save") },
-            //half the material spec padding
             border = border,
         )
         TextButton(

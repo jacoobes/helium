@@ -1,6 +1,4 @@
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.BoxWithTooltip
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +32,7 @@ import structs.loadSettings
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.util.Optional
-import org.jetbrains.skiko.GenericSkikoView
+
 val json = Json {
     prettyPrint = true
     encodeDefaults = true
@@ -87,7 +85,13 @@ fun main() = application {
                 resizable = true
             ) {
                 val directoryChosen = remember { mutableStateOf<Optional<String>>(Optional.empty()) }
-                MainCodeLayout(settings, it, directoryChosen.value)
+                val requestSave = remember { mutableStateOf(false) }
+                MainCodeLayout(
+                    settings,
+                    it,
+                    directoryChosen.value,
+                    requestSave
+                )
                 FileNavDrawer(it, directoryChosen)
             }
         }

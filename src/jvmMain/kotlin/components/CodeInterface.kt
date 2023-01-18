@@ -1,20 +1,17 @@
 package components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.FrameWindowScope
 import buttonSizes
@@ -23,6 +20,7 @@ import components.textarea.TextActions
 import org.jetbrains.compose.splitpane.*
 import pad
 import structs.Settings
+import testBorder
 import java.awt.Cursor
 import java.nio.file.Path
 import java.util.*
@@ -32,7 +30,8 @@ import java.util.*
 fun FrameWindowScope.MainCodeLayout(
     settings: Settings,
     snackbarHostState: SnackbarHostState,
-    directoryChosen: Optional<String>
+    directoryChosen: Optional<String>,
+    requestSave: MutableState<Boolean>
 ) {
     /**
      * If path is present, run the iff composable
@@ -56,15 +55,14 @@ fun FrameWindowScope.MainCodeLayout(
         splitPaneState = hSplitPanelState,
     ) {
         first {
-            Column(
-                Modifier
-                    .fillMaxHeight()
-            ) {
-                TextActions(snackbarHostState)
-                optionalPath(
-                    { MiddlePanel(selectedPath.value) },
-                    null
-                )
+            if(directoryChosen.isPresent) {
+                Column {
+                    TextActions(snackbarHostState, requestSave, selectedPath.value)
+                    MiddlePanel(
+                        selectedPath.value,
+                        requestSave
+                    )
+                }
             }
         }
         panelSplitter()

@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 import structs.FileChooser
 import java.util.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DirectoryChooser(
     enabled: Boolean = true,
@@ -17,7 +16,7 @@ fun DirectoryChooser(
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         val scope = rememberCoroutineScope()
-        FilledTonalIconButton(
+        IconButton(
             onClick = {
                 scope.launch {
                     val chosenDir = FileChooser.chooseDirectory()

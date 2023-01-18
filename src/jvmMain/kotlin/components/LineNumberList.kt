@@ -1,5 +1,6 @@
 package components
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,9 +12,11 @@ import jetbrains
 
 @Composable
 fun LineNumberList(
+    scrollState: ScrollState,
     lineTops: Array<Float>,
     style: TextStyle = TextStyle(fontFamily = jetbrains()),
 ) {
+
     val density = LocalDensity.current
     Column(
         Modifier
