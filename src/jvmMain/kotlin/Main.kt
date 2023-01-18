@@ -15,6 +15,7 @@ import androidx.compose.ui.window.WindowPlacement
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.jthemedetecor.OsThemeDetector
 import components.*
 import components.buttons.icon.ExitButton
 import components.buttons.icon.Helium
@@ -60,11 +61,14 @@ fun main() = application {
                 size = DpSize(settings.dimensions.width.dp, settings.dimensions.height.dp)
             )
             val isDarkMode = remember { mutableStateOf(true) }
+            // com.jthemedetecor.OsThemeDetector dark mode detection
+            val detector = OsThemeDetector.getDetector()
+            val isDarkThemeUsed = detector.isDark
             HeliumWindow(
                 title = "Helium",
                 appBarHeight = appBarHeight,
                 state = state,
-                darkMode = !isDarkMode.value,
+                darkMode = isDarkThemeUsed,
                 onCloseRequest = ::exitApplication,
                 dropDowns = {
                     Helium()

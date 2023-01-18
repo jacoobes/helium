@@ -38,6 +38,9 @@ kotlin {
                 implementation(compose.desktop.components.splitPane)
                 implementation("com.github.Qawaz.compose-code-editor:codeeditor-desktop:3.0.5")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+                implementation("com.github.Dansoftowner:jSystemThemeDetector:3.6")
+                implementation("ch.qos.logback:logback-core:1.2.6")
+                implementation("ch.qos.logback:logback-classic:1.2.6")
                 listOf("lwjgl", "lwjgl-nfd").forEach { lwjglDep ->
                     implementation("org.lwjgl:${lwjglDep}:${lwjglVersion}")
                     listOf(
