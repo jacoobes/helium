@@ -1,6 +1,5 @@
 package components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.SnackbarHostState
@@ -20,7 +19,6 @@ import components.textarea.TextActions
 import org.jetbrains.compose.splitpane.*
 import pad
 import structs.Settings
-import testBorder
 import java.awt.Cursor
 import java.nio.file.Path
 import java.util.*
@@ -33,30 +31,16 @@ fun FrameWindowScope.MainCodeLayout(
     directoryChosen: Optional<String>,
     requestSave: MutableState<Boolean>
 ) {
-    /**
-     * If path is present, run the iff composable
-     * else, run the els composable
-     */
-    val optionalPath: @Composable (
-        iff: @Composable (Path) -> Unit,
-        els: @Composable (() -> Unit)?
-    ) -> Unit = { iff, els ->
-        if (directoryChosen.isPresent) {
-            iff(Path.of(directoryChosen.get()))
-        } else {
-            els?.invoke()
-        }
-    }
     val hSplitPanelState = rememberSplitPaneState(.8f, true)
     val selectedPath = remember { mutableStateOf<Optional<Path>>(Optional.empty()) }
-    val padding = PaddingValues(start = pad+buttonSizes + 10.dp)
+    val padding = PaddingValues(start = pad + buttonSizes + 10.dp)
     HorizontalSplitPane(
         Modifier.padding(padding),
         splitPaneState = hSplitPanelState,
     ) {
         first {
-            if(directoryChosen.isPresent) {
-                Column {
+            if (directoryChosen.isPresent) {
+                Column(Modifier.fillMaxWidth()) {
                     TextActions(snackbarHostState, requestSave, selectedPath.value)
                     MiddlePanel(
                         selectedPath.value,
@@ -66,13 +50,15 @@ fun FrameWindowScope.MainCodeLayout(
             }
         }
         panelSplitter()
+
         second(
             minSize = 50.dp
         ) {
-            optionalPath(
-                { SidePanel(rootPath = it, selectedPath = selectedPath) },
-                { NoFiles() }
-            )
+            if (directoryChosen.isPresent) {
+                SidePanel(rootPath = Path.of(directoryChosen.get()), selectedPath = selectedPath)
+            } else {
+                NoFiles()
+            }
         }
     }
 }

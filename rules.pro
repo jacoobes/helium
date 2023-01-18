@@ -2,6 +2,7 @@
 -keep class org.jetbrains.skia.** { *; }
 -keep class org.jetbrains.skiko.** { *; }
 
+
 -assumenosideeffects public class androidx.compose.runtime.ComposerKt {
     void sourceInformation(androidx.compose.runtime.Composer,java.lang.String);
     void sourceInformationMarkerStart(androidx.compose.runtime.Composer,int,java.lang.String);
@@ -22,6 +23,8 @@
 -keepclassmembers class kotlin.coroutines.SafeContinuation {
     volatile <fields>;
 }
+-dontwarn javax.annotation.**
+-dontwarn androidx.compose.material.*
 -dontwarn java.lang.instrument.ClassFileTransformer
 -dontwarn sun.misc.SignalHandler
 -dontwarn java.lang.instrument.Instrumentation

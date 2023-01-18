@@ -1,9 +1,7 @@
 package components.textarea
 
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -26,7 +24,6 @@ import java.nio.file.Path
 fun TextArea(
     p: Path,
     code: Code,
-    scrollState: ScrollState,
     style: TextStyle,
     onTextLayout: (TextLayoutResult) -> Unit = {},
 ) {
