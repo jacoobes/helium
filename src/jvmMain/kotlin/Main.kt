@@ -86,7 +86,7 @@ fun main() = application {
             ) {
                 val directoryChosen = remember { mutableStateOf<Optional<String>>(Optional.empty()) }
                 val requestSave = remember { mutableStateOf(false) }
-                MainCodeLayout(
+                MainView(
                     settings,
                     it,
                     directoryChosen.value,

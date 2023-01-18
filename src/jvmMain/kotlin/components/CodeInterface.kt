@@ -3,6 +3,7 @@ package components
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +26,7 @@ import java.util.*
 
 @OptIn(ExperimentalSplitPaneApi::class)
 @Composable
-fun FrameWindowScope.MainCodeLayout(
+fun FrameWindowScope.MainView(
     settings: Settings,
     snackbarHostState: SnackbarHostState,
     directoryChosen: Optional<String>,
@@ -44,7 +45,8 @@ fun FrameWindowScope.MainCodeLayout(
                     TextActions(snackbarHostState, requestSave, selectedPath.value)
                     MiddlePanel(
                         selectedPath.value,
-                        requestSave
+                        requestSave,
+                        settings
                     )
                 }
             }

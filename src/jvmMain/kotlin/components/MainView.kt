@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import components.textarea.TextArea
 import jetbrains
 import structs.Code
+import structs.Settings
 import java.nio.file.Path
 import java.util.*
 import kotlin.io.path.name
@@ -29,31 +30,36 @@ fun getExtension(path: Path): String {
 }
 
 @Composable
-fun MiddlePanel(path: Optional<Path>, requestSave: MutableState<Boolean>) {
-    if (path.isPresent) {
-        val p = path.get()
-        val code = Code(p, getExtension(p))
+fun MiddlePanel(
+    maybePath: Optional<Path>,
+    requestSave: MutableState<Boolean>,
+    settings: Settings
+) {
+    if (maybePath.isPresent) {
+        val path = maybePath.get()
+        val code = Code(path, getExtension(path))
         var lineTops by remember { mutableStateOf(emptyArray<Float>()) }
+        val shouldUpdateLines = remember { derivedStateOf { lineTops.isEmpty() } }
         val scrollState = rememberScrollState()
         Box(Modifier.fillMaxSize()) {
-            Row(Modifier
-                .verticalScroll(scrollState)
+            Row(
+                Modifier
+                    .verticalScroll(scrollState)
             ) {
                 LineNumberList(lineTops)
-                Box {
-                    TextArea(
-                        p,
-                        code,
-                        style = TextStyle(
-                            fontFamily = jetbrains(),
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    ) { result ->
+                TextArea(
+                    path,
+                    code,
+                    style = TextStyle(
+                        fontFamily = jetbrains(),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                ) { result ->
+                    if(shouldUpdateLines.value) {
                         lineTops = Array(result.lineCount) { result.getLineTop(it) }
                     }
                 }
             }
-
             VerticalScrollbar(
                 adapter = rememberScrollbarAdapter(scrollState),
                 Modifier.align(Alignment.CenterEnd).fillMaxHeight().width(10.dp)

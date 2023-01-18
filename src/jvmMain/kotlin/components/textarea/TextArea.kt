@@ -1,7 +1,10 @@
 package components.textarea
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -17,6 +20,7 @@ import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
 import structs.Code
 import structs.themes.DerivedMonochrome
 import structs.themes.getColorScheme
+import testBorder
 import java.nio.file.Path
 
 
@@ -62,6 +66,6 @@ fun TextArea(
             )
         },
         cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
-        onTextLayout = onTextLayout,
+        onTextLayout = onTextLayout
     )
 }
