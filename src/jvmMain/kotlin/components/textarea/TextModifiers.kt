@@ -15,7 +15,6 @@ import java.util.*
 @Composable
 fun TextActions(
     snackbarHostState: SnackbarHostState,
-    requestSave: MutableState<Boolean>,
     value: Optional<Path>
 ) {
     val scope = rememberCoroutineScope()

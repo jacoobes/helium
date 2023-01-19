@@ -3,7 +3,6 @@ package components
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -19,10 +18,13 @@ import components.lazytree.NoFiles
 import components.textarea.TextActions
 import org.jetbrains.compose.splitpane.*
 import pad
+import structs.DrawerButtonsState
 import structs.Settings
 import java.awt.Cursor
 import java.nio.file.Path
 import java.util.*
+import kotlin.io.path.isDirectory
+import kotlin.io.path.isReadable
 
 @OptIn(ExperimentalSplitPaneApi::class)
 @Composable
@@ -30,22 +32,24 @@ fun FrameWindowScope.MainView(
     settings: Settings,
     snackbarHostState: SnackbarHostState,
     directoryChosen: Optional<String>,
-    requestSave: MutableState<Boolean>
 ) {
     val hSplitPanelState = rememberSplitPaneState(.8f, true)
     val selectedPath = remember { mutableStateOf<Optional<Path>>(Optional.empty()) }
     val padding = PaddingValues(start = pad + buttonSizes + 10.dp)
+    // TODO:
+    // This will be changed to a more specialize horizontal split pane because the current one causes too many issues
     HorizontalSplitPane(
         Modifier.padding(padding),
         splitPaneState = hSplitPanelState,
     ) {
-        first {
+        first(
+            100.dp
+        ) {
             if (directoryChosen.isPresent) {
                 Column(Modifier.fillMaxWidth()) {
-                    TextActions(snackbarHostState, requestSave, selectedPath.value)
+                    TextActions(snackbarHostState, selectedPath.value)
                     MiddlePanel(
                         selectedPath.value,
-                        requestSave,
                         settings
                     )
                 }

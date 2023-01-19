@@ -18,15 +18,13 @@ import components.drawers.buttons.FileDrawerTitle
 import components.drawers.buttons.LightMode
 import kotlinx.coroutines.launch
 import pad
-import utils.blend
-import utils.saturation
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FileNavDrawer(
     snackbarHostState: SnackbarHostState,
-    directoryChosen : MutableState<Optional<String>>
+    directoryChosen: MutableState<Optional<String>>,
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(DrawerValue.Closed) { true }

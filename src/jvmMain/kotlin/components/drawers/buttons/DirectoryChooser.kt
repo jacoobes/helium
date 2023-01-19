@@ -6,7 +6,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import kotlinx.coroutines.launch
+import structs.DrawerButtonsState
 import structs.FileChooser
+import java.nio.file.Path
 import java.util.*
 
 @Composable

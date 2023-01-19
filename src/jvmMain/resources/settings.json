@@ -5,5 +5,8 @@
     "width": 1000,
     "height": 900
   },
-  "theme": "poo"
+  "theme" : {
+    "name" : "poo",
+    "mode" : "None"
+  }
 }
