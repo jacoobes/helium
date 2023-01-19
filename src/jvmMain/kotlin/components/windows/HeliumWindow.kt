@@ -1,6 +1,5 @@
 package components.windows
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.window.WindowDraggableArea
 
@@ -9,13 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import components.DividerLessAlpha
-import structs.themes.DefaultHeliumTheme
+import structs.ThemeMode
+import structs.themes.HeliumTheme
+import structs.themes.UseHeliumTheme
 
 /**
  * A basic window that comes with the jetpack compose Scaffold layout
@@ -35,7 +34,8 @@ fun ApplicationScope.HeliumWindow(
     onPreviewKeyEvent: (KeyEvent) -> Boolean = { false },
     onKeyEvent: (KeyEvent) -> Boolean = { false },
     resizable: Boolean = true,
-    darkMode: Boolean = isSystemInDarkTheme(),
+    theme: HeliumTheme,
+    mode: ThemeMode,
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     content: @Composable (FrameWindowScope.(hostState: SnackbarHostState) -> Unit)
 ) {
@@ -49,7 +49,7 @@ fun ApplicationScope.HeliumWindow(
         resizable = resizable,
         undecorated = true
     ) {
-        DefaultHeliumTheme(darkMode) {
+        UseHeliumTheme(theme, mode) {
             Scaffold(
                 topBar = {
                     HeliumAppBar(

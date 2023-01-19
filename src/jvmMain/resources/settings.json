@@ -6,7 +6,7 @@
     "height": 900
   },
   "theme" : {
-    "name" : "poo",
-    "mode" : "None"
+    "name" : "Default",
+    "mode" : "Light"
   }
 }

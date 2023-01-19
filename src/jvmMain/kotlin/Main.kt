@@ -1,8 +1,6 @@
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.*
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.Color
@@ -27,11 +25,15 @@ import components.windows.HeliumWindow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import structs.DrawerButtonsState
 import structs.Settings
+import structs.ThemeMode
 import structs.loadSettings
+import structs.themes.DefaultHeliumTheme
+import structs.themes.heliumThemeResolver
+import java.lang.Error
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
-import java.util.Optional
 
 val json = Json {
     prettyPrint = true
@@ -59,12 +61,20 @@ fun main() = application {
                 position = WindowPosition.Aligned(Alignment.Center),
                 size = DpSize(settings.dimensions.width.dp, settings.dimensions.height.dp)
             )
-            val isDarkMode = remember { mutableStateOf(true) }
+            val fileNavDrawerState = remember {
+                DrawerButtonsState(
+                    initialThemeOption = settings.theme.mode ?: ThemeMode.None,
+                    initialTheme = heliumThemeResolver[settings.theme.name]
+                        ?: throw Error("Could not find a theme ${settings.theme.name}")
+                )
+
+            }
             HeliumWindow(
                 title = "Helium",
                 appBarHeight = appBarHeight,
                 state = state,
-                darkMode = !isDarkMode.value,
+                mode = fileNavDrawerState.themeMode,
+                theme = fileNavDrawerState.currentTheme,
                 onCloseRequest = ::exitApplication,
                 dropDowns = {
                     Helium()
@@ -84,15 +94,11 @@ fun main() = application {
                 },
                 resizable = true
             ) {
-                val directoryChosen = remember { mutableStateOf<Optional<String>>(Optional.empty()) }
-                val requestSave = remember { mutableStateOf(false) }
                 MainView(
-                    settings,
-                    it,
-                    directoryChosen.value,
-                    requestSave
+                    snackbarHostState = it,
+                    drawerButtonsState = fileNavDrawerState,
                 )
-                FileNavDrawer(it, directoryChosen)
+                FileNavDrawer(it, fileNavDrawerState.directoryChosen)
             }
         }
     }

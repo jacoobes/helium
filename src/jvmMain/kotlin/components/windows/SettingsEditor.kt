@@ -13,6 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import components.windows.HeliumWindow
 import structs.Settings
+import structs.ThemeMode
+import structs.themes.DefaultHeliumTheme
+import structs.themes.heliumThemeResolver
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -32,6 +35,8 @@ fun ApplicationScope.SettingsEditor(
             state = state,
             title = "Settings",
             resizable = true,
+            mode = ThemeMode.Dark,
+            theme = heliumThemeResolver[settings.theme.name] ?: DefaultHeliumTheme(),
             onPreviewKeyEvent = {
                 if (it.isCtrlPressed && it.key == Key.W) {
                     setVis(false)

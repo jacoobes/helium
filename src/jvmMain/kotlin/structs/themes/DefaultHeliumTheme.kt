@@ -1,17 +1,14 @@
 package structs.themes
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import com.wakaztahir.codeeditor.theme.CodeTheme
 import com.wakaztahir.codeeditor.theme.SyntaxColors
-import utils.blend
+import structs.ThemeMode
 
 //Color(0xFFE9EAF5) possible light theme background white ?
 val md_theme_light_primary = Color(0xFF4459A9)
@@ -130,21 +127,47 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun DefaultHeliumTheme(
-    useDarkTheme: Boolean = isSystemInDarkTheme(),
+fun UseHeliumTheme(
+    theme: HeliumTheme,
+    mode: ThemeMode,
     content: @Composable () -> Unit
 ) {
-    val colors = if (!useDarkTheme) {
-        LightColors
-    } else {
-        DarkColors
-    }
-
+    val colors = theme.createTheme(mode)
     MaterialTheme(
         colorScheme = colors,
         content = content,
     )
+
 }
+
+class DefaultHeliumTheme : HeliumTheme {
+    override val name = "Default"
+    override fun createTheme(option: ThemeMode): ColorScheme {
+        return when (option) {
+            ThemeMode.Dark, ThemeMode.None -> {
+                DarkColors
+            }
+
+            ThemeMode.Light -> {
+                LightColors
+            }
+        }
+    }
+
+    override fun syntaxHighLighting(option: ThemeMode): CodeTheme {
+        return when (option) {
+            ThemeMode.Dark, ThemeMode.None -> {
+                DerivedMonochrome(DarkColors)
+            }
+
+            ThemeMode.Light -> {
+                DerivedMonochrome(LightColors)
+            }
+        }
+    }
+
+}
+
 class DerivedMonochrome(
     colorScheme: ColorScheme,
 ) : CodeTheme(
@@ -167,10 +190,3 @@ class DerivedMonochrome(
         )
     }
 )
-@Composable
-fun getColorScheme(darkMode: Boolean = isSystemInDarkTheme()): ColorScheme {
-    return if(darkMode)
-        remember { DarkColors }
-    else
-        remember { LightColors }
-}

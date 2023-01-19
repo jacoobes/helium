@@ -9,24 +9,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import components.textarea.TextArea
 import jetbrains
-import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
-import org.jetbrains.compose.splitpane.SplitPaneState
 import structs.Code
-import structs.Settings
+import structs.ThemeMode
+import structs.themes.HeliumTheme
 import java.nio.file.Path
 import java.util.*
-import kotlin.io.path.name
 
 
 @Composable
 fun MiddlePanel(
+    mode: ThemeMode,
+    theme : HeliumTheme,
     maybePath: Optional<Path>,
-    settings: Settings
 ) {
     if (maybePath.isPresent) {
         val path = maybePath.get()
@@ -43,6 +41,7 @@ fun MiddlePanel(
                 TextArea(
                     path,
                     code,
+                    codeTheme = theme.syntaxHighLighting(mode),
                     style = TextStyle(
                         fontFamily = jetbrains(),
                         color = MaterialTheme.colorScheme.onSurface
