@@ -46,7 +46,6 @@ fun FileNavDrawer(
                     FileDrawerTitle(drawerState)
                     DirectoryChooser(enabled = true, directoryChosen)
                     LightMode()
-
                 }
             }
         ) {

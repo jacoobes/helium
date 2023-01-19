@@ -12,7 +12,6 @@ import jetbrains
 
 @Composable
 fun LineNumberList(
-    scrollState: ScrollState,
     lineTops: Array<Float>,
     style: TextStyle = TextStyle(fontFamily = jetbrains()),
 ) {

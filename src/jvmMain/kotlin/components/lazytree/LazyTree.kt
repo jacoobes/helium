@@ -6,14 +6,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.KeyboardArrowDown
 import androidx.compose.material.icons.sharp.KeyboardArrowRight
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import components.LazySidePanelColumn
 import structs.DirectoryNode
@@ -31,10 +30,13 @@ fun LazyFileTree(
 
     val expandedItems = remember { mutableStateListOf<Path>() }
     val initDepth = 1
+    val listState = rememberLazyListState()
+
     LazySidePanelColumn(
         contentPadding = PaddingValues(top = 3.dp, bottom = 3.dp),
+        state = listState,
         verticalArrangement = Arrangement.spacedBy(2.dp),
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         tree(
             list = source,
@@ -98,7 +100,6 @@ fun LazyListScope.directoryNode(
     isExpanded: (Path) -> Boolean = { false },
     toggleExpand: (Path) -> Unit = {},
 ) {
-
     item {
         var icon by remember { mutableStateOf(Icons.Sharp.KeyboardArrowRight) }
         DirectoryChild(

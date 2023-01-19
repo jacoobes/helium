@@ -170,7 +170,7 @@ class DerivedMonochrome(
 @Composable
 fun getColorScheme(darkMode: Boolean = isSystemInDarkTheme()): ColorScheme {
     return if(darkMode)
-        DarkColors
+        remember { DarkColors }
     else
-        LightColors
+        remember { LightColors }
 }
