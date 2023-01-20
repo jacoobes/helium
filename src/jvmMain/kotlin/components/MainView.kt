@@ -16,19 +16,15 @@ import jetbrains
 import structs.Code
 import structs.ThemeMode
 import structs.themes.HeliumTheme
-import java.nio.file.Path
 import java.util.*
 
 
 @Composable
 fun MiddlePanel(
     mode: ThemeMode,
-    theme : HeliumTheme,
-    maybePath: Optional<Path>,
+    theme: HeliumTheme,
+    code: Code,
 ) {
-    if (maybePath.isPresent) {
-        val path = maybePath.get()
-        val code = Code(path)
         var lineTops by remember { mutableStateOf(emptyArray<Float>()) }
         val shouldUpdateLines = remember { derivedStateOf { lineTops.isEmpty() } }
         val scrollState = rememberScrollState()
@@ -39,7 +35,6 @@ fun MiddlePanel(
             ) {
                 LineNumberList(lineTops)
                 TextArea(
-                    path,
                     code,
                     codeTheme = theme.syntaxHighLighting(mode),
                     style = TextStyle(
@@ -57,6 +52,4 @@ fun MiddlePanel(
                 Modifier.align(Alignment.CenterEnd).fillMaxHeight().width(20.dp)
             )
         }
-
-    }
 }

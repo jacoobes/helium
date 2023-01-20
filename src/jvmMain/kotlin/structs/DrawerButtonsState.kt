@@ -2,6 +2,7 @@ package structs
 
 import androidx.compose.runtime.*
 import structs.themes.HeliumTheme
+import java.nio.file.Path
 import java.util.*
 
 /**
@@ -14,5 +15,6 @@ class DrawerButtonsState(
 ) {
     var themeMode by mutableStateOf(initialThemeOption)
     val directoryChosen = mutableStateOf<Optional<String>>(Optional.empty())
+    val currentSelectPath = mutableStateOf<Path?>(null)
     var currentTheme by mutableStateOf(initialTheme)
 }

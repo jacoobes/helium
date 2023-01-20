@@ -21,7 +21,7 @@ import kotlin.io.path.isDirectory
 @Composable
 fun SidePanel(
     rootPath: Path,
-    selectedPath: MutableState<Optional<Path>>
+    selectedPath: MutableState<Path?>
 ) {
     var rootDir by remember(rootPath) {
         mutableStateOf<List<TreeNode>>(emptyList())

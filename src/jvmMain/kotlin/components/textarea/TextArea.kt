@@ -19,7 +19,6 @@ import java.nio.file.Path
 
 @Composable
 fun TextArea(
-    p: Path,
     code: Code,
     codeTheme: CodeTheme,
     style: TextStyle,
@@ -27,7 +26,7 @@ fun TextArea(
 ) {
     val parser = remember { PrettifyParser() }
     val focusRequester = remember { FocusRequester() }
-    var value by remember(p) {
+    var value by remember(code.path) {
         mutableStateOf(
             TextFieldValue(
                 annotatedString = parseCodeAsAnnotatedString(

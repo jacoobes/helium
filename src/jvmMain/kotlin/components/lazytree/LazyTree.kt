@@ -25,7 +25,7 @@ import kotlin.io.path.isDirectory
 @Composable
 fun LazyFileTree(
     source: List<TreeNode>,
-    selectedPath: MutableState<Optional<Path>>
+    selectedPath: MutableState<Path?>
 ) {
 
     val expandedItems = remember { mutableStateListOf<Path>() }
@@ -57,7 +57,7 @@ fun LazyFileTree(
 fun LazyListScope.tree(
     list: List<TreeNode>,
     depth: Int,
-    selectedPath: MutableState<Optional<Path>>,
+    selectedPath: MutableState<Path?>,
     isExpanded: (Path) -> Boolean,
     toggleExpand: (Path) -> Unit,
 ) {
@@ -83,20 +83,20 @@ fun LazyListScope.tree(
 fun LazyListScope.fileNode(
     node: FileNode,
     depth: Int,
-    selectedPath: MutableState<Optional<Path>>
+    selectedPath: MutableState<Path?>
 ) {
     item {
         FileChild(
             node.path,
             depth = depth) {
-            selectedPath.value = Optional.of(node.path)
+            selectedPath.value = node.path
         }
     }
 }
 fun LazyListScope.directoryNode(
     node: DirectoryNode,
     depth: Int,
-    selectedPath: MutableState<Optional<Path>>,
+    selectedPath: MutableState<Path?>,
     isExpanded: (Path) -> Boolean = { false },
     toggleExpand: (Path) -> Unit = {},
 ) {

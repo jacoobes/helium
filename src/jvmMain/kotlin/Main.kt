@@ -29,7 +29,6 @@ import structs.DrawerButtonsState
 import structs.Settings
 import structs.ThemeMode
 import structs.loadSettings
-import structs.themes.DefaultHeliumTheme
 import structs.themes.heliumThemeResolver
 import java.lang.Error
 import java.nio.ByteBuffer
@@ -98,7 +97,11 @@ fun main() = application {
                     snackbarHostState = it,
                     drawerButtonsState = fileNavDrawerState,
                 )
-                FileNavDrawer(it, fileNavDrawerState.directoryChosen)
+                FileNavDrawer(
+                    it,
+                    fileNavDrawerState.directoryChosen,
+                    fileNavDrawerState.currentSelectPath
+                )
             }
         }
     }

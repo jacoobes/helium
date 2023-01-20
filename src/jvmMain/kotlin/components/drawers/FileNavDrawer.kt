@@ -15,6 +15,7 @@ import components.VerticalDividerLessAlpha
 import components.drawers.buttons.*
 import kotlinx.coroutines.launch
 import pad
+import java.nio.file.Path
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,6 +23,7 @@ import java.util.*
 fun FileNavDrawer(
     snackbarHostState: SnackbarHostState,
     directoryChosen: MutableState<Optional<String>>,
+    currentSelectPath: MutableState<Path?>,
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(DrawerValue.Closed) { true }
@@ -40,7 +42,7 @@ fun FileNavDrawer(
                 ) {
                     FileDrawerTitle(drawerState)
                     DirectoryChooser(enabled = true, directoryChosen)
-                    ClearProject(directoryChosen)
+                    ClearProject(directoryChosen, currentSelectPath)
                     LightMode()
                 }
             }

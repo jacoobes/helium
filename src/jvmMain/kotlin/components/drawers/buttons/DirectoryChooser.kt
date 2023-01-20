@@ -11,6 +11,7 @@ import structs.FileChooser
 import java.nio.file.Path
 import java.util.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DirectoryChooser(
     enabled: Boolean = true,
@@ -18,7 +19,7 @@ fun DirectoryChooser(
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         val scope = rememberCoroutineScope()
-        IconButton(
+        FilledTonalIconButton(
             onClick = {
                 scope.launch {
                     val chosenDir = FileChooser.chooseDirectory()

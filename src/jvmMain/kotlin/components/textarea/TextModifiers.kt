@@ -7,7 +7,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import components.textarea.actions.SaveCode
 import kotlinx.coroutines.launch
+import structs.Code
 import java.nio.file.Path
 import java.util.*
 
@@ -15,7 +17,7 @@ import java.util.*
 @Composable
 fun TextActions(
     snackbarHostState: SnackbarHostState,
-    value: Optional<Path>
+    code: Code,
 ) {
     val scope = rememberCoroutineScope()
     Row(
@@ -23,24 +25,13 @@ fun TextActions(
         horizontalArrangement = Arrangement.spacedBy(7.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        //Maybe move autosave somewhere else
         AutosaveAction(false, snackbarHostState)
-        //maybe custom input chip
         val border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+        SaveCode(snackbarHostState, code)
         FilledTonalButton(
             onClick = {},
             content = { Text("Commit") },
-            border = border,
-        )
-        TextButton(
-            onClick = {
-                scope.launch {
-                    snackbarHostState.showSnackbar(
-                        message = "Saved",
-                        duration = SnackbarDuration.Short
-                    )
-                }
-            },
-            content = { Text("Save") },
             border = border,
         )
         TextButton(
