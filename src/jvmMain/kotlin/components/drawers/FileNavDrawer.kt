@@ -12,10 +12,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.dp
 import buttonSizes
 import components.VerticalDividerLessAlpha
-import components.drawers.buttons.FileNode
-import components.drawers.buttons.DirectoryChooser
-import components.drawers.buttons.FileDrawerTitle
-import components.drawers.buttons.LightMode
+import components.drawers.buttons.*
 import kotlinx.coroutines.launch
 import pad
 import java.util.*
@@ -43,6 +40,7 @@ fun FileNavDrawer(
                 ) {
                     FileDrawerTitle(drawerState)
                     DirectoryChooser(enabled = true, directoryChosen)
+                    ClearProject(directoryChosen)
                     LightMode()
                 }
             }
