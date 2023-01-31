@@ -97,6 +97,7 @@ fun main() = application {
                     snackbarHostState = it,
                     drawerButtonsState = fileNavDrawerState,
                 )
+
                 FileNavDrawer(
                     it,
                     fileNavDrawerState.directoryChosen,

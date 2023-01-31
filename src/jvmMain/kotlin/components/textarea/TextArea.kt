@@ -9,12 +9,9 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
-import com.wakaztahir.codeeditor.model.CodeLang
 import com.wakaztahir.codeeditor.prettify.PrettifyParser
 import com.wakaztahir.codeeditor.theme.CodeTheme
-import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
 import structs.Code
-import java.nio.file.Path
 
 
 @Composable
@@ -29,11 +26,10 @@ fun TextArea(
     var value by remember(code.path) {
         mutableStateOf(
             TextFieldValue(
-                annotatedString = parseCodeAsAnnotatedString(
-                    parser = parser,
-                    theme = codeTheme,
-                    lang = code.lang ?: CodeLang.Default,
-                    code = code.content
+                annotatedString = code.annotatedString(
+                    parser,
+                    codeTheme,
+                    content = code.content
                 )
             )
         )
@@ -48,11 +44,10 @@ fun TextArea(
             .focusRequester(focusRequester),
         onValueChange = {
             value = it.copy(
-                annotatedString = parseCodeAsAnnotatedString(
+                annotatedString = code.annotatedString(
                     parser = parser,
-                    theme = codeTheme,
-                    lang = code.lang ?: CodeLang.Default,
-                    code = it.text
+                    codeTheme = codeTheme,
+                    content = it.text
                 )
             )
         },

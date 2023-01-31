@@ -15,18 +15,20 @@ fun DividerLessAlpha(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onSurface,
     thickness: Dp = 1.0.dp,
-    startIndent: Dp = 0.dp,
     alpha : Float
 ) {
-    Divider(modifier,color.copy(alpha = alpha),thickness,startIndent)
+    Divider(modifier, color=color.copy(alpha = alpha), thickness = thickness)
 }
 @Composable
 fun VerticalDividerLessAlpha(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onSurface,
     thickness: Dp = 1.0.dp,
-    startIndent: Dp = 0.dp,
     alpha : Float = .5f
 ) {
-    Divider(modifier.then(Modifier.fillMaxHeight().width(thickness)),color.copy(alpha = alpha),thickness,startIndent)
+    Divider(modifier.then(
+        Modifier.fillMaxHeight().width(thickness)),
+        color = color.copy(alpha = alpha),
+        thickness = thickness
+    )
 }

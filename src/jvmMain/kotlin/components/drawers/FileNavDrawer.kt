@@ -1,7 +1,6 @@
 package components.drawers
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -30,9 +29,7 @@ fun FileNavDrawer(
     Row {
         ModalNavigationDrawer(
             drawerState = drawerState,
-            drawerTonalElevation = 100.dp,
             gesturesEnabled = false,
-            drawerShape = RoundedCornerShape(4.dp),
             modifier = Modifier.width(pad+buttonSizes),
             scrimColor = Color.Transparent,
             drawerContent = {

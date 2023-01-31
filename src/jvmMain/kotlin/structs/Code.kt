@@ -1,7 +1,11 @@
 package structs
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.*
+import androidx.compose.ui.text.AnnotatedString
 import com.wakaztahir.codeeditor.model.CodeLang
+import com.wakaztahir.codeeditor.prettify.PrettifyParser
+import com.wakaztahir.codeeditor.theme.CodeTheme
+import com.wakaztahir.codeeditor.utils.parseCodeAsAnnotatedString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.nio.charset.Charset
@@ -14,10 +18,12 @@ import kotlin.io.path.writeText
 data class Code(val path: Path) {
     private val suffix = getExtension()
     val lang = CodeLang.values().find { it.value.toHashSet().contains(suffix) }
-    val content: String by lazy {
-        Files.readString(path)
+    var content: String by mutableStateOf(Files.readString(path))
+    fun annotatedString(parser: PrettifyParser, codeTheme: CodeTheme, content: String) : AnnotatedString {
+        this.content = content
+        return parseCodeAsAnnotatedString(parser, codeTheme, lang ?: CodeLang.Default, content)
     }
-    private fun getExtension() : String {
+    private fun getExtension(): String {
         var extension = ""
 
         val i: Int = path.name.lastIndexOf('.')
@@ -26,6 +32,8 @@ data class Code(val path: Path) {
         }
         return extension
     }
+
+
     suspend fun save(charset: Charset = Charsets.UTF_8) {
         withContext(Dispatchers.IO) {
             path.writeText(content, charset)
