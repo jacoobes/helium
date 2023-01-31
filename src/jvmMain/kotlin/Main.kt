@@ -70,7 +70,6 @@ fun main() = application {
             }
             HeliumWindow(
                 title = "Helium",
-                appBarHeight = appBarHeight,
                 state = state,
                 mode = fileNavDrawerState.themeMode,
                 theme = fileNavDrawerState.currentTheme,

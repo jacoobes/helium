@@ -1,18 +1,17 @@
 package components.lazytree
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.KeyboardArrowDown
 import androidx.compose.material.icons.sharp.KeyboardArrowRight
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import components.LazySidePanelColumn
 import structs.DirectoryNode
@@ -20,10 +19,12 @@ import structs.FileNode
 import structs.TreeNode
 import java.nio.file.Files
 import java.nio.file.Path
-import java.util.*
 import kotlin.io.path.isDirectory
+import kotlin.io.path.name
+
 @Composable
 fun LazyFileTree(
+    rootPath: Path,
     source: List<TreeNode>,
     selectedPath: MutableState<Path?>
 ) {
@@ -38,6 +39,13 @@ fun LazyFileTree(
         verticalArrangement = Arrangement.spacedBy(2.dp),
         modifier = Modifier.fillMaxSize(),
     ) {
+        item {
+            Text(
+                text=rootPath.name+" /",
+                modifier = Modifier.padding(start = 9.dp),
+                style =  MaterialTheme.typography.titleLarge
+            )
+        }
         tree(
             list = source,
             depth = initDepth,
@@ -93,7 +101,7 @@ fun LazyListScope.fileNode(
         }
     }
 }
-fun LazyListScope.directoryNode(
+fun LazyListScope. directoryNode(
     node: DirectoryNode,
     depth: Int,
     selectedPath: MutableState<Path?>,

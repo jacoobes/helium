@@ -10,7 +10,6 @@ import androidx.compose.ui.res.painterResource
 import java.nio.file.Path
 import java.util.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClearProject(
     selectedDirectory: MutableState<Optional<String>>,

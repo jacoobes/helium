@@ -1,55 +1,101 @@
 package components
 
-import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.rememberScrollbarAdapter
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
-import components.textarea.TextArea
-import jetbrains
+import androidx.compose.ui.window.FrameWindowScope
+import buttonSizes
+import components.lazytree.NoFiles
+import components.textarea.TabView
+import components.textarea.TextActions
+import org.jetbrains.compose.splitpane.*
+import pad
 import structs.Code
-import structs.ThemeMode
-import structs.themes.HeliumTheme
+import structs.DrawerButtonsState
+import java.awt.Cursor
+import java.nio.file.Path
 import java.util.*
-
-
+@OptIn(ExperimentalSplitPaneApi::class)
 @Composable
-fun MiddlePanel(
-    mode: ThemeMode,
-    theme: HeliumTheme,
-    code: Code,
+fun FrameWindowScope.MainView(
+    snackbarHostState: SnackbarHostState,
+    drawerButtonsState: DrawerButtonsState,
 ) {
-        var lineTops by remember { mutableStateOf(emptyArray<Float>()) }
-        val shouldUpdateLines = remember { derivedStateOf { lineTops.isEmpty() } }
-        val scrollState = rememberScrollState()
-        Box(Modifier.fillMaxSize()) {
-            Row(
-                Modifier
-                    .verticalScroll(scrollState)
-            ) {
-                LineNumberList(lineTops)
-                TextArea(
-                    code,
-                    codeTheme = theme.syntaxHighLighting(mode),
-                    style = TextStyle(
-                        fontFamily = jetbrains(),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                ) { result ->
-                    if(shouldUpdateLines.value) {
-                        lineTops = Array(result.lineCount) { result.getLineTop(it) }
+    val hSplitPanelState = rememberSplitPaneState(.8f, true)
+    val padding = PaddingValues(start = pad + buttonSizes + 10.dp)
+    // TODO:
+    // This will be changed to a more specialize horizontal split pane because the current one causes too many issues
+    HorizontalSplitPane(
+        Modifier.padding(padding),
+        splitPaneState = hSplitPanelState,
+    ) {
+        first(
+            minSize = 100.dp
+        ) {
+            if (drawerButtonsState.directoryChosen.value.isPresent) {
+                Column(Modifier.fillMaxWidth()) {
+
+                    if(drawerButtonsState.currentSelectPath.value != null) {
+                        TabView(1)
+                        val code = Code(drawerButtonsState.currentSelectPath.value!!)
+                        TextActions(snackbarHostState, code)
+                        CodeView(
+                            mode = drawerButtonsState.themeMode,
+                            theme = drawerButtonsState.currentTheme,
+                            code
+                        )
+                    } else {
+                        Text("Open a file from the side panel")
                     }
                 }
             }
-            VerticalScrollbar(
-                adapter = rememberScrollbarAdapter(scrollState),
-                Modifier.align(Alignment.CenterEnd).fillMaxHeight().width(20.dp)
+        }
+        panelSplitter()
+
+        second(
+            minSize = 50.dp
+        ) {
+            if (drawerButtonsState.directoryChosen.value.isPresent) {
+                SidePanel(
+                    rootPath = Path.of(drawerButtonsState.directoryChosen.value.get()),
+                    selectedPath = drawerButtonsState.currentSelectPath
+                )
+            } else {
+                NoFiles()
+            }
+        }
+    }
+}
+
+
+@OptIn(ExperimentalSplitPaneApi::class)
+fun SplitPaneScope.panelSplitter() {
+    splitter {
+        visiblePart {
+            VerticalDividerLessAlpha(
+                modifier = Modifier.clip(CircleShape),
+                thickness = 1.dp
             )
         }
+        handle {
+            VerticalDividerLessAlpha(
+                Modifier
+                    .markAsHandle()
+                    .cursorForHorizontalResize(),
+                alpha = 0.0f,
+                thickness = 10.dp
+            )
+        }
+    }
 }
+
+private fun Modifier.cursorForHorizontalResize(): Modifier =
+    pointerHoverIcon(PointerIcon(Cursor(Cursor.E_RESIZE_CURSOR)))

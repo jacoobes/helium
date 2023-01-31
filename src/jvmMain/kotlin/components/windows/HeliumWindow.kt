@@ -2,16 +2,15 @@ package components.windows
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.window.WindowDraggableArea
-
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.KeyEvent
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import buttonSizes
 import structs.ThemeMode
 import structs.themes.HeliumTheme
 import structs.themes.UseHeliumTheme
@@ -25,7 +24,6 @@ import structs.themes.UseHeliumTheme
 @Composable
 fun ApplicationScope.HeliumWindow(
     title: String,
-    appBarHeight : Dp = 25.dp,
     state: WindowState,
     onCloseRequest: () -> Unit = ::exitApplication,
     visible: Boolean = true,
@@ -53,7 +51,6 @@ fun ApplicationScope.HeliumWindow(
             Scaffold(
                 topBar = {
                     HeliumAppBar(
-                        height = appBarHeight,
                         actions = actions,
                         titlePaneButtons = dropDowns
                     )
@@ -63,7 +60,7 @@ fun ApplicationScope.HeliumWindow(
             ) {
                 Box(
                     Modifier.padding(
-                        top=it.calculateTopPadding(),
+                        top = it.calculateTopPadding(),
                         bottom = it.calculateBottomPadding()
                     )
                 ) {
@@ -76,39 +73,23 @@ fun ApplicationScope.HeliumWindow(
 
 @Composable
 fun FrameWindowScope.HeliumAppBar(
-    height: Dp = 25.dp,
     titlePaneButtons: @Composable FrameWindowScope.() -> Unit,
     actions: @Composable FrameWindowScope.() -> Unit
 ) {
-    val buttonSizes = (height * 5) / 8
-    val pad = (height - buttonSizes)/2
-        Column {
-            WindowDraggableArea {
-                Row(
-                    Modifier
-                        .height(buttonSizes)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Row(
-                        Modifier
-                            .fillMaxHeight(),
-                        horizontalArrangement = Arrangement.spacedBy(pad,Alignment.CenterHorizontally),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        titlePaneButtons()
-                    }
-                    Row(
-                        Modifier
-                            .fillMaxHeight(),
-                        horizontalArrangement = Arrangement.spacedBy(pad, Alignment.CenterHorizontally),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        actions()
-                    }
-                }
+    Column {
+        WindowDraggableArea {
+            Row(
+                Modifier
+                    .height(buttonSizes)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                titlePaneButtons()
+                Spacer(Modifier.weight(1f))
+                actions()
             }
         }
+    }
 }
 
 @Composable
@@ -121,7 +102,7 @@ fun FrameWindowScope.BottomAppBar() {
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-               Text("BottomBar!")
+                Text("BottomBar!")
             }
         }
     }

@@ -29,7 +29,7 @@ fun TextArea(
                 annotatedString = code.annotatedString(
                     parser,
                     codeTheme,
-                    content = code.content
+                    conten = code.content
                 )
             )
         )
@@ -47,11 +47,11 @@ fun TextArea(
                 annotatedString = code.annotatedString(
                     parser = parser,
                     codeTheme = codeTheme,
-                    content = it.text
+                    conten = it.text
                 )
             )
         },
         cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
-        onTextLayout = onTextLayout
+        onTextLayout = onTextLayout,
     )
 }

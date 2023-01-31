@@ -17,11 +17,11 @@ import kotlin.io.path.writeText
 @Stable
 data class Code(val path: Path) {
     private val suffix = getExtension()
-    val lang = CodeLang.values().find { it.value.toHashSet().contains(suffix) }
+    private val lang = CodeLang.values().find { it.value.toHashSet().contains(suffix) }
     var content: String by mutableStateOf(Files.readString(path))
-    fun annotatedString(parser: PrettifyParser, codeTheme: CodeTheme, content: String) : AnnotatedString {
-        this.content = content
-        return parseCodeAsAnnotatedString(parser, codeTheme, lang ?: CodeLang.Default, content)
+    fun annotatedString(parser: PrettifyParser, codeTheme: CodeTheme, conten: String) : AnnotatedString {
+        this.content = conten
+        return parseCodeAsAnnotatedString(parser, codeTheme, lang ?: CodeLang.Default, conten)
     }
     private fun getExtension(): String {
         var extension = ""

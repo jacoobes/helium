@@ -14,7 +14,6 @@ import structs.FileNode
 import structs.TreeNode
 import utils.dirStream
 import java.nio.file.Path
-import java.util.*
 import kotlin.io.path.isDirectory
 
 
@@ -41,7 +40,7 @@ fun SidePanel(
             }
         }
     } else {
-        LazyFileTree(rootDir, selectedPath)
+        LazyFileTree(rootPath, rootDir, selectedPath)
     }
 }
 
