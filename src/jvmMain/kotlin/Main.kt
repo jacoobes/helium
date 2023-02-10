@@ -25,7 +25,7 @@ import components.windows.HeliumWindow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import structs.DrawerButtonsState
+import structs.CodeEditorState
 import structs.Settings
 import structs.ThemeMode
 import structs.loadSettings
@@ -61,7 +61,7 @@ fun main() = application {
                 size = DpSize(settings.dimensions.width.dp, settings.dimensions.height.dp)
             )
             val fileNavDrawerState = remember {
-                DrawerButtonsState(
+                CodeEditorState(
                     initialThemeOption = settings.theme.mode ?: ThemeMode.None,
                     initialTheme = heliumThemeResolver[settings.theme.name]
                         ?: throw Error("Could not find a theme ${settings.theme.name}")
@@ -94,13 +94,14 @@ fun main() = application {
             ) {
                 MainView(
                     snackbarHostState = it,
-                    drawerButtonsState = fileNavDrawerState,
+                    editorState = fileNavDrawerState,
                 )
 
                 FileNavDrawer(
                     it,
                     fileNavDrawerState.directoryChosen,
-                    fileNavDrawerState.currentSelectPath
+                    fileNavDrawerState.currentSelectPath,
+                    fileNavDrawerState.editors
                 )
             }
         }

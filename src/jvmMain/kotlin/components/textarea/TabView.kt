@@ -1,19 +1,30 @@
 package components.textarea
 
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import structs.Editor
+import kotlin.io.path.name
 
 @Composable
-fun TabView(selectedTab: Int) {
-    TabRow(
-        selectedTabIndex = selectedTab,
-        tabs = {
-            Tab(false, {}, text = {Text("asdf")})
-            Tab(false, {}, text = {Text("asdf")})
-            Tab(false, {}, text = {Text("asdf")})
-            Tab(false, {}, text = {Text("asdf")})
-        }
-    )
+fun TabView(
+    selectedTabIndex: MutableState<Int>,
+    editors: SnapshotStateList<Editor>
+) {
+    Row {
+        TabRow(
+            selectedTabIndex = selectedTabIndex.value,
+            tabs = {
+                for((idx, editor) in editors.withIndex()) {
+                   Tab(selectedTabIndex.value == idx, onClick = {
+                       selectedTabIndex.value = idx
+                   }) {
+                       Text(editor.code.path.name)
+                   }
+                }
+            }
+        )
+    }
+
 }

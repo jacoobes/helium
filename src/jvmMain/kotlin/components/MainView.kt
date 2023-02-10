@@ -3,9 +3,7 @@ package components
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerIcon
@@ -19,15 +17,17 @@ import components.textarea.TextActions
 import org.jetbrains.compose.splitpane.*
 import pad
 import structs.Code
-import structs.DrawerButtonsState
+import structs.CodeEditorState
+import structs.Editor
 import java.awt.Cursor
 import java.nio.file.Path
 import java.util.*
 @OptIn(ExperimentalSplitPaneApi::class)
 @Composable
-fun FrameWindowScope.MainView(
+fun MainView(
     snackbarHostState: SnackbarHostState,
-    drawerButtonsState: DrawerButtonsState,
+    editorState
+    : CodeEditorState,
 ) {
     val hSplitPanelState = rememberSplitPaneState(.8f, true)
     val padding = PaddingValues(start = pad + buttonSizes + 10.dp)
@@ -40,20 +40,23 @@ fun FrameWindowScope.MainView(
         first(
             minSize = 100.dp
         ) {
-            if (drawerButtonsState.directoryChosen.value.isPresent) {
+            if (editorState.directoryChosen.value.isPresent) {
                 Column(Modifier.fillMaxWidth()) {
-
-                    if(drawerButtonsState.currentSelectPath.value != null) {
-                        TabView(1)
-                        val code = Code(drawerButtonsState.currentSelectPath.value!!)
+                    if(editorState.currentSelectPath.value != null) {
+                        val selectedTabIndex = remember { mutableStateOf(0) }
+                        val code = Code(editorState.currentSelectPath.value!!)
+                        val editor = Editor(code)
+                        if(!editorState.editors.value.contains(editor)) {
+                            editorState.editors.value.add(editor)
+                        }
+                        selectedTabIndex.value = editorState.editors.value.indexOf(editor)
+                        TabView(selectedTabIndex, editorState.editors.value)
                         TextActions(snackbarHostState, code)
                         CodeView(
-                            mode = drawerButtonsState.themeMode,
-                            theme = drawerButtonsState.currentTheme,
+                            mode = editorState.themeMode,
+                            theme = editorState.currentTheme,
                             code
                         )
-                    } else {
-                        Text("Open a file from the side panel")
                     }
                 }
             }
@@ -63,10 +66,10 @@ fun FrameWindowScope.MainView(
         second(
             minSize = 50.dp
         ) {
-            if (drawerButtonsState.directoryChosen.value.isPresent) {
+            if (editorState.directoryChosen.value.isPresent) {
                 SidePanel(
-                    rootPath = Path.of(drawerButtonsState.directoryChosen.value.get()),
-                    selectedPath = drawerButtonsState.currentSelectPath
+                    rootPath = Path.of(editorState.directoryChosen.value.get()),
+                    selectedPath = editorState.currentSelectPath
                 )
             } else {
                 NoFiles()

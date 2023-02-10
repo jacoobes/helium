@@ -96,7 +96,8 @@ fun LazyListScope.fileNode(
     item {
         FileChild(
             node.path,
-            depth = depth) {
+            depth = depth
+        ) {
             selectedPath.value = node.path
         }
     }
