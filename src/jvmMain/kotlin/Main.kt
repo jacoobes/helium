@@ -44,7 +44,6 @@ val buttonSizes = (appBarHeight * 5) / 8
 val pad = (appBarHeight - buttonSizes)
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() = application {
-    //run blocking for now, idk how to asynchronously do it
     val coroutineScope = rememberCoroutineScope()
     val (settings, setSettings) = remember { mutableStateOf<Settings?>(null) }
     coroutineScope.launch {
